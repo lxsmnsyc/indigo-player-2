@@ -58,6 +58,7 @@
     "screenfull": "^5.0.0",
     "shaka-player": "^2.5.7",
     "styletron-engine-atomic": "^1.4.4",
+    "styletron-react": "^5.2.6",
     "subtitle": "^2.0.3"
   }
 }
