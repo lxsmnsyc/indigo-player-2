@@ -1,0 +1,63 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "dist/esm/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "peerDependencies": {},
+  "name": "@lxsmnsyc/indigo-player",
+  "author": "Alexis Munsayac",
+  "module": "dist/esm/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LXSMNSYC/indigo-player-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LXSMNSYC/indigo-player-2/issues"
+  },
+  "homepage": "https://github.com/LXSMNSYC/indigo-player-2",
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/subtitle": "^2.0.2",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-import-resolver-node": "^0.3.2",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "tsdx": "^0.12.1",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "@types/hls.js": "^0.12.5",
+    "@types/styletron-engine-atomic": "^1.1.0",
+    "can-autoplay": "^3.0.0",
+    "deepmerge": "^4.2.2",
+    "hls.js": "^0.13.1",
+    "immer": "^5.1.0",
+    "resize-observer": "^1.0.0",
+    "screenfull": "^5.0.0",
+    "shaka-player": "^2.5.7",
+    "styletron-engine-atomic": "^1.4.4",
+    "subtitle": "^2.0.3"
+  }
+}
