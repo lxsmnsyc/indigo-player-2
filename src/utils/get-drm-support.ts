@@ -1,0 +1,83 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+const keySystems = [
+  ['widevine', 'com.widevine.alpha'],
+
+  ['playready', 'com.microsoft.playready'],
+  ['playready', 'com.youtube.playready'],
+
+  ['clearkey', 'webkit-org.w3.clearkey'],
+  ['clearkey', 'org.w3.clearkey'],
+
+  ['primetime', 'com.adobe.primetime'],
+  ['primetime', 'com.adobe.access'],
+
+  ['fairplay', 'com.apple.fairplay'],
+];
+
+interface DrmSupport {
+  [key: string]: boolean;
+}
+
+interface DrmResult {
+  drmSupport: DrmSupport;
+  keySystemsSupported: string[];
+}
+
+const getDrmSupport = async (): Promise<DrmResult | boolean> => {
+  const video = document.createElement('video');
+
+  if (video.mediaKeys) {
+    return false;
+  }
+
+  const isKeySystemSupported = async (keySystem: string): Promise<boolean> => {
+    if (
+      !window.navigator.requestMediaKeySystemAccess
+      || typeof window.navigator.requestMediaKeySystemAccess !== 'function'
+    ) {
+      return false;
+    }
+
+    try {
+      await window.navigator.requestMediaKeySystemAccess(keySystem, [
+        {
+          initDataTypes: ['cenc'],
+          videoCapabilities: [
+            {
+              contentType: 'video/mp4;codecs="avc1.42E01E"',
+              robustness: 'SW_SECURE_CRYPTO',
+            },
+          ],
+        },
+      ]);
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const drmSupport: DrmSupport = {};
+  const keySystemsSupported: string[] = [];
+
+  await Promise.all(
+    keySystems.map(async ([drm, keySystem]) => {
+      const supported = await isKeySystemSupported(keySystem);
+
+      if (supported) {
+        keySystemsSupported.push(keySystem);
+
+        if (!drmSupport[drm]) {
+          drmSupport[drm] = true;
+        }
+      }
+    }),
+  );
+
+  return {
+    drmSupport,
+    keySystemsSupported,
+  };
+};
+
+export default getDrmSupport;
