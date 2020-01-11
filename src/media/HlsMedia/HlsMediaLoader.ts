@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { isSupported } from 'hls.js/src/is-supported';
+import { isSupported } from 'hls.js';
 import {
   ModuleLoaderInterface, ModuleLoaderTypes, InstanceInterface, Format, FormatTypes,
 } from '../../types';
@@ -34,7 +34,11 @@ import HlsMedia from './HlsMedia';
 const HlsMediaLoader: ModuleLoaderInterface<HlsMedia> = {
   type: ModuleLoaderTypes.MEDIA,
 
-  create: (instance: InstanceInterface) => new HlsMedia(instance),
+  create: async (instance: InstanceInterface) => {
+    const { default: HlsMediaClass } = await import('./HlsMedia');
+
+    return new HlsMediaClass(instance);
+  },
 
   isSupported: (instance: InstanceInterface, format: Format): boolean => {
     if (instance.player?.name !== 'HTML5Player') {
