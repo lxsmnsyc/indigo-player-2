@@ -2,7 +2,7 @@
  * @license
  * MIT License
  *
- * Copyright (c) 2020 Alexis Munsayac
+ * Copyright (c) 2019 Alexis Munsayac
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,40 +23,31 @@
  *
  *
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
- * @copyright Alexis Munsayac 2020
+ * @copyright Alexis Munsayac 2019
  */
-import { css } from 'emotion';
-import { RESET_BUTTON } from './mixins';
+import * as React from 'react';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+interface Constant<T> {
+  value: T;
+}
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
+/**
+ * Hook for producing memoized value that
+ * remains constant throughout the component
+ * lifecycle.
+ *
+ * @category Hooks
+ * @param supplier
+ * @typeparam type of the value
+ */
+export default function useConstant<T>(supplier: () => T): T {
+  const ref = React.useRef<Constant<T> | undefined>();
 
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
+  if (!ref.current) {
+    ref.current = {
+      value: supplier(),
+    };
   }
-`;
 
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
-
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
-`;
+  return ref.current.value;
+}

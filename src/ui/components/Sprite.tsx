@@ -25,38 +25,38 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
-import { RESET_BUTTON } from './mixins';
+import * as React from 'react';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+interface SpriteProps {
+  src: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  className?: string;
+}
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
+const Sprite = React.memo(({
+  className, width, height, src, x, y,
+}: SpriteProps) => (
+  <div className={className}>
+    <svg
+      style={{ width: '100%', height: '100%' }}
+      viewBox={`0 0 ${width} ${height}`}
+    >
+      <defs>
+        <clipPath id="square">
+          <rect width={width} height={height} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#square)">
+        <image
+          href={src}
+          transform={`translate(-${x} -${y})`}
+        />
+      </g>
+    </svg>
+  </div>
+));
 
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
-  }
-`;
-
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
-
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
-`;
+export default Sprite;

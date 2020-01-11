@@ -25,38 +25,32 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
-import { RESET_BUTTON } from './mixins';
+import * as React from 'react';
+import { StateContext } from '../State';
+import GImage from './GImage';
+import Icon from './Icon';
+import { ICON_TAG } from '../theme';
+import GUI_VIEW_START from '../theme/view-start';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+const StartView = React.memo(() => {
+  const info = React.useContext(StateContext);
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
-
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
+  if (!info) {
+    return null;
   }
-`;
 
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
+  const { data: { image }, actions: { playOrPause } } = info;
 
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
-`;
+  const toggle = React.useCallback(() => {
+    playOrPause();
+  }, [playOrPause]);
+
+  return (
+    <button type="button" onClick={toggle} className={GUI_VIEW_START}>
+      <GImage source={image} />
+      <Icon value={ICON_TAG.PLAY} />
+    </button>
+  );
+});
+
+export default StartView;

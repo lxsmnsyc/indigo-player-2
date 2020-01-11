@@ -52,6 +52,7 @@ export const fullscreenHover = keyframes`
 
 export const GUI_TIMESTAT = css``;
 export const GUI_TIMESTAT_DURATION = css``;
+export const GUI_TIMESTAT_POSITION = css``;
 
 export const GUI_CONTAINER_CONTROLS = css`
   position: absolute;

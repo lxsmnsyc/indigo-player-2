@@ -25,38 +25,30 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
-import { RESET_BUTTON } from './mixins';
+import * as React from 'react';
+import { StateContext } from '../State';
+import { GUI_VIEW_ERROR, GUI_VIEW_ERROR_TITLE } from '../theme';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+const ErrorView = React.memo(() => {
+  const info = React.useContext(StateContext);
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
+  if (info && info.data.error) {
+    const { error } = info.data;
 
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
+    const title = 'Uh oh!';
+    const message = `Something went wrong (${error.code})`;
+    return (
+      <div className={GUI_VIEW_ERROR}>
+        <div>
+          <div data-text={title} className={GUI_VIEW_ERROR_TITLE}>
+            {title}
+          </div>
+          <div>{message}</div>
+        </div>
+      </div>
+    );
   }
-`;
+  return null;
+});
 
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
-
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
-`;
+export default ErrorView;

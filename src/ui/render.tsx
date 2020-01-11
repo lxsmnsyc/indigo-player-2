@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /**
  * @license
  * MIT License
@@ -25,38 +26,28 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
-import { RESET_BUTTON } from './mixins';
+import React, { MutableRefObject } from 'react';
+import * as ReactDOM from 'react-dom';
+import { StateStore } from './State';
+import { InstanceInterface } from '../types';
+import Main from './components/Main';
+import { StateInterface } from '../extensions/StateExtension/StateExtension';
+import EventEmitter from '../utils/event-emitter';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+export default function render(
+  container: HTMLElement,
+  state: StateInterface,
+  instance: InstanceInterface,
+  ref: MutableRefObject<(() => void) | null>,
+): void {
+  const emitter = new EventEmitter();
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
+  ref.current = (): void => emitter.emit('show', null);
 
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
-  }
-`;
-
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
-
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
-`;
+  ReactDOM.render(
+    <StateStore instance={instance} player={state}>
+      <Main />
+    </StateStore>,
+    container,
+  );
+}

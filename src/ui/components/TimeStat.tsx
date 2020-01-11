@@ -25,33 +25,25 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { Client, Server } from 'styletron-engine-atomic';
+import * as React from 'react';
+import { StateContext } from '../State';
+import { GUI_TIMESTAT, GUI_TIMESTAT_POSITION, GUI_TIMESTAT_DURATION } from '../theme';
 
-function getHydratedClass(): HTMLStyleElement[] {
-  const els = document.getElementsByClassName('_styletron_hydrate_');
+const TimeStat = React.memo(() => {
+  const info = React.useContext(StateContext);
 
-  const newEls = [];
-
-  // tslint:disable-next-line: prefer-for-of
-  for (let i = 0; i < els.length; i += 1) {
-    const el: Element = els[i];
-    if (el instanceof HTMLStyleElement) {
-      newEls.push(el);
-    }
+  if (!info) {
+    return null;
   }
 
-  return newEls;
-}
+  const { data: { timeStatPosition, timeStatDuration } } = info;
 
-const STYLETRON = (
-  (typeof window === 'undefined')
-    ? new Server({
-      prefix: 'indigo-player',
-    })
-    : new Client({
-      prefix: 'indigo-player',
-      hydrate: getHydratedClass(),
-    })
-);
+  return (
+    <div className={GUI_TIMESTAT}>
+      <div className={GUI_TIMESTAT_POSITION}>{timeStatPosition}</div>
+      <div className={GUI_TIMESTAT_DURATION}>{timeStatDuration}</div>
+    </div>
+  );
+});
 
-export default STYLETRON;
+export default TimeStat;

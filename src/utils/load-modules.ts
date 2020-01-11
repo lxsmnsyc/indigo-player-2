@@ -57,6 +57,7 @@ import FreeWheelExtensionLoader from '../extensions/FreeWheelExtension/FreeWheel
 import GoogleIMAExtensionLoader from '../extensions/GoogleIMAExtension/GoogleIMAExtensionLoader';
 import KeyboardNavigationExtensionLoader from '../extensions/KeyboardNavigationExtension/KeyboardNavigationExtensionLoader';
 import StateExtensionLoader from '../extensions/StateExtension/StateExtensionLoader';
+import ThumbnailsExtensionLoader from '../extensions/ThumbnailsExtension/ThumbnailsExtensionLoader';
 
 export default function loadModules(): void {
   addModuleLoader(BaseControllerLoader);
@@ -77,4 +78,5 @@ export default function loadModules(): void {
   addModuleLoader(GoogleIMAExtensionLoader);
   addModuleLoader(KeyboardNavigationExtensionLoader);
   addModuleLoader(StateExtensionLoader);
+  addModuleLoader(ThumbnailsExtensionLoader);
 }

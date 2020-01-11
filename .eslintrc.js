@@ -55,5 +55,6 @@ module.exports = {
     "import/no-unresolved": "error",
     "react/no-array-index-key": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
+    "react/jsx-props-no-spreading": "off",
   },
 };

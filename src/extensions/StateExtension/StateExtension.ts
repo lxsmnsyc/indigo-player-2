@@ -29,7 +29,7 @@
 import produce from 'immer';
 import PlayerError from '../../utils/player-error';
 import {
-  TrackInterface, Subtitle, InstanceInterface, Events, AdBreakType,
+  TrackInterface, Subtitle, InstanceInterface, Events, AdBreakType, AdBreak, Ad,
 } from '../../types';
 import Module from '../../module';
 
@@ -50,10 +50,10 @@ export interface StateInterface {
   currentTime?: number;
   duration?: number;
 
-  adBreaks: any;
-  adBreak?: any;
+  adBreaks: AdBreak[];
+  adBreak?: AdBreak;
   adBreakCurrentTime?: number;
-  ad?: any;
+  ad?: Ad;
 
   error?: PlayerError;
 
@@ -268,7 +268,7 @@ export default class StateExtension extends Module {
     this.on(
       Events.ADBREAK_ENDED,
       this.dispatch((draft) => {
-        draft.adBreak = null;
+        draft.adBreak = undefined;
         draft.adBreakCurrentTime = undefined;
       }),
     );
@@ -283,7 +283,7 @@ export default class StateExtension extends Module {
     this.on(
       Events.AD_ENDED,
       this.dispatch((draft) => {
-        draft.ad = null;
+        draft.ad = undefined;
       }),
     );
 

@@ -25,38 +25,34 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
-import { RESET_BUTTON } from './mixins';
+import { MutableRefObject } from 'react';
+import Module from '../module';
+import { InstanceInterface, Events } from '../types';
+import { GUI } from './theme';
+import render from './render';
+import { StateInterface } from '../extensions/StateExtension/StateExtension';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+export default class UiExtension extends Module {
+  public name = 'UiExtension';
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
+  private ref: MutableRefObject<(() => void) | null> = {
+    current: null,
+  };
 
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
+  constructor(instance: InstanceInterface) {
+    super(instance);
+
+    const container = this.instance.container.querySelector(GUI) as HTMLElement;
+
+    this.instance.on(Events.STATE_CHANGE, (state) => {
+      render(container, state as unknown as StateInterface, this.instance, this.ref);
+    });
   }
-`;
 
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
-
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
-`;
+  // Provide a way for overlays to trigger a mouse move on it's own elements.
+  public triggerMouseMove(): void {
+    if (this.ref.current) {
+      this.ref.current();
+    }
+  }
+}

@@ -44,8 +44,9 @@ import createConfig from './utils/create-config';
 import getEnv from './utils/get-env';
 import { selectController, selectExtensions } from './utils/select-module';
 import PlayerError from './utils/player-error';
-import { PLAYER } from './styles';
-import { GUI_CONTAINER } from './ui/theme/root';
+import {
+  GUI_CONTAINER, GUI, GUI_PLAYER, GUI_ADS,
+} from './ui/theme/root';
 
 export default class Instance implements InstanceInterface {
   public config: Config;
@@ -88,15 +89,15 @@ export default class Instance implements InstanceInterface {
     this.container.style.paddingTop = `${100 / (config.aspectRatio ?? (16 / 9))}%`;
 
     this.playerContainer = document.createElement('div');
-    this.playerContainer.classList.add(PLAYER);
+    this.playerContainer.classList.add(GUI_PLAYER);
     this.container.appendChild(this.playerContainer);
 
     this.adsContainer = document.createElement('div');
-    this.adsContainer.classList.add('ig-ads');
+    this.adsContainer.classList.add(GUI_ADS);
     this.container.appendChild(this.adsContainer);
 
     this.uiContainer = document.createElement('div');
-    this.uiContainer.classList.add('ig-ui');
+    this.uiContainer.classList.add(GUI);
     this.container.appendChild(this.uiContainer);
 
     el.appendChild(this.container);
