@@ -26,10 +26,15 @@
   },
   "homepage": "https://github.com/LXSMNSYC/indigo-player-2",
   "devDependencies": {
+    "@types/hls.js": "^0.12.5",
+    "@types/jdataview": "^0.0.30",
     "@types/jest": "^24.0.25",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "@types/styletron-engine-atomic": "^1.1.0",
+    "@types/styletron-react": "^5.0.2",
     "@types/subtitle": "^2.0.2",
+    "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
     "eslint": "^6.8.0",
@@ -48,17 +53,18 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@types/hls.js": "^0.12.5",
-    "@types/styletron-engine-atomic": "^1.1.0",
     "can-autoplay": "^3.0.0",
     "deepmerge": "^4.2.2",
+    "emotion": "^10.0.27",
     "hls.js": "^0.13.1",
     "immer": "^5.1.0",
+    "jdataview": "^2.5.0",
     "resize-observer": "^1.0.0",
     "screenfull": "^5.0.0",
     "shaka-player": "^2.5.7",
     "styletron-engine-atomic": "^1.4.4",
     "styletron-react": "^5.2.6",
-    "subtitle": "^2.0.3"
+    "subtitle": "^2.0.3",
+    "url-parse": "^1.4.7"
   }
 }
