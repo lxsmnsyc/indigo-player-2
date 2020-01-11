@@ -33,7 +33,7 @@ import debounce from '../../utils/debounce';
 export default class DimensionsExtension extends Module {
   public name = 'DimensionsExtension';
 
-  private observer: any;
+  private observer: ResizeObserver;
 
   constructor(instance: InstanceInterface) {
     super(instance);
@@ -48,7 +48,7 @@ export default class DimensionsExtension extends Module {
 
     this.observer = new ResizeObserver(debounce(onResizeContainer, 250));
 
-    this.observer.observer(instance.container);
+    this.observer.observe(instance.container);
 
     this.on(Events.INSTANCE_INITIALIZED, onResizeContainer);
   }
