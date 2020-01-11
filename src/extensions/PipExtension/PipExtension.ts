@@ -27,48 +27,9 @@
  */
 import Module from '../../module';
 import { InstanceInterface, Events } from '../../types';
-import STYLETRON from '../../utils/styletron';
-
-const PIP_CONTAINER = STYLETRON.renderStyle({
-  position: 'fixed',
-  zIndex: 91337,
-  bottom: '12px',
-  right: '12px',
-  width: '400px',
-  height: '400px / 16 * 9',
-  boxShadow: '0px 0px 28px rgba(0, 0, 0, .3)',
-});
-
-const PIP_HANDLER = STYLETRON.renderStyle({
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  right: '0',
-  height: '25px',
-  zIndex: 1,
-  cursor: 'grabbing',
-});
-
-const PIP_CLOSE = STYLETRON.renderStyle({
-  position: 'absolute',
-  width: '28px',
-  height: '28px',
-  right: 0,
-  top: '0px',
-  fontSize: '28px',
-  cursor: 'pointer',
-  color: '#fff',
-  textShadow: '0px 0px rgba(0, 0, 0, .5)',
-  zIndex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
-
-const PIP_PLACEHOLDER = STYLETRON.renderStyle({
-  paddingBottom: '56.25%',
-  backgroundColor: '#222222',
-});
+import {
+  PIP_CONTAINER, PIP_HANDLER, PIP_CLOSE, PIP_PLACEHOLDER,
+} from './styles';
 
 export default class PipExtension extends Module {
   public name = 'PipExtension';

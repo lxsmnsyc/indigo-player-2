@@ -27,41 +27,7 @@
  */
 import Module from '../../module';
 import { InstanceInterface } from '../../types';
-import STYLETRON from '../../utils/styletron';
-
-const CONTEXT_MENU_STYLE = STYLETRON.renderStyle({
-  minWidth: '150px',
-  position: 'absolute',
-  backgroundColor: 'rgba(0, 0, 0, .5)',
-  color: '#ffffff',
-  borderRadius: '2px',
-  paddingTop: '4px',
-  paddingBottom: '4px',
-  paddingLeft: '0px',
-  paddingRight: '0px',
-  zIndex: 12,
-});
-
-const CONTEXT_MENU_BUTTON_STYLE = STYLETRON.renderStyle({
-  background: 'none',
-  color: 'inherit',
-  border: 'none',
-  paddingTop: '6px',
-  paddingBottom: '6px',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  fontSize: '12px',
-  fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Droid Sans, Helvetica Neue, sans-serif',
-  cursor: 'pointer',
-  outline: 'inherit',
-  display: 'flex',
-  alignItems: 'center',
-  whiteSpace: 'pre-wrap',
-
-  '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, .07)',
-  },
-});
+import CONTEXT_MENU_STYLE from './styles';
 
 export default class ContextMenuExtension extends Module {
   public name = 'ContextMenuExtension';
@@ -118,7 +84,6 @@ export default class ContextMenuExtension extends Module {
   public addItem(html: string, onClick: any): void {
     const item = document.createElement('button');
     item.innerHTML = html;
-    item.classList.add(CONTEXT_MENU_BUTTON_STYLE);
     item.addEventListener('click', onClick);
     this.contextMenu.appendChild(item);
   }

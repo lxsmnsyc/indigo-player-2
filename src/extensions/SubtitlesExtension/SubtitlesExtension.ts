@@ -28,27 +28,8 @@
 import * as subtitle from 'subtitle';
 import Module from '../../module';
 import { InstanceInterface, Events } from '../../types';
-import STYLETRON from '../../utils/styletron';
 import { insertAfter, applyStyle } from '../../utils/dom';
-
-const SUBTITLES = STYLETRON.renderStyle({
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  right: 0,
-  padding: '22px',
-  textAlign: 'center',
-});
-
-const SUBTITLES_SPAN = STYLETRON.renderStyle({
-  transition: 'transform 200ms ease-in-out',
-  transform: 'translateY(0px)',
-  color: '#ffffff',
-  textAhadow: '#000000 0px 0px 7px',
-  fontFamily: 'Arial, Helvetica, sans-serif',
-  maxWidth: '580px',
-  fontSize: '17px',
-});
+import SUBTITLES from './styles';
 
 interface TrackTimingCache {
   [key: string]: subtitle.subTitleType[];
@@ -75,7 +56,6 @@ export default class SubtitlesExtension extends Module {
     insertAfter(container, this.instance.playerContainer);
 
     this.text = document.createElement('span');
-    this.text.classList.add(SUBTITLES_SPAN);
     container.appendChild(this.text);
 
     const onTimeUpdate = (data: any): void => {
