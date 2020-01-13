@@ -51,11 +51,15 @@ const PlayButton = React.memo(() => {
 
   const playOrPause = PlayOrPause.useSelector((state) => state.playOrPause);
 
+  const click = React.useCallback(() => {
+    playOrPause();
+  }, [playOrPause]);
+
   return (
     <Button
       className={GUI_BUTTON_PLAY}
       icon={playIcon}
-      onClick={playOrPause}
+      onClick={click}
       tooltip={playTooltipText}
     />
   );
