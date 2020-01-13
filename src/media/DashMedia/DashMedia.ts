@@ -34,6 +34,7 @@ import {
 } from '../../types';
 import { STORAGE } from '../../utils/local-storage';
 import PlayerError from '../../utils/player-error';
+import HTML5Player from '../../player/HTML5Player/HTML5Player';
 
 function formatTrack(track: any): TrackInterface {
   return {
@@ -58,7 +59,16 @@ export default class DashMedia extends Media {
   }
 
   public async load(): Promise<void> {
-    const { mediaElement } = (this.instance.getModule('HTML5Player') as unknown as { mediaElement: HTMLMediaElement});
+    const mod = this.instance.getModule('HTML5Player');
+
+    if (!mod) {
+      return;
+    }
+    const { mediaElement } = (mod as HTML5Player);
+
+    if (!mediaElement) {
+      return;
+    }
 
     const player = new shaka.Player(mediaElement);
 

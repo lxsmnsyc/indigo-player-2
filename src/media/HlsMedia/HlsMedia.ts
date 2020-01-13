@@ -29,6 +29,7 @@ import HlsJs from 'hls.js';
 import Media from '../Media';
 import { TrackInterface, Events, ErrorCodes } from '../../types';
 import PlayerError from '../../utils/player-error';
+import HTML5Player from '../../player/HTML5Player/HTML5Player';
 
 function formatTrack(track: Hls.Level, id: number): TrackInterface {
   return {
@@ -49,9 +50,16 @@ export default class HlsMedia extends Media {
       autoStartLoad: false,
     });
 
-    const { mediaElement } = (this.instance.getModule('HTML5Player') as unknown as { mediaElement: HTMLVideoElement });
+    const mod = this.instance.getModule('HTML5Player');
 
-    player.attachMedia(mediaElement);
+    if (mod) {
+      const { mediaElement } = (mod as HTML5Player);
+
+      if (mediaElement) {
+        player.attachMedia(mediaElement);
+      }
+    }
+
 
     player.on(HlsJs.Events.MANIFEST_PARSED, (_, data) => {
       const { levels } = player;
