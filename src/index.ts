@@ -45,6 +45,6 @@ export { default as Media } from './media/Media';
 
 export { addModuleLoader } from './utils/module-loader';
 
-export default function init(element: HTMLElement | string, config: Config): Instance {
+export function init(element: HTMLElement | string, config: Config): Instance {
   return new Instance(element, config);
 }
