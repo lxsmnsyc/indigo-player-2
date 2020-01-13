@@ -27,39 +27,37 @@
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
 import React from 'react';
-import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
+import SelectSubtitle from './SelectSubtitle';
+import States from '../States';
 import StateProps from '../StateProps';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+export interface ToggleActiveSubtitleState {
+  toggleActiveSubtitle: () => void;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
+const ToggleActiveSubtitle = createModel<ToggleActiveSubtitleState>(() => {
   const [instance, player] = StateProps.useSelectors((state) => [
     state.instance,
     state.player,
   ]);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const lastActiveSubtitle = States.useSelector((state) => state.lastActiveSubtitle);
+  const selectSubtitle = SelectSubtitle.useSelector((state) => state.selectSubtitle);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const toggleActiveSubtitle = React.useCallback(() => {
+    let last = lastActiveSubtitle;
+    if (!last) {
+      [last] = instance.config.subtitles;
     }
-  }, [player.playRequested, instance, triggerNod]);
+
+    if (!player.subtitle) {
+      selectSubtitle(last);
+    }
+  }, [instance.config.subtitles, lastActiveSubtitle, player.subtitle, selectSubtitle]);
 
   return {
-    playOrPause,
+    toggleActiveSubtitle,
   };
 });
 
-export default PlayOrPause;
+export default ToggleActiveSubtitle;

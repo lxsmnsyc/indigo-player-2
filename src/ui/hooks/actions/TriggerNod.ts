@@ -26,40 +26,45 @@
  * @copyright Alexis Munsayac 2020
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
-import React from 'react';
+import * as React from 'react';
 import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
-import StateProps from '../StateProps';
+import useOnUnmount from '../useOnUnmount';
+import useConstantCallback from '../useConstantCallback';
+import States from '../States';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+export interface TriggerNodState {
+  triggerNod: (purpose: KeyboardNavigationPurpose) => void;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+const TriggerNod = createModel<TriggerNodState>(() => {
+  const nodTimer = React.useRef<number | null>(null);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const setNodPurpose = States.useSelector((state) => state.setNodPurpose);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const triggerNod = useConstantCallback((purpose) => {
+    if (nodTimer.current) {
+      window.clearTimeout(nodTimer.current);
+      nodTimer.current = null;
     }
-  }, [player.playRequested, instance, triggerNod]);
+
+    setNodPurpose(purpose);
+
+    nodTimer.current = window.setTimeout(() => {
+      setNodPurpose(null);
+      nodTimer.current = null;
+    }, 500);
+  });
+
+  useOnUnmount(() => {
+    if (nodTimer.current) {
+      window.clearTimeout(nodTimer.current);
+      nodTimer.current = null;
+    }
+  });
 
   return {
-    playOrPause,
+    triggerNod,
   };
 });
 
-export default PlayOrPause;
+export default TriggerNod;

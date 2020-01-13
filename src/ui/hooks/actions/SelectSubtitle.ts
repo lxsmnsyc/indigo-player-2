@@ -26,40 +26,39 @@
  * @copyright Alexis Munsayac 2020
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
-import React from 'react';
-import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
+import { useCallback, useMemo } from 'react';
+import { Optional } from '../../types';
+import { Subtitle } from '../../../types';
 import StateProps from '../StateProps';
+import States from '../States';
+import SubtitlesExtension from '../../../extensions/SubtitlesExtension/SubtitlesExtension';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+
+interface SelectSubtitle {
+  selectSubtitle: (subtitle: Optional<Subtitle>) => void;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+const SelectSubtitle = createModel<SelectSubtitle>(() => {
+  const instance = StateProps.useSelector((state) => state.instance);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const setLastActiveSubtitle = States.useSelector((state) => state.setLastActiveSubtitle);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const mod = useMemo(() => instance.getModule('SubtitlesExtension'), [instance]);
+
+  const selectSubtitle = useCallback((subtitle) => {
+    if (subtitle) {
+      setLastActiveSubtitle(subtitle);
     }
-  }, [player.playRequested, instance, triggerNod]);
+    if (mod) {
+      (mod as SubtitlesExtension).setSubtitle(
+        subtitle ? subtitle.srclang : null,
+      );
+    }
+  }, [mod, setLastActiveSubtitle]);
 
   return {
-    playOrPause,
+    selectSubtitle,
   };
 });
 
-export default PlayOrPause;
+export default SelectSubtitle;

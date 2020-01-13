@@ -27,39 +27,38 @@
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
 import React from 'react';
-import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
+import { SliderCallback } from '../../utils/useSlider';
 import StateProps from '../StateProps';
+import States from '../States';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+export interface VolumeBarState {
+  setVolumeBarState: SliderCallback;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
+const VolumeBarSeek = createModel(() => {
+  const [instance, emitter] = StateProps.useSelectors((state) => [
     state.instance,
-    state.player,
+    state.emitter,
   ]);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const setIsVolumeBarSeeking = States.useSelector((state) => state.setIsVolumebarSeeking);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const setVolumeBarState = React.useCallback((state, prevState) => {
+    setIsVolumeBarSeeking(state.seeking);
+
+    if (!state.seeking && prevState.seeking) {
+      emitter.emit('show', null);
     }
-  }, [player.playRequested, instance, triggerNod]);
+
+    if (state.seeking) {
+      const volume = state.percentage;
+      instance.setVolume(volume);
+    }
+  }, [emitter, instance, setIsVolumeBarSeeking]);
 
   return {
-    playOrPause,
+    setVolumeBarState,
   };
 });
 
-export default PlayOrPause;
+export default VolumeBarSeek;

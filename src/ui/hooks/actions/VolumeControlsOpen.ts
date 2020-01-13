@@ -27,39 +27,27 @@
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
 import React from 'react';
-import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
 import StateProps from '../StateProps';
+import States from '../States';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+export interface VolumeControlsOpenState {
+  setVolumeControlsOpen: (open: boolean) => void;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+const VolumeControlsOpen = createModel<VolumeControlsOpenState>(() => {
+  const instance = StateProps.useSelector((state) => state.instance);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const setIsVolumeControlsOpen = States.useSelector((state) => state.setIsVolumeControlsOpen);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const setVolumeControlsOpen = React.useCallback((open) => {
+    if (!instance.env?.isMobile) {
+      setIsVolumeControlsOpen(open);
     }
-  }, [player.playRequested, instance, triggerNod]);
+  }, [instance, setIsVolumeControlsOpen]);
 
   return {
-    playOrPause,
+    setVolumeControlsOpen,
   };
 });
 
-export default PlayOrPause;
+export default VolumeControlsOpen;

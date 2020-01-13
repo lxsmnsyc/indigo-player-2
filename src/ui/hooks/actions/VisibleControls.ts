@@ -27,39 +27,60 @@
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
 import React from 'react';
-import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
 import StateProps from '../StateProps';
+import useOnUnmount from '../useOnUnmount';
+import useConstantCallback from '../useConstantCallback';
+import useIsomorphicEffect from '../useIsomorphicEffect';
+import States from '../States';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+interface VisibleControlsState {
+  showControls: () => void;
+  hideControls: () => void;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+const VisibleControls = createModel<VisibleControlsState>(() => {
+  const activeTimer = React.useRef<number | null>(null);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const emitter = StateProps.useSelector((state) => state.emitter);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const setVisibleControls = States.useSelector((state) => state.setVisibleControls);
+
+  const showControls = useConstantCallback((): void => {
+    if (activeTimer.current) {
+      clearTimeout(activeTimer.current);
     }
-  }, [player.playRequested, instance, triggerNod]);
+
+    setVisibleControls(true);
+
+    activeTimer.current = window.setTimeout(() => {
+      setVisibleControls(false);
+    }, 2000);
+  });
+
+  const hideControls = useConstantCallback((): void => {
+    if (activeTimer.current) {
+      clearTimeout(activeTimer.current);
+    }
+
+    setVisibleControls(false);
+  });
+
+  useIsomorphicEffect(() => {
+    emitter.on('show', showControls);
+
+    return (): void => emitter.off('show', showControls);
+  }, [emitter, showControls]);
+
+  useOnUnmount(() => {
+    if (activeTimer.current) {
+      clearTimeout(activeTimer.current);
+    }
+  });
 
   return {
-    playOrPause,
+    showControls,
+    hideControls,
   };
 });
 
-export default PlayOrPause;
+export default VisibleControls;

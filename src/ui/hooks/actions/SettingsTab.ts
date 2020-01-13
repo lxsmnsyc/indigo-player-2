@@ -27,39 +27,50 @@
  */
 import createModel from '@lxsmnsyc/react-scoped-model';
 import React from 'react';
-import { KeyboardNavigationPurpose } from '../../../types';
-import TriggerNod from './TriggerNod';
+import useConstantCallback from '../useConstantCallback';
+import { SettingsTabs } from '../../types';
+import { GUI_SETTINGS, GUI_BUTTON_SETTINGS } from '../../theme';
 import StateProps from '../StateProps';
+import States from '../States';
 
-export interface PlayOrPauseState {
-  playOrPause: (origin?: string) => void;
+interface SettingsTabState {
+  toggleSettings: () => void;
+  closeSettings: (event: MouseEvent) => void;
 }
 
-const PlayOrPause = createModel<PlayOrPauseState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+const SettingsTab = createModel<SettingsTabState>(() => {
+  const instance = StateProps.useSelector((state) => state.instance);
 
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
+  const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
 
-  const playOrPause = React.useCallback((origin) => {
-    if (!player.playRequested) {
-      instance.play();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PLAY);
-      }
-    } else {
-      instance.pause();
-      if (origin === 'center') {
-        triggerNod(KeyboardNavigationPurpose.PAUSE);
-      }
+  const toggleSettings = useConstantCallback(() => {
+    setSettingsTab((prev) => (
+      prev
+        ? SettingsTabs.NONE
+        : SettingsTabs.OPTIONS
+    ));
+  });
+
+  const closeSettings = React.useCallback((event: MouseEvent): void => {
+    const isOver = (className: string): boolean => {
+      const { target } = event;
+      const container = instance.container.querySelector(className);
+      return (
+        !!container && (container === target || container.contains(target as Node))
+      );
+    };
+
+    if (isOver(GUI_SETTINGS) || isOver(GUI_BUTTON_SETTINGS)) {
+      return;
     }
-  }, [player.playRequested, instance, triggerNod]);
+
+    setSettingsTab(SettingsTabs.NONE);
+  }, [instance.container, setSettingsTab]);
 
   return {
-    playOrPause,
+    toggleSettings,
+    closeSettings,
   };
 });
 
-export default PlayOrPause;
+export default SettingsTab;
