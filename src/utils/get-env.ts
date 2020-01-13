@@ -1,11 +1,10 @@
 /* eslint-disable spaced-comment */
-/// reference path="./types/can-autoplay.d.ts"
 import { EnvInterface, Config } from '../types';
 
 export default async function getEnv(config: Config): Promise<EnvInterface> {
   const { userAgent } = navigator;
 
-  const canAutoplayLib = await import('can-autoplay');
+  const canAutoplayLib = await import('./can-autoplay');
 
   const canAutoplay: boolean = (await canAutoplayLib.video({
     muted: config.volume === 0,
