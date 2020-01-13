@@ -25,11 +25,10 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { performance } from 'perf_hooks';
 import Module from '../../module';
 import { InstanceInterface, Events } from '../../types';
 
-const startTime = performance.now();
+let startTime: number;
 
 export default class BenchmarkExtension extends Module {
   public name = 'BenchmarkExtension';
@@ -44,6 +43,10 @@ export default class BenchmarkExtension extends Module {
 
   constructor(instance: InstanceInterface) {
     super(instance);
+
+    if (!startTime) {
+      startTime = performance.now();
+    }
 
     this.startupTimeExtension = performance.now() - startTime;
 

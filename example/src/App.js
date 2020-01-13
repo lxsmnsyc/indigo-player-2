@@ -139,7 +139,7 @@ function App() {
 
       const { current } = el;
 
-      let instance = IndigoPlayer(current, config);
+      let instance = IndigoPlayer.init(current, config);
 
       return () => {
         instance.destroy();
