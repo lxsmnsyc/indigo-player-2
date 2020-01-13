@@ -25,14 +25,18 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { STRETCH } from './mixins';
 
-const GUI_VIEW_LOADING = css`
-  ${STRETCH}
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const GUI_VIEW_LOADING = 'igui__view--loading';
+
+injectGlobal`
+  .${GUI_VIEW_LOADING} {
+    ${STRETCH}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export default GUI_VIEW_LOADING;

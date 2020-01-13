@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { keyframes, css } from 'emotion';
+import { keyframes, injectGlobal } from 'emotion';
 
 const NOD_ZOOMIN = keyframes`
   0% {
@@ -41,27 +41,30 @@ const NOD_ZOOMIN = keyframes`
   }
 `;
 
-export const GUI_NOD_ACTIVE = css``;
+export const GUI_NOD_ACTIVE = 'igui__nod--state-active';
+export const GUI_NOD = 'igui__nod';
 
-export const GUI_NOD = css`
-  pointer-events: none;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  font-size: 24px;
-  width: 48px;
-  height: 48px;
-  margin-left: -24px;
-  margin-top: -24px;
-  background-color: rgba(0, 0, 0, .5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  animation-duration: 500ms;
-  opacity: 0;
+injectGlobal`
+  .${GUI_NOD} {
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    margin-left: -24px;
+    margin-top: -24px;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    animation-duration: 500ms;
+    opacity: 0;
 
-  &.${GUI_NOD_ACTIVE} {
-    animation-name: ${NOD_ZOOMIN};
+    &.${GUI_NOD_ACTIVE} {
+      animation-name: ${NOD_ZOOMIN};
+    }
   }
 `;

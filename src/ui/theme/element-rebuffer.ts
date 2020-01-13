@@ -25,15 +25,19 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { STRETCH } from './mixins';
 
-const GUI_REBUFFER = css`
-  ${STRETCH}
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
+const GUI_REBUFFER = 'igui__rebuffer';
+
+injectGlobal`
+  .${GUI_REBUFFER} {
+    ${STRETCH}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
 `;
 
 export default GUI_REBUFFER;

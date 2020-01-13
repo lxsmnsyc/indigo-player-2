@@ -25,79 +25,75 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import {
   GUI_BUTTON_STATE_ACTIVE,
   GUI_BUTTON_SELECT_OPTION,
   GUI_BUTTON_SETTINGS_BACK,
   GUI_BUTTON_SETTINGS_OPTIONS,
 } from './button';
-import { GUI_STATE_FULLSCREEN, GUI_STATE_MOBILE } from './root';
-import { STRETCH } from './mixins';
 
-export const GUI_SETTINGS = css`
-  position: absolute;
-  right: 9px;
-  bottom: 58px;
-  background-color: #222222;
-  border-radius: 2px;
-  color: #fff;
-  z-index: 1;
-  min-width: 180px;
-  overflow-y: auto;
+export const GUI_SETTINGS = 'igui__settings';
+export const GUI_SETTINGS_NOOP = 'igui__settings--noop';
+export const GUI_SETTINGS_SELECT_OPTION_INFO = 'igui__settings--select-option-info';
+export const GUI_SETTINGS_SELECT = 'igui__settings--select';
+export const GUI_SETTINGS_HEADER = 'igui__settings--header';
 
-  .${GUI_STATE_FULLSCREEN} & {
-    bottom: 66px;
+injectGlobal`
+  .${GUI_SETTINGS} {
+    position: absolute;
+    right: 9px;
+    bottom: 58px;
+    background-color: #222222;
+    border-radius: 2px;
+    color: #fff;
+    z-index: 1;
+    min-width: 180px;
+    overflow-y: auto;
   }
 
-  .${GUI_STATE_MOBILE} & {
-    ${STRETCH}
-  }
-`;
-
-export const GUI_SETTINGS_NOOP = css`
-  padding: 8px 16px;
-`;
-
-export const GUI_SETTINGS_SELECT_OPTION_INFO = css``;
-
-export const GUI_SETTINGS_SELECT = css`
-  margin: 3px 0;
-
-  .${GUI_BUTTON_SELECT_OPTION} {
-    display: block;
+  .${GUI_SETTINGS_NOOP} {
     padding: 8px 16px;
-    width: 100%;
-    text-align: left;
-
-    &.${GUI_BUTTON_STATE_ACTIVE} {
-      text-decoration: underline;
-    }
-
-    &:hover {
-      background-color: #333333;
-    }
-
-    .${GUI_SETTINGS_SELECT_OPTION_INFO} {
-      float: right;
-    }
-  }
-`;
-
-export const GUI_SETTINGS_HEADER = css`
-  padding: 8px;
-  text-align: center;
-  border-bottom: 1px solid #555555;
-  display: flex;
-  align-items: center;
-
-  .${GUI_BUTTON_SETTINGS_BACK} {
-    margin-right: 8px;
-    font-size: 16px;
   }
 
-  .${GUI_BUTTON_SETTINGS_OPTIONS} {
-    margin-left: auto;
-    font-size: 11px;
+  .${GUI_SETTINGS_SELECT} {
+    margin: 3px 0;
+
+    & .${GUI_BUTTON_SELECT_OPTION} {
+      display: block;
+      padding: 8px 16px;
+      width: 100%;
+      text-align: left;
+
+      &.${GUI_BUTTON_STATE_ACTIVE} {
+        text-decoration: underline;
+      }
+
+      &:hover {
+        background-color: #333333;
+      }
+
+      & .${GUI_SETTINGS_SELECT_OPTION_INFO} {
+        float: right;
+      }
+    }
+  }
+
+  .${GUI_SETTINGS_HEADER} {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #555555;
+    display: flex;
+    align-items: center;
+
+    & .${GUI_BUTTON_SETTINGS_BACK} {
+      margin-right: 8px;
+      font-size: 16px;
+    }
+
+    & .${GUI_BUTTON_SETTINGS_OPTIONS} {
+      margin-left: auto;
+      font-size: 11px;
+    }
   }
 `;

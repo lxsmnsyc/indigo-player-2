@@ -25,38 +25,41 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { RESET_BUTTON } from './mixins';
 
-export const GUI_BUTTON_STATE_DISABLED = css``;
-export const GUI_BUTTON_STATE_ACTIVE = css``;
+export const GUI_BUTTON_STATE_DISABLED = 'igui__button--state-disabled';
+export const GUI_BUTTON_STATE_ACTIVE = 'igui__button--state-active';
+export const GUI_BUTTON = 'igui__button';
+export const GUI_BUTTON_TOOLTIP = 'igui__button--tooltip';
+export const GUI_BUTTON_PLAY = 'igui__button--play';
+export const GUI_BUTTON_FULLSCREEN = 'igui__button--fullscreen';
+export const GUI_BUTTON_PIP = 'igui__button--pip';
+export const GUI_BUTTON_SETTINGS = 'igui__button--settings';
+export const GUI_BUTTON_SUBTITLE = 'igui__button--subtitle';
+export const GUI_BUTTON_SELECT_OPTION = 'igui__button--select_option';
+export const GUI_BUTTON_SETTINGS_BACK = 'igui__button--settings_back';
+export const GUI_BUTTON_SETTINGS_OPTIONS = 'igui__button--settings_options';
+export const GUI_BUTTON_MOBILE_CLOSE = 'igui__button--mobile_close';
 
-export const GUI_BUTTON = css`
-  ${RESET_BUTTON};
-  user-select: none;
-  cursor: pointer;
-  outline: none;
+injectGlobal`
+  .${GUI_BUTTON} {
+    ${RESET_BUTTON};
+    user-select: none;
+    cursor: pointer;
+    outline: none;
 
-  &.${GUI_BUTTON_STATE_DISABLED} {
-    pointer-events: none;
-    opacity: 0.5 !important;
+    &.${GUI_BUTTON_STATE_DISABLED} {
+      pointer-events: none;
+      opacity: 0.5 !important;
+    }
   }
-`;
-
-export const GUI_BUTTON_TOOLTIP = css``;
-export const GUI_BUTTON_PLAY = css``;
-export const GUI_BUTTON_FULLSCREEN = css``;
-export const GUI_BUTTON_SETTINGS = css``;
-export const GUI_BUTTON_SUBTITLE = css``;
-export const GUI_BUTTON_SELECT_OPTION = css``;
-export const GUI_BUTTON_SETTINGS_BACK = css``;
-export const GUI_BUTTON_SETTINGS_OPTIONS = css``;
-
-export const GUI_BUTTON_MOBILE_CLOSE = css`
-  float: right;
-  width: 31px;
-  height: 31px;
-  font-size: 18px;
-  position: relative;
-  z-index: 1;
+  .${GUI_BUTTON_MOBILE_CLOSE} {
+    float: right;
+    width: 31px;
+    height: 31px;
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+  }
 `;

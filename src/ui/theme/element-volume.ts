@@ -25,75 +25,86 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { GUI_BUTTON } from './button';
 import { GUI_ICON_VOLUME_1 } from './icon';
 
-export const VOLUMEBAR_HEIGHT = '3px';
-export const VOLUMEBAR_SCRUBBER_RADIUS = '14px';
+const VOLUMEBAR_HEIGHT = '3px';
+const VOLUMEBAR_SCRUBBER_RADIUS = '14px';
 
-export const GUI_VOLUME = css`
-  display: flex;
-  align-items: center;
+export const GUI_VOLUME = 'igui__volume';
+export const GUI_VOLUME_CONTAINER = 'igui__volume--container';
+export const GUI_VOLUME_COLLAPSE = 'igui__volume--collapse';
+export const GUI_VOLUME_STATE_OPEN = 'igui__volume--state-open';
+export const GUI_VOLUMEBAR = 'igui__volumebar';
+export const GUI_VOLUMEBAR_CONTAINER = 'igui__volumebar--container';
+export const GUI_VOLUMEBAR_PROGRESS = 'igui__volumebar--progress';
+export const GUI_VOLUMEBAR_SCRUBBER = 'igui__volumebar--scrubber';
 
-  .${GUI_BUTTON} {
-    position: relative;
+injectGlobal`
+  .${GUI_VOLUME} {
+    display: flex;
+    align-items: center;
 
-    .${GUI_ICON_VOLUME_1} {
+    & .${GUI_BUTTON} {
       position: relative;
-      left: -2px;
+
+      & .${GUI_ICON_VOLUME_1} {
+        position: relative;
+        left: -2px;
+      }
     }
   }
-`;
 
-export const GUI_VOLUME_CONTAINER = css`
-  padding: 0 7px;
-`;
-
-export const GUI_VOLUME_STATE_OPEN = css``;
-
-export const GUI_VOLUME_COLLAPSE = css`
-  overflow: hidden;
-  width: 0;
-  transition: width 150ms ease-in-out;
-
-  .${GUI_VOLUME_STATE_OPEN} & {
-    width: 64px + (5px + 7px);
+  .${GUI_VOLUME_CONTAINER} {
+    padding: 0 7px;
   }
-`;
 
-export const GUI_VOLUMEBAR = css`
-  cursor: pointer;
-  width: 100%;
-  height: 16px;
-  display: flex;
-  align-items: center;
-`;
+  .${GUI_VOLUME_COLLAPSE} {
+    overflow: hidden;
+    width: 0;
+    transition: width 150ms ease-in-out;
+  }
 
-export const GUI_VOLUMEBAR_CONTAINER = css`
-  height: ${VOLUMEBAR_HEIGHT};
-  background-color: rgba(255, 255, 255, .5);
-  position: relative;
-  width: 50px;
-`;
+  .${GUI_VOLUME_STATE_OPEN} {
+    & .${GUI_VOLUME_COLLAPSE} {
+      width: 76px;
+    }
+  }
 
-export const GUI_VOLUMEBAR_PROGRESS = css`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  transform-origin: left;
-  background-color: #ffffff;
-  height: 100%;
-`;
+  .${GUI_VOLUMEBAR} {
+    cursor: pointer;
+    width: 100%;
+    height: 16px;
+    display: flex;
+    align-items: center;
+  }
 
-export const GUI_VOLUMEBAR_SCRUBBER = css`
-  width: ${VOLUMEBAR_SCRUBBER_RADIUS};
-  height: ${VOLUMEBAR_SCRUBBER_RADIUS};
-  background-color: #ffffff;
-  border-radius: 100%;
-  position: relative;
-  top: ((${VOLUMEBAR_HEIGHT} / 2) - (${VOLUMEBAR_SCRUBBER_RADIUS} / 2));
-  margin-left: calc(-(${VOLUMEBAR_SCRUBBER_RADIUS} / 2));
+  .${GUI_VOLUMEBAR_CONTAINER} {
+    height: ${VOLUMEBAR_HEIGHT};
+    background-color: rgba(255, 255, 255, .5);
+    position: relative;
+    width: 50px;
+  }
+
+  .${GUI_VOLUMEBAR_PROGRESS} {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform-origin: left;
+    background-color: #ffffff;
+    height: 100%;
+  }
+
+  .${GUI_VOLUMEBAR_SCRUBBER} {
+    width: ${VOLUMEBAR_SCRUBBER_RADIUS};
+    height: ${VOLUMEBAR_SCRUBBER_RADIUS};
+    background-color: #ffffff;
+    border-radius: 100%;
+    position: relative;
+    top: calc((${VOLUMEBAR_HEIGHT} / 2) - (${VOLUMEBAR_SCRUBBER_RADIUS} / 2));
+    margin-left: calc(-(${VOLUMEBAR_SCRUBBER_RADIUS} / 2));
+  }
 `;

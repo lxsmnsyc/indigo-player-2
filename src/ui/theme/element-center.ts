@@ -25,24 +25,27 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { STRETCH } from './mixins';
 
-export const GUI_CENTER_PREVIEW = css``;
+export const GUI_CENTER_PREVIEW = 'igui__center--preview';
+export const GUI_CENTER = 'igui__center';
 
-export const GUI_CENTER = css`
-  ${STRETCH}
+injectGlobal`
+  .${GUI_CENTER} {
+    ${STRETCH}
 
-  .${GUI_CENTER_PREVIEW} {
-    width: 100%;
-    height: 100%;
-    position: relative;
+    & .${GUI_CENTER_PREVIEW} {
+      width: 100%;
+      height: 100%;
+      position: relative;
 
-    &:before {
-      content: '';
-      position: absolute;
-      ${STRETCH}
-      background-color: rgba(0, 0, 0, .5);
+      &:before {
+        content: '';
+        position: absolute;
+        ${STRETCH}
+        background-color: rgba(0, 0, 0, .5);
+      }
     }
   }
 `;

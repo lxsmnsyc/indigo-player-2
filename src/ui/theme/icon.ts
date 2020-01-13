@@ -25,22 +25,20 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
-
-export const GUI_ICON = css``;
-export const GUI_ICON_PLAY = css``;
-export const GUI_ICON_VOLUME_1 = css``;
-export const GUI_ICON_BACK = css``;
-export const GUI_ICON_SETTINGS = css``;
-export const GUI_ICON_PIP = css``;
-export const GUI_ICON_HD = css``;
-export const GUI_ICON_CC = css``;
-export const GUI_ICON_FULLSCREEN = css``;
-export const GUI_ICON_FULLSCREEN_EXIT = css``;
-export const GUI_ICON_PAUSE = css``;
-export const GUI_ICON_VOLUME = css``;
-export const GUI_ICON_VOLUME_OFF = css``;
-export const GUI_ICON_PLAY_ROUNDED = css``;
+export const GUI_ICON = 'igui__icon';
+export const GUI_ICON_PLAY = 'igui__icon--play';
+export const GUI_ICON_VOLUME_1 = 'igui__icon--volume-1';
+export const GUI_ICON_BACK = 'igui__icon--back';
+export const GUI_ICON_SETTINGS = 'igui__icon--settings';
+export const GUI_ICON_PIP = 'igui__icon--pip';
+export const GUI_ICON_HD = 'igui__icon--hd';
+export const GUI_ICON_CC = 'igui__icon--cc';
+export const GUI_ICON_FULLSCREEN = 'igui__icon--fullscreen';
+export const GUI_ICON_FULLSCREEN_EXIT = 'igui__icon--fullscreen_exit';
+export const GUI_ICON_PAUSE = 'igui__icon--pause';
+export const GUI_ICON_VOLUME = 'igui__icon--volume';
+export const GUI_ICON_VOLUME_OFF = 'igui__icon--volume_off';
+export const GUI_ICON_PLAY_ROUNDED = 'igui__icon--play_rounded';
 
 export const ICON_TAG = {
   PLAY: 'play_arrow',
@@ -54,8 +52,8 @@ export const ICON_TAG = {
   HD: 'hd',
   PAUSE: 'pause',
   PIP: 'featured_video',
-  SETTINGS: '',
-  BACK: '',
+  SETTINGS: 'setting_applications',
+  BACK: 'keyboard_arrow_left',
 };
 
 export const ICON_TO_CLASS = {

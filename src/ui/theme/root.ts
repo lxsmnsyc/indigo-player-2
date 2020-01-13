@@ -25,35 +25,82 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
+import { GUI_CONTAINER_CONTROLS, GUI_CONTAINER_CONTROLS_SEEKBAR } from './view-controls';
+import { GUI_BUTTON, GUI_BUTTON_TOOLTIP } from './button';
+import { GUI_ICON } from './icon';
+import { GUI_SETTINGS } from './element-settings';
+import { STRETCH } from './mixins';
 
-export const GUI_STATE_FULLSCREEN = css`
-  font-size: 16px;
-`;
+export const GUI_STATE_FULLSCREEN = 'igui__state--fullscreen';
+export const GUI_STATE_MOBILE = 'igui__state--mobile';
+export const GUI_STATE_ACTIVE = 'igui__state--active';
+export const GUI_STATE_PIP = 'igui__state--pip';
+export const GUI_CONTAINER = 'igui__container';
+export const GUI_PLAYER = 'igui__player';
+export const GUI = 'igui';
+export const GUI_MAIN = 'igui__main';
+export const GUI_ADS = 'igui__ads';
 
-export const GUI_STATE_MOBILE = css``;
-export const GUI_STATE_ACTIVE = css``;
-export const GUI_STATE_PIP = css``;
+injectGlobal`
+  .${GUI_STATE_FULLSCREEN} {
+    font-size: 16px;
 
-export const GUI_CONTAINER = css`
-  color: #fff;
-  -webkit-tap-highlight-color: transparent;
-  font-family: Verdana, Geneva, sans-serif;
-  font-size: 13px;
+    & .${GUI_CONTAINER_CONTROLS} {
+      & .${GUI_BUTTON} {
+        width: 44px;
+        height: 48px;
 
-  * {
-    box-sizing: border-box;
+        & .${GUI_ICON} {
+          font-size: 32px;
+        }
+
+        & .${GUI_BUTTON_TOOLTIP} {
+          bottom: 66px;
+        }
+      }
+    }
+
+    & .${GUI_CONTAINER_CONTROLS_SEEKBAR} {
+      bottom: 42px;
+    }
+
+    & .${GUI_SETTINGS} {
+      bottom: 66px;
+    }
+  }
+
+  .${GUI_STATE_MOBILE} {
+    & .${GUI_SETTINGS} {
+      ${STRETCH}
+    }
+  }
+
+  .${GUI_STATE_ACTIVE} {
+    & .${GUI_CONTAINER_CONTROLS} {
+      opacity: 1;
+    }
+  }
+
+  .${GUI_CONTAINER} {
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+    color: #fff;
+    -webkit-tap-highlight-color: transparent;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 13px;
+
+    & * {
+      box-sizing: border-box;
+    }
+  }
+
+  .${GUI_PLAYER} {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 `;
-
-export const GUI_PLAYER = css`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-`;
-
-export const GUI = css``;
-export const GUI_MAIN = css``;
-export const GUI_ADS = css``;

@@ -25,19 +25,24 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { STRETCH } from './mixins';
 
-const GUI_IMAGE = css`
-  ${STRETCH}
-  background-size: cover;
-  background-position: center;
+const GUI_IMAGE = 'igui__image';
 
-  &:after {
-    content: '';
-    background-color: rgba(0, 0, 0, .5);
+injectGlobal`
+  .${GUI_IMAGE} {
     ${STRETCH}
+    background-size: cover;
+    background-position: center;
+
+    &:after {
+      content: '';
+      background-color: rgba(0, 0, 0, .5);
+      ${STRETCH}
+    }
   }
 `;
+
 
 export default GUI_IMAGE;

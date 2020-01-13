@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { keyframes, css } from 'emotion';
+import { keyframes, injectGlobal } from 'emotion';
 
 const spin = keyframes`
   100% {
@@ -33,13 +33,17 @@ const spin = keyframes`
   }
 `;
 
-const GUI_SPINNER = css`
-  width: 32px;
-  height: 32px;
-  border-radius: 100%;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #ffffff;
-  animation: ${spin} 1s infinite linear;
+const GUI_SPINNER = 'igui__spinner';
+
+injectGlobal`
+  .${GUI_SPINNER} {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #ffffff;
+    animation: ${spin} 1s infinite linear;
+  }
 `;
 
 export default GUI_SPINNER;

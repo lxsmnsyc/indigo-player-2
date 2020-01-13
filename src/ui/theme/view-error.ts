@@ -25,24 +25,25 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 import { STRETCH, TEXT_GLITCH } from './mixins';
 
-export const GUI_VIEW_ERROR = css`
-  ${STRETCH}
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+export const GUI_VIEW_ERROR = 'igui__view--error';
+export const GUI_VIEW_ERROR_TITLE = 'igui__view--error-title';
 
-export const GUI_VIEW_ERROR_TITLE = css`
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 3px;
-  ${TEXT_GLITCH(
-    '#000000',
-    '#ff0000',
-    '#0000ff',
-  )}
+injectGlobal`
+  .${GUI_VIEW_ERROR} {
+    ${STRETCH}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .${GUI_VIEW_ERROR_TITLE} {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 3px;
+    ${TEXT_GLITCH('#000000', '#ff0000', '#0000ff')}
+  }
 `;

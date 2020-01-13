@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { keyframes, css } from 'emotion';
+import { keyframes, injectGlobal } from 'emotion';
 import { STRETCH, RESET_BUTTON } from './mixins';
 import { GUI_ICON_PLAY } from './icon';
 
@@ -40,20 +40,24 @@ const PLAY_APPEAR = keyframes`
   }
 `;
 
-const GUI_VIEW_START = css`
-  ${STRETCH}
-  ${RESET_BUTTON}
+const GUI_VIEW_START = 'igui__view--start';
 
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+injectGlobal`
+  .${GUI_VIEW_START} {
+    ${STRETCH}
+    ${RESET_BUTTON}
 
-  .${GUI_ICON_PLAY} {
-    animation: 250ms ease-out 0s 1 ${PLAY_APPEAR};
-    font-size: 48px;
-    z-index: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    & .${GUI_ICON_PLAY} {
+      animation: 250ms ease-out 0s 1 ${PLAY_APPEAR};
+      font-size: 48px;
+      z-index: 1;
+    }
   }
 `;
 
