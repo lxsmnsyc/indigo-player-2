@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import IndigoPlayer from '@lxsmnsyc/indigo-player';
+import * as IndigoPlayer from '@lxsmnsyc/indigo-player';
 import './App.css';
 
 const config = {
