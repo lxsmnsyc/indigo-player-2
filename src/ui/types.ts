@@ -25,77 +25,6 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import PlayerError from '../utils/player-error';
-import { TrackInterface, Subtitle, Thumbnail } from '../types';
-
-export interface Data {
-  paused: boolean;
-  view: ViewTypes;
-  visibleControls: boolean;
-  progressPercentage: number;
-  bufferedPercentage: number;
-  volumeBarPercentage: number;
-  isVolumeControlsOpen: boolean;
-  isFullscreen: boolean;
-  fullscreenSupported: boolean;
-  playRequested: boolean;
-  adBreakData?: {
-    progressPercentage: number;
-  };
-  cuePoints: number[];
-  rebuffering: boolean;
-  timeStatPosition: string;
-  timeStatDuration: string;
-  error?: PlayerError;
-  isCenterClickAllowed: boolean;
-  isSeekbarHover: boolean;
-  isSeekbarSeeking: boolean;
-  seekbarPercentage: number;
-  seekbarTooltipText: string;
-  seekbarTooltipPercentage: number;
-  seekbarThumbnailPercentage: number;
-  tracks: TrackInterface[];
-  activeTrack: TrackInterface;
-  selectedTrack: TrackInterface | string;
-  settingsTab: SettingsTabs;
-  visibleSettingsTabs: SettingsTabs[];
-  subtitles: Subtitle[];
-  activeSubtitle: Subtitle;
-  playbackRate: number;
-  pip: boolean;
-  pipSupported: boolean;
-  activeThumbnail: Thumbnail;
-  isMobile: boolean;
-  image: string;
-  nodIcon: string;
-  getTranslation(text: string): string;
-}
-
-export interface Actions {
-  playOrPause: (origin?: string) => void;
-  startSeeking: () => void;
-  seekToPercentage: (percentage: number) => void;
-  setVolume: (volume: number) => void;
-  setVolumeControlsOpen: (isVolumeControlsOpen: boolean) => void;
-  startVolumebarSeeking: () => void;
-  stopVolumebarSeeking: () => void;
-  toggleMute: () => void;
-  toggleFullscreen: () => void;
-  setSeekbarState: (state: any, prevState?: any) => void;
-  setVolumebarState: (state: any, prevState?: any) => void;
-  selectTrack: (track: TrackInterface) => void;
-  setSettingsTab: (tab: SettingsTabs) => void;
-  toggleSettings: () => void;
-  selectSubtitle: (subtitle: Subtitle) => void;
-  setPlaybackRate: (playbackRate: number) => void;
-  togglePip: () => void;
-  toggleActiveSubtitle: () => void;
-}
-
-export interface Info {
-  data: Data;
-  actions: Actions;
-}
 
 export enum ViewTypes {
   ERROR = 'error',
@@ -115,6 +44,5 @@ export enum SettingsTabs {
 export interface StateStore {
   showControls: () => void;
 }
-
 
 export type Optional<T> = T | null | undefined;
