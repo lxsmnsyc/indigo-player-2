@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * @license
  * MIT License
@@ -26,28 +25,8 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import React, { MutableRefObject } from 'react';
-import * as ReactDOM from 'react-dom';
-import StateStore from './State';
-import { InstanceInterface } from '../types';
-import Main from './components/Main';
-import { StateInterface } from '../extensions/StateExtension/StateExtension';
-import EventEmitter from '../utils/event-emitter';
+import React, { RefObject } from 'react';
 
-export default function render(
-  container: HTMLElement,
-  state: StateInterface,
-  instance: InstanceInterface,
-  ref: MutableRefObject<(() => void) | null>,
-): void {
-  const emitter = new EventEmitter();
-
-  ref.current = (): void => emitter.emit('show', null);
-
-  ReactDOM.render(
-    <StateStore instance={instance} player={state} emitter={emitter}>
-      <Main />
-    </StateStore>,
-    container,
-  );
-}
+export const seekbarRef: RefObject<HTMLDivElement> = React.createRef();
+export const seekbarTooltipRef: RefObject<HTMLDivElement> = React.createRef();
+export const seekbarThumbnailRef: RefObject<HTMLDivElement> = React.createRef();
