@@ -26,16 +26,19 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { css, cx } from 'emotion';
+import { css, cx, injectGlobal } from 'emotion';
 import { ICON_TO_CLASS, GUI_ICON } from '../theme/icon';
 
-const iconStyle = css`
+injectGlobal`
   @font-face {
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
     src: url(https://fonts.gstatic.com/s/materialicons/v48/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
   }
+`;
+
+const iconStyle = css`
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;

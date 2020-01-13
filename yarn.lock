@@ -945,10 +945,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@lxsmnsyc/react-scoped-model@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@lxsmnsyc/react-scoped-model/-/react-scoped-model-0.9.0.tgz#67e43aab23d3210ce6855c333bf89604ec3e867b"
-  integrity sha512-pOVO+yLj1E5Kj/8D3I/djOnyoBqWLYLAUvGC2w6RKfvkzWxweerpgwuygDjVwbpqgN3AEZ+wX7dM9iNQYfEiYg==
+"@lxsmnsyc/react-scoped-model@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@lxsmnsyc/react-scoped-model/-/react-scoped-model-0.9.1.tgz#b43285f42d46d844d460dd92c6f5d4734c77c76e"
+  integrity sha512-Ij6TGyUFv4ZFal3uJfBnAMqPXg2pw2DJzeugNi7+0IftA9lOCsTyvenMAVJxIIBbHL8kjJQ0Pz2yUbIyBTegwg==
 
 "@rollup/plugin-json@^4.0.0":
   version "4.0.1"

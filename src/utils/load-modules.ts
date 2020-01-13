@@ -70,6 +70,7 @@ export default function loadModules(): void {
   addModuleLoader(HTML5PlayerLoader);
 
   addModuleLoader(BenchmarkExtensionLoader);
+  addModuleLoader(StateExtensionLoader);
   addModuleLoader(ContextMenuExtensionLoader);
   addModuleLoader(DimensionsExtensionLoader);
   addModuleLoader(PipExtensionLoader);
@@ -78,7 +79,6 @@ export default function loadModules(): void {
   addModuleLoader(FreeWheelExtensionLoader);
   addModuleLoader(GoogleIMAExtensionLoader);
   addModuleLoader(KeyboardNavigationExtensionLoader);
-  addModuleLoader(StateExtensionLoader);
   addModuleLoader(ThumbnailsExtensionLoader);
 
   addModuleLoader(UiExtensionLoader);

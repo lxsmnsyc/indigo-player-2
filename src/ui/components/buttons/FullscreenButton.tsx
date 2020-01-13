@@ -42,7 +42,7 @@ const FullscreenButton = React.memo(() => {
     }`.trim();
 
     return [
-      state.isFullscreen ? ICON_TAG.FULLSCREEN : ICON_TAG.FULLSCREEN_EXIT,
+      state.isFullscreen ? ICON_TAG.FULLSCREEN_EXIT : ICON_TAG.FULLSCREEN,
       createTooltipText(
         state.isFullscreen ? 'Exit Fullscreen Mode' : 'Fullscreen Mode',
         'f',

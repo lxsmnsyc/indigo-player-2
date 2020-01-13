@@ -37,6 +37,8 @@ export interface EmitterInterface {
 export default class EventEmitter implements EmitterInterface {
   private events: Map<string, Set<EventCallback>>;
 
+  private queued = false;
+
   constructor() {
     this.events = new Map();
   }
@@ -64,7 +66,16 @@ export default class EventEmitter implements EmitterInterface {
     const eventList = this.events.get(event);
 
     if (eventList) {
-      new Set(eventList).forEach((callback) => callback<T>(data));
+      if (this.queued) {
+        return;
+      }
+
+      this.queued = true;
+
+      Promise.resolve().then(() => {
+        this.queued = false;
+        new Set(eventList).forEach((callback) => callback<T>(data));
+      });
     }
   }
 
