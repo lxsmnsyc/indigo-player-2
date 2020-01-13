@@ -27,18 +27,12 @@
  */
 import * as React from 'react';
 import Spinner from './Spinner';
-import { StateContext } from '../State';
 import GImage from './GImage';
 import GUI_VIEW_LOADING from '../theme/view-loading';
+import Data from '../hooks/Data';
 
 const LoadingView = React.memo(() => {
-  const info = React.useContext(StateContext);
-
-  if (!info) {
-    return null;
-  }
-
-  const { data: { image } } = info;
+  const image = Data.useSelector((state) => state.image);
 
   return (
     <div className={GUI_VIEW_LOADING}>

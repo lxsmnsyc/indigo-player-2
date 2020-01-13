@@ -26,17 +26,14 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { StateContext } from '../State';
 import { GUI_TIMESTAT, GUI_TIMESTAT_POSITION, GUI_TIMESTAT_DURATION } from '../theme';
+import Data from '../hooks/Data';
 
 const TimeStat = React.memo(() => {
-  const info = React.useContext(StateContext);
-
-  if (!info) {
-    return null;
-  }
-
-  const { data: { timeStatPosition, timeStatDuration } } = info;
+  const [timeStatPosition, timeStatDuration] = Data.useSelectors((state) => [
+    state.timeStatPosition,
+    state.timeStatDuration,
+  ]);
 
   return (
     <div className={GUI_TIMESTAT}>

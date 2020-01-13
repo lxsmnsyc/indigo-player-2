@@ -25,44 +25,40 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Data from '../../hooks/Data';
+import { ICON_TAG, GUI_BUTTON_PLAY } from '../../theme';
+import PlayOrPause from '../../hooks/actions/PlayOrPause';
+import Button from '../Button';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const PlayButton = React.memo(() => {
+  const [
+    playIcon,
+    playTooltipText,
+  ] = Data.useSelectors((state) => {
+    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+      shortcut ? `(${shortcut})` : ''
+    }`.trim();
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+    return [
+      state.playRequested ? ICON_TAG.PAUSE : ICON_TAG.PLAY,
+      createTooltipText(
+        state.playRequested ? 'Pause' : 'Play',
+        'k',
+      ),
+    ];
+  });
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+  const playOrPause = PlayOrPause.useSelector((state) => state.playOrPause);
 
-export default Sprite;
+  return (
+    <Button
+      className={GUI_BUTTON_PLAY}
+      icon={playIcon}
+      onClick={playOrPause}
+      tooltip={playTooltipText}
+    />
+  );
+});
+
+export default PlayButton;

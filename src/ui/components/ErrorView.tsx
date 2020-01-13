@@ -26,29 +26,28 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { StateContext } from '../State';
 import { GUI_VIEW_ERROR, GUI_VIEW_ERROR_TITLE } from '../theme';
+import Data from '../hooks/Data';
 
 const ErrorView = React.memo(() => {
-  const info = React.useContext(StateContext);
+  const error = Data.useSelector((state) => state.error);
 
-  if (info && info.data.error) {
-    const { error } = info.data;
-
-    const title = 'Uh oh!';
-    const message = `Something went wrong (${error.code})`;
-    return (
-      <div className={GUI_VIEW_ERROR}>
-        <div>
-          <div data-text={title} className={GUI_VIEW_ERROR_TITLE}>
-            {title}
-          </div>
-          <div>{message}</div>
-        </div>
-      </div>
-    );
+  if (!error) {
+    return null;
   }
-  return null;
+
+  const title = 'Uh oh!';
+  const message = `Something went wrong (${error.code})`;
+  return (
+    <div className={GUI_VIEW_ERROR}>
+      <div>
+        <div data-text={title} className={GUI_VIEW_ERROR_TITLE}>
+          {title}
+        </div>
+        <div>{message}</div>
+      </div>
+    </div>
+  );
 });
 
 export default ErrorView;

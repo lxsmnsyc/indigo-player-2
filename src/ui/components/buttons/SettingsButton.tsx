@@ -25,44 +25,39 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Data from '../../hooks/Data';
+import Button from '../Button';
+import { SettingsTabs } from '../../types';
+import SettingsTab from '../../hooks/actions/SettingsTab';
+import { GUI_BUTTON_SETTINGS } from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const SettingsButton = React.memo(() => {
+  const [
+    settingsTooltipText,
+    isSettingsTabActive,
+  ] = Data.useSelectors((state) => {
+    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+      shortcut ? `(${shortcut})` : ''
+    }`.trim();
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+    return [
+      createTooltipText('Settings'),
+      state.settingsTab !== SettingsTabs.NONE,
+    ];
+  });
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+  const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
 
-export default Sprite;
+  return (
+    <Button
+      className={GUI_BUTTON_SETTINGS}
+      icon="settings"
+      onClick={toggleSettings}
+      tooltip={settingsTooltipText}
+      active={isSettingsTabActive}
+    />
+  );
+});
+
+export default SettingsButton;

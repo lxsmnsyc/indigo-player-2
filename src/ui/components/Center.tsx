@@ -29,31 +29,34 @@
  */
 import * as React from 'react';
 import { GUI_CENTER, GUI_CENTER_PREVIEW } from '../theme';
-import { StateContext } from '../State';
 import Sprite from './Sprite';
+import Data from '../hooks/Data';
+import ToggleFullscreen from '../hooks/actions/ToggleFullscreen';
+import PlayOrPause from '../hooks/actions/PlayOrPause';
 
 const Center = React.memo(() => {
-  const info = React.useContext(StateContext);
+  const seekingThumbnail = Data.useSelector((state) => (
+    state.isSeekbarSeeking
+      ? state.activeThumbnail
+      : null
+  ));
 
-  if (!info) {
-    return null;
-  }
-
-  const { data: { isSeekbarSeeking, activeThumbnail }, actions } = info;
+  const toggleFullscreen = ToggleFullscreen.useSelector((state) => state.toggleFullscreen);
+  const pop = PlayOrPause.useSelector((state) => state.playOrPause);
 
   const playOrPause = React.useCallback(() => {
-    actions.playOrPause('center');
-  }, [actions]);
+    pop('center');
+  }, [pop]);
 
   return (
     <div
       className={GUI_CENTER}
       onClick={playOrPause}
-      onDoubleClick={actions.toggleFullscreen}
+      onDoubleClick={toggleFullscreen}
     >
       {
-        isSeekbarSeeking && (
-          <Sprite className={GUI_CENTER_PREVIEW} {...activeThumbnail} />
+        seekingThumbnail && (
+          <Sprite className={GUI_CENTER_PREVIEW} {...seekingThumbnail} />
         )
       }
     </div>

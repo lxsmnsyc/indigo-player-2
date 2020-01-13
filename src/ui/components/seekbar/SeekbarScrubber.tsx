@@ -25,44 +25,27 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Data from '../../hooks/Data';
+import { GUI_SEEKBAR_SCRUBBER } from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const SeekbarScrubber = React.memo(() => {
+  const [
+    progressPercentage,
+  ] = Data.useSelectors((state) => [
+    state.progressPercentage,
+  ]);
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+  const style = React.useMemo(() => ({
+    left: `${progressPercentage * 100}%`,
+  }), [progressPercentage]);
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+  return (
+    <div
+      className={GUI_SEEKBAR_SCRUBBER}
+      style={style}
+    />
+  );
+});
 
-export default Sprite;
+export default SeekbarScrubber;

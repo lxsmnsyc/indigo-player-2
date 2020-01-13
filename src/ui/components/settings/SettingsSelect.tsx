@@ -26,43 +26,51 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { css } from 'emotion';
+import Button from '../Button';
+import { GUI_SETTINGS_SELECT_OPTION_INFO, GUI_SETTINGS_SELECT, GUI_BUTTON_SELECT_OPTION } from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
-
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
+interface SettingsSelectItemProps {
+  selected?: any;
+  item: any;
+  label: string;
+  info?: string;
+  onClick: (item: any) => void;
 }
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
+export const SettingsSelectItem = React.memo((
+  {
+    item, onClick, selected, label, info,
+  }: SettingsSelectItemProps,
+) => {
+  const click = React.useCallback(() => {
+    onClick(item);
+  }, [onClick, item]);
+
+  return (
+    <Button
+      key={label}
+      className={GUI_BUTTON_SELECT_OPTION}
+      onClick={click}
+      active={item === selected}
     >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
+      <>
+        {label}
+        {info && (
+          <span className={GUI_SETTINGS_SELECT_OPTION_INFO}>
+            {info}
+          </span>
+        )}
+      </>
+    </Button>
+  );
+});
+
+interface SettingsSelectProps {
+  children?: React.ReactNode;
+}
+
+export const SettingsSelect = React.memo(({ children }: SettingsSelectProps) => (
+  <div className={GUI_SETTINGS_SELECT}>
+    { children }
   </div>
 ));
-
-export default Sprite;

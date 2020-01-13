@@ -26,43 +26,33 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { css } from 'emotion';
+import Button from '../Button';
+import {
+  ICON_TAG, GUI_SETTINGS_HEADER, GUI_BUTTON_SETTINGS_BACK, GUI_BUTTON_SETTINGS_OPTIONS,
+} from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
-
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
+interface SettingsHeaderProps {
+  title: string;
+  onBackClick?: () => void;
+  onOptionsClick?: () => void;
 }
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
+const SettingsHeader = React.memo(({ title, onBackClick, onOptionsClick }: SettingsHeaderProps) => (
+  <div className={GUI_SETTINGS_HEADER}>
+    {!!onBackClick && (
+      <Button
+        onClick={onBackClick}
+        className={GUI_BUTTON_SETTINGS_BACK}
+        icon={ICON_TAG.BACK}
+      />
+    )}
+    {title}
+    {!!onOptionsClick && (
+      <Button onClick={onOptionsClick} className={GUI_BUTTON_SETTINGS_OPTIONS}>
+        Options
+      </Button>
+    )}
   </div>
 ));
 
-export default Sprite;
+export default SettingsHeader;

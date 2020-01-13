@@ -27,9 +27,10 @@
  */
 import * as React from 'react';
 import { GUI_IMAGE } from '../theme';
+import { Optional } from '../types';
 
 interface GImageProps {
-  source?: string;
+  source: Optional<string>;
 }
 
 const GImage = React.memo(({ source }: GImageProps) => {

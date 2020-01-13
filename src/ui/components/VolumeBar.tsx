@@ -25,44 +25,44 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Data from '../hooks/Data';
+import {
+  GUI_VOLUMEBAR_SCRUBBER, GUI_VOLUMEBAR_PROGRESS, GUI_VOLUMEBAR, GUI_VOLUMEBAR_CONTAINER,
+} from '../theme';
+import useSlider from '../utils/useSlider';
+import VolumeBarSeek from '../hooks/actions/VolumeBarSeek';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const VolumeBar = React.memo(() => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+  const setVolumebarState = VolumeBarSeek.useSelector((state) => state.setVolumeBarState);
+  useSlider(ref, setVolumebarState);
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
+  const volumeBarPercentage = Data.useSelector((state) => state.volumeBarPercentage);
+
+  const progress = React.useMemo(() => ({
+    transform: `scaleX(${volumeBarPercentage})`,
+  }), [volumeBarPercentage]);
+
+  const scrubber = React.useMemo(() => ({
+    left: `${volumeBarPercentage * 100}%`,
+  }), [volumeBarPercentage]);
+
+  return (
+    <div className={GUI_VOLUMEBAR} ref={ref}>
+      <div className={GUI_VOLUMEBAR_CONTAINER}>
+        <div
+          className={GUI_VOLUMEBAR_PROGRESS}
+          style={progress}
         />
-      </g>
-    </svg>
-  </div>
-));
+        <div
+          className={GUI_VOLUMEBAR_SCRUBBER}
+          style={scrubber}
+        />
+      </div>
+    </div>
+  );
+});
 
-export default Sprite;
+export default VolumeBar;

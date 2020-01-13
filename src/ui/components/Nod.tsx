@@ -27,18 +27,12 @@
  */
 import React from 'react';
 import { cx } from 'emotion';
-import { StateContext } from '../State';
 import Icon from './Icon';
 import { GUI_NOD, GUI_NOD_ACTIVE } from '../theme/element-nod';
+import Data from '../hooks/Data';
 
 const Nod = React.memo(() => {
-  const info = React.useContext(StateContext);
-
-  if (!info) {
-    return null;
-  }
-
-  const { data: { nodIcon } } = info;
+  const nodIcon = Data.useSelector((state) => state.nodIcon);
 
   return (
     <div

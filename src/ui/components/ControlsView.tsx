@@ -1,127 +1,75 @@
-import { Button } from '@src/ui/components/Button';
-import { Center } from '@src/ui/components/Center';
-import { Rebuffer } from '@src/ui/components/Rebuffer';
-import { Seekbar } from '@src/ui/components/Seekbar';
-import { Settings } from '@src/ui/components/Settings';
-import { TimeStat } from '@src/ui/components/TimeStat';
-import { VolumeButton } from '@src/ui/components/VolumeButton';
-import { IInfo, SettingsTabs } from '@src/ui/types';
-import { withState } from '@src/ui/withState';
+/**
+ * @license
+ * MIT License
+ *
+ * Copyright (c) 2020 Alexis Munsayac
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ *
+ * @author Alexis Munsayac <alexis.munsayac@gmail.com>
+ * @copyright Alexis Munsayac 2020
+ */
 import * as React from 'react';
 import Nod from './Nod';
+import Data from '../hooks/Data';
+import { GUI_CONTAINER_CONTROLS, GUI_CONTAINER_CONTROLS_SEEKBAR } from '../theme';
+import Settings from './Settings';
+import Center from './Center';
+import Rebuffer from './Rebuffer';
+import VolumeButton from './VolumeButton';
+import TimeStat from './TimeStat';
+import PlayButton from './buttons/PlayButton';
+import SubtitlesButton from './buttons/SubtitlesButton';
+import FullscreenButton from './buttons/FullscreenButton';
+import PipButton from './buttons/PipButton';
+import SettingsButton from './buttons/SettingsButton';
+import Seekbar from './Seekbar';
 
-interface ControlsViewProps {
-  isCenterClickAllowed: boolean;
-  showRebuffer: boolean;
-  playIcon: string;
-  playTooltipText: string;
-  showSubtitlesToggle: boolean;
-  isSubtitleActive: boolean;
-  subtitleToggleTooltipText: string;
-  showPip: boolean;
-  pipTooltipText: string;
-  settingsTooltipText: string;
-  fullscreenIcon: string;
-  isFullscreenSupported: boolean;
-  fullscreenTooltipText: string;
-  isSettingsTabActive: boolean;
-  playOrPause();
-  toggleActiveSubtitle();
-  togglePip();
-  toggleSettings();
-  toggleFullscreen();
-}
+const ControlsView = React.memo(() => {
+  const [
+    isCenterClickAllowed,
+    rebuffering,
+  ] = Data.useSelectors((state) => [
+    state.isCenterClickAllowed,
+    state.rebuffering,
+  ]);
 
-export const ControlsView = withState((props: ControlsViewProps) => {
   return (
     <>
       <Nod />
       <Settings />
-      {props.isCenterClickAllowed && <Center />}
-      {props.showRebuffer && <Rebuffer />}
-      <div className="igui_container_controls">
-        <Button
-          name="play"
-          icon={props.playIcon}
-          onClick={props.playOrPause}
-          tooltip={props.playTooltipText}
-        />
+      {isCenterClickAllowed && <Center />}
+      {rebuffering && <Rebuffer />}
+      <div className={GUI_CONTAINER_CONTROLS}>
+        <PlayButton />
         <VolumeButton />
         <TimeStat />
-        <div className="igui_container_controls_seekbar">
+        <div className={GUI_CONTAINER_CONTROLS_SEEKBAR}>
           <Seekbar />
         </div>
-        {props.showSubtitlesToggle && (
-          <Button
-            name="subtitle"
-            icon="cc"
-            onClick={props.toggleActiveSubtitle}
-            active={props.isSubtitleActive}
-            tooltip={props.subtitleToggleTooltipText}
-          />
-        )}
-        {props.showPip && (
-          <Button
-            name="pip"
-            icon="pip"
-            onClick={props.togglePip}
-            tooltip={props.pipTooltipText}
-          />
-        )}
-        <Button
-          name="settings"
-          icon="settings"
-          onClick={() => props.toggleSettings()}
-          tooltip={props.settingsTooltipText}
-          active={props.isSettingsTabActive}
-        />
-        <Button
-          name="fullscreen"
-          icon={props.fullscreenIcon}
-          onClick={props.toggleFullscreen}
-          tooltip={props.fullscreenTooltipText}
-          disabled={!props.isFullscreenSupported}
-        />
+        <SubtitlesButton />
+        <PipButton />
+        <SettingsButton />
+        <FullscreenButton />
       </div>
     </>
   );
-}, mapProps);
+});
 
-function mapProps(info: IInfo): ControlsViewProps {
-  const createTooltipText = (text: string, shortcut?: string) => {
-    return `${info.data.getTranslation(text)} ${
-      shortcut ? `(${shortcut})` : ''
-    }`.trim();
-  };
-
-  return {
-    isCenterClickAllowed: info.data.isCenterClickAllowed,
-    isSettingsTabActive: info.data.settingsTab !== SettingsTabs.NONE,
-    showRebuffer: info.data.rebuffering,
-    playIcon: info.data.playRequested ? 'pause' : 'play',
-    playOrPause: info.actions.playOrPause,
-    playTooltipText: createTooltipText(
-      info.data.playRequested ? 'Pause' : 'Play',
-      'k',
-    ),
-    showSubtitlesToggle: !!info.data.subtitles.length,
-    isSubtitleActive: !!info.data.activeSubtitle,
-    toggleActiveSubtitle: info.actions.toggleActiveSubtitle,
-    subtitleToggleTooltipText: createTooltipText(
-      !!info.data.activeSubtitle ? 'Disable subtitles' : 'Enable subtitles',
-      'c',
-    ),
-    showPip: info.data.pipSupported && !info.data.pip,
-    togglePip: info.actions.togglePip,
-    pipTooltipText: createTooltipText('Miniplayer', 'i'),
-    toggleSettings: info.actions.toggleSettings,
-    settingsTooltipText: createTooltipText('Settings'),
-    fullscreenIcon: !info.data.isFullscreen ? 'fullscreen' : 'fullscreen-exit',
-    toggleFullscreen: info.actions.toggleFullscreen,
-    isFullscreenSupported: info.data.fullscreenSupported,
-    fullscreenTooltipText: createTooltipText(
-      info.data.isFullscreen ? 'Exit full screen' : 'Full screen',
-      'f',
-    ),
-  };
-}
+export default ControlsView;

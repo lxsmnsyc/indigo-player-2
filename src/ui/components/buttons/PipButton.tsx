@@ -25,44 +25,43 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Button from '../Button';
+import Data from '../../hooks/Data';
+import TogglePip from '../../hooks/actions/TogglePip';
+import { ICON_TAG, GUI_BUTTON_PIP } from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const PipButton = React.memo(() => {
+  const [
+    showPip,
+    pipTooltipText,
+  ] = Data.useSelectors((state) => {
+    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+      shortcut ? `(${shortcut})` : ''
+    }`.trim();
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+    return [
+      state.pipSupported && !state.pip,
+      createTooltipText('Miniplayer', 'i'),
+    ];
+  });
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+  const togglePip = TogglePip.useSelector((state) => state.togglePip);
 
-export default Sprite;
+  return (
+    <>
+      {
+        showPip && (
+          <Button
+            className={GUI_BUTTON_PIP}
+            icon={ICON_TAG.PIP}
+            onClick={togglePip}
+            tooltip={pipTooltipText}
+          />
+        )
+      }
+    </>
+  );
+});
+
+export default PipButton;

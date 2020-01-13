@@ -25,44 +25,51 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Button from '../Button';
+import ToggleActiveSubtitle from '../../hooks/actions/ToggleActiveSubtitle';
+import Data from '../../hooks/Data';
+import { GUI_BUTTON_SUBTITLE, ICON_TAG } from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const SubtitlesButton = React.memo(() => {
+  const [
+    showSubtitlesToggle,
+    isSubtitleActive,
+    subtitleToggleTooltipText,
+  ] = Data.useSelectors((state) => {
+    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+      shortcut ? `(${shortcut})` : ''
+    }`.trim();
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+    return [
+      !!state.subtitles.length,
+      !!state.activeSubtitle,
+      createTooltipText(
+        state.activeSubtitle ? 'Disable subtitles' : 'Enable subtitles',
+        'c',
+      ),
+    ];
+  });
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+  const toggleActiveSubtitle = ToggleActiveSubtitle.useSelector(
+    (state) => state.toggleActiveSubtitle,
+  );
 
-export default Sprite;
+  return (
+    <>
+      {
+        showSubtitlesToggle && (
+          <Button
+            className={GUI_BUTTON_SUBTITLE}
+            icon={ICON_TAG.CC}
+            onClick={toggleActiveSubtitle}
+            active={isSubtitleActive}
+            tooltip={subtitleToggleTooltipText}
+          />
+        )
+      }
+    </>
+  );
+});
+
+export default SubtitlesButton;

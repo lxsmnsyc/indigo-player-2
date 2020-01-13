@@ -25,44 +25,43 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Data from '../../hooks/Data';
+import Button from '../Button';
+import { ICON_TAG, GUI_BUTTON_FULLSCREEN } from '../../theme';
+import ToggleFullscreen from '../../hooks/actions/ToggleFullscreen';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const FullscreenButton = React.memo(() => {
+  const [
+    fullscreenIcon,
+    fullscreenTooltipText,
+    isFullscreenSupported,
+  ] = Data.useSelectors((state) => {
+    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+      shortcut ? `(${shortcut})` : ''
+    }`.trim();
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+    return [
+      state.isFullscreen ? ICON_TAG.FULLSCREEN : ICON_TAG.FULLSCREEN_EXIT,
+      createTooltipText(
+        state.isFullscreen ? 'Exit Fullscreen Mode' : 'Fullscreen Mode',
+        'f',
+      ),
+      state.fullscreenSupported,
+    ];
+  });
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+  const toggleFullscreen = ToggleFullscreen.useSelector((state) => state.toggleFullscreen);
 
-export default Sprite;
+  return (
+    <Button
+      className={GUI_BUTTON_FULLSCREEN}
+      icon={fullscreenIcon}
+      onClick={toggleFullscreen}
+      tooltip={fullscreenTooltipText}
+      disabled={!isFullscreenSupported}
+    />
+  );
+});
+
+export default FullscreenButton;

@@ -26,20 +26,16 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { StateContext } from '../State';
 import GImage from './GImage';
 import Icon from './Icon';
 import { ICON_TAG } from '../theme';
 import GUI_VIEW_START from '../theme/view-start';
+import PlayOrPause from '../hooks/actions/PlayOrPause';
+import Data from '../hooks/Data';
 
 const StartView = React.memo(() => {
-  const info = React.useContext(StateContext);
-
-  if (!info) {
-    return null;
-  }
-
-  const { data: { image }, actions: { playOrPause } } = info;
+  const image = Data.useSelector((state) => state.image);
+  const playOrPause = PlayOrPause.useSelector((state) => state.playOrPause);
 
   const toggle = React.useCallback(() => {
     playOrPause();

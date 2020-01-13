@@ -25,44 +25,33 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import * as React from 'react';
-import { css } from 'emotion';
+import React from 'react';
+import Data from '../../hooks/Data';
+import { seekbarTooltipRef } from '../../refs';
+import { GUI_SEEKBAR_TOOLTIP } from '../../theme';
 
-const EXPAND = css`
-  width: 100%;
-  height: 100%;
-`;
+const SeekbarTooltip = React.memo(() => {
+  const [
+    seekbarTooltipPercentage,
+    seekbarTooltipText,
+  ] = Data.useSelectors((state) => [
+    state.seekbarTooltipPercentage,
+    state.seekbarTooltipText,
+  ]);
 
-interface SpriteProps {
-  src: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  className?: string;
-}
+  const style = React.useMemo(() => ({
+    left: `${seekbarTooltipPercentage * 100}%`,
+  }), [seekbarTooltipPercentage]);
 
-const Sprite = React.memo(({
-  className, width, height, src, x, y,
-}: SpriteProps) => (
-  <div className={className}>
-    <svg
-      className={EXPAND}
-      viewBox={`0 0 ${width} ${height}`}
+  return (
+    <div
+      ref={seekbarTooltipRef}
+      className={GUI_SEEKBAR_TOOLTIP}
+      style={style}
     >
-      <defs>
-        <clipPath id="square">
-          <rect width={width} height={height} />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#square)">
-        <image
-          href={src}
-          transform={`translate(-${x} -${y})`}
-        />
-      </g>
-    </svg>
-  </div>
-));
+      {seekbarTooltipText}
+    </div>
+  );
+});
 
-export default Sprite;
+export default SeekbarTooltip;

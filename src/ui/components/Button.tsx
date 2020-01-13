@@ -35,7 +35,7 @@ import Icon from './Icon';
 
 interface ButtonProps {
   icon?: string;
-  name?: string;
+  className?: string;
   disabled?: boolean;
   active?: boolean;
   tooltip?: string;
@@ -45,7 +45,7 @@ interface ButtonProps {
 
 export default function Button(
   {
-    children, onClick, icon, tooltip, disabled, active,
+    children, onClick, icon, tooltip, disabled, active, className,
   }: ButtonProps,
 ): JSX.Element {
   const [hover, setHover] = useState(false);
@@ -78,6 +78,7 @@ export default function Button(
       onTouchCancel={onLeave}
       onClick={click}
       className={cx(GUI_BUTTON, {
+        [className ?? '']: !!className,
         [GUI_BUTTON_STATE_DISABLED]: disabled,
         [GUI_BUTTON_STATE_ACTIVE]: active,
       })}

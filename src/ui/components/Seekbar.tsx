@@ -1,111 +1,80 @@
-import { IThumbnail } from '@src/types';
-import { Sprite } from '@src/ui/components/Sprite';
+/**
+ * @license
+ * MIT License
+ *
+ * Copyright (c) 2020 Alexis Munsayac
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ *
+ * @author Alexis Munsayac <alexis.munsayac@gmail.com>
+ * @copyright Alexis Munsayac 2020
+ */
+import { cx } from 'emotion';
+import React from 'react';
+import useSlider from '../utils/useSlider';
+import SeekbarState from '../hooks/actions/SeekbarState';
+import { seekbarRef } from '../refs';
+import Data from '../hooks/Data';
 import {
-  seekbarRef,
-  seekbarThumbnailRef,
-  seekbarTooltipRef,
-} from '@src/ui/State';
-import { IInfo } from '@src/ui/types';
-import { useSlider } from '@src/ui/utils/useSlider';
-import { withState } from '@src/ui/withState';
-import cx from 'classnames';
-import React, { useEffect } from 'react';
+  GUI_SEEKBAR, GUI_SEEKBAR_STATE_ACTIVE, GUI_SEEKBAR_STATE_PLAYINGAD, GUI_SEEKBAR_BARS,
+} from '../theme';
+import SeekbarThumbnail from './seekbar/SeekbarThumbnail';
+import SeekbarTooltip from './seekbar/SeekbarTooltip';
+import SeekbarBuffered from './seekbar/SeekbarBuffered';
+import SeekbarProgress from './seekbar/SeekbarProgress';
+import SeekbarSeekAhead from './seekbar/SeekbarSeekAhead';
+import SeekbarCuePoints from './seekbar/SeekbarCuePoints';
+import SeekbarScrubber from './seekbar/SeekbarScrubber';
 
-interface SeekbarProps {
-  isActive: boolean;
-  adBreakData: any;
-  seekbarThumbnailPercentage: number;
-  activeThumbnail?: IThumbnail;
-  seekbarTooltipPercentage: number;
-  seekbarTooltipText: string;
-  progressPercentage: number;
-  bufferedPercentage: number;
-  seekbarPercentage: number;
-  showSeekAhead: boolean;
-  showCuepoints: boolean;
-  cuePoints: number[];
-  setSeekbarState(state: any);
-}
 
-export const Seekbar = withState((props: SeekbarProps) => {
-  useSlider(seekbarRef.current as HTMLElement, props.setSeekbarState);
+const Seekbar = React.memo(() => {
+  const setSeekbarState = SeekbarState.useSelector((state) => state.setSeekbarState);
+
+  useSlider(seekbarRef, setSeekbarState);
+
+  const [
+    isActive,
+    adBreakData,
+  ] = Data.useSelectors((state) => [
+    state.isSeekbarHover || state.isSeekbarSeeking,
+    state.adBreakData,
+  ]);
 
   return (
     <div
-      className={cx('igui_seekbar', {
-        'igui_seekbar_state-active': props.isActive,
-        'igui_seekbar_state-playingad': !!props.adBreakData,
+      className={cx(GUI_SEEKBAR, {
+        [GUI_SEEKBAR_STATE_ACTIVE]: isActive,
+        [GUI_SEEKBAR_STATE_PLAYINGAD]: !!adBreakData,
       })}
       ref={seekbarRef}
     >
-      <div
-        ref={seekbarThumbnailRef}
-        className='igui_seekbar_thumbnail'
-        style={{ left: `${props.seekbarThumbnailPercentage * 100}%` }}
-      >
-        {!!props.activeThumbnail && (
-          <Sprite
-            className='igui_seekbar_thumbnail_sprite'
-            {...props.activeThumbnail}
-          />
-        )}
-      </div>
-      <div
-        ref={seekbarTooltipRef}
-        className='igui_seekbar_tooltip'
-        style={{ left: `${props.seekbarTooltipPercentage * 100}%` }}
-      >
-        {props.seekbarTooltipText}
-      </div>
-      <div
-        className='igui_seekbar_scrubber'
-        style={{ left: `${props.progressPercentage * 100}%` }}
-      />
-      <div className='igui_seekbar_bars'>
-        <div
-          className='igui_seekbar_buffered'
-          style={{ transform: `scaleX(${props.bufferedPercentage})` }}
-        />
-        <div
-          className='igui_seekbar_progress'
-          style={{ transform: `scaleX(${props.progressPercentage})` }}
-        />
-        {props.showSeekAhead && (
-          <div
-            className='igui_seekbar_ahead'
-            style={{ transform: `scaleX(${props.seekbarPercentage})` }}
-          />
-        )}
-        {props.showCuepoints && (
-          <div className='igui_seekbar_cuepoints'>
-            {props.cuePoints.map(cuePoint => (
-              <div
-                key={cuePoint}
-                className='igui_seekbar_cuepoint'
-                style={{ left: `${cuePoint * 100}%` }}
-              />
-            ))}
-          </div>
-        )}
+      <SeekbarThumbnail />
+      <SeekbarTooltip />
+      <SeekbarScrubber />
+      <div className={GUI_SEEKBAR_BARS}>
+        <SeekbarBuffered />
+        <SeekbarProgress />
+        <SeekbarSeekAhead />
+        <SeekbarCuePoints />
       </div>
     </div>
   );
-}, mapProps);
+});
 
-function mapProps(info: IInfo): SeekbarProps {
-  return {
-    setSeekbarState: info.actions.setSeekbarState,
-    isActive: info.data.isSeekbarHover || info.data.isSeekbarSeeking,
-    adBreakData: info.data.adBreakData,
-    seekbarThumbnailPercentage: info.data.seekbarThumbnailPercentage,
-    seekbarTooltipPercentage: info.data.seekbarTooltipPercentage,
-    seekbarTooltipText: info.data.seekbarTooltipText,
-    progressPercentage: info.data.progressPercentage,
-    activeThumbnail: info.data.activeThumbnail,
-    bufferedPercentage: info.data.bufferedPercentage,
-    seekbarPercentage: info.data.seekbarPercentage,
-    showSeekAhead: info.data.isSeekbarHover && !info.data.isSeekbarSeeking,
-    showCuepoints: !info.data.adBreakData && !!info.data.cuePoints.length,
-    cuePoints: info.data.cuePoints,
-  };
-}
+export default Seekbar;
