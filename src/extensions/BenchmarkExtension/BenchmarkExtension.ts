@@ -25,6 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
+import { performance } from 'perf_hooks';
 import Module from '../../module';
 import { InstanceInterface, Events } from '../../types';
 
