@@ -341,7 +341,7 @@ export interface InstanceInterface extends EmitterInterface, Playable, Trackable
   setError: (error: PlayerErrorInterface) => void;
   canAutoplay: () => boolean;
 
-  getModule: (name: string) => ModuleInterface;
+  getModule: (name: string) => ModuleInterface | undefined;
   getStats: () => any;
 }
 

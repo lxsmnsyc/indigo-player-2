@@ -205,7 +205,7 @@ export default class Instance implements InstanceInterface {
     };
   }
 
-  public getModule(moduleName: string): ModuleInterface {
+  public getModule(moduleName: string): ModuleInterface | undefined {
     const modules = [
       ...this.extensions,
       this.controller,
@@ -213,13 +213,7 @@ export default class Instance implements InstanceInterface {
       this.player,
     ];
 
-    const module = modules.find((mod) => mod && moduleName === mod.name);
-
-    if (!module) {
-      throw new Error('Invalid module name');
-    }
-
-    return module;
+    return modules.find((mod) => mod && moduleName === mod.name);
   }
 
   private async init(config: Config): Promise<void> {
