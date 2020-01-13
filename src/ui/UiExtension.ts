@@ -42,10 +42,17 @@ export default class UiExtension extends Module {
   constructor(instance: InstanceInterface) {
     super(instance);
 
-    const container = this.instance.container.querySelector(GUI) as HTMLElement;
+    const container = this.instance.container.querySelector(`.${GUI}`);
 
-    this.instance.on(Events.STATE_CHANGE, (state) => {
-      render(container, state as unknown as StateInterface, this.instance, this.ref);
+    this.instance.on(Events.STATE_CHANGE, ({ state }: any): void => {
+      if (container) {
+        render(
+          container as HTMLElement,
+          state as unknown as StateInterface,
+          this.instance,
+          this.ref,
+        );
+      }
     });
   }
 
