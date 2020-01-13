@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import screenfull from 'screenfull';
+import screenfull, { Screenfull } from 'screenfull';
 import { InstanceInterface, Events } from '../../types';
 import Module from '../../module';
 
@@ -33,6 +33,8 @@ interface DocumentPos {
   x: number;
   y: number;
 }
+
+const sc = screenfull as Screenfull;
 
 export default class FullscreenExtension extends Module {
   public name = 'FullscreenExtension';
@@ -42,11 +44,11 @@ export default class FullscreenExtension extends Module {
   constructor(instance: InstanceInterface) {
     super(instance);
 
-    if (screenfull.isEnabled) {
+    if (sc.isEnabled) {
       this.emit(Events.FULLSCREEN_SUPPORTED, null);
 
-      screenfull.on('change', () => {
-        const fullscreen: boolean = (screenfull as screenfull.Screenfull).isFullscreen;
+      sc.on('change', () => {
+        const fullscreen = sc.isFullscreen;
 
         this.handleDocumentPos(fullscreen);
 
@@ -58,8 +60,8 @@ export default class FullscreenExtension extends Module {
   }
 
   public toggleFullscreen(): void {
-    if (screenfull.isEnabled) {
-      screenfull.toggle(this.instance.container);
+    if (sc.isEnabled) {
+      sc.toggle(this.instance.container);
     }
   }
 

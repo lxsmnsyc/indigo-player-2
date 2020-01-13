@@ -25,9 +25,11 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 
-const SUBTITLES = css`
+const SUBTITLES = 'igui__subtitles';
+
+injectGlobal`
   position: absolute;
   bottom: 0;
   left: 0;

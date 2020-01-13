@@ -79,6 +79,8 @@ export default class ContextMenuExtension extends Module {
     this.contextMenu.classList.add(CONTEXT_MENU_STYLE);
     this.contextMenu.style.opacity = '0';
     instance.container.appendChild(this.contextMenu);
+
+    this.addItem('Powered by <b>Lyon</b>', () => null);
   }
 
   public addItem(html: string, onClick: any): void {

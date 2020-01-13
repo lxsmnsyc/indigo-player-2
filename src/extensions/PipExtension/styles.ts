@@ -25,45 +25,52 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 
-export const PIP_CONTAINER = css`
-  position: fixed;
-  z-index: 91337;
-  bottom: 12px;
-  right: 12px;
-  width: 400px;
-  height: 400px / 16 * 9;
-  box-shadow: 0px 0px 28px rgba(0, 0, 0, .3);
-`;
+export const PIP_CONTAINER = 'igui__pip--container';
+export const PIP_HANDLER = 'igui__pip--handler';
+export const PIP_CLOSE = 'igui__pip--close';
+export const PIP_PLACEHOLDER = 'igui__pip--placeholder';
 
-export const PIP_HANDLER = css`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 25px;
-  z-index: 1;
-  cursor: grabbing;
-`;
+injectGlobal`
+  .${PIP_CONTAINER} {
+    position: fixed;
+    z-index: 91337;
+    bottom: 12px;
+    right: 12px;
+    width: 400px;
+    height: calc((400px / 16) * 9);
+    box-shadow: 0px 0px 28px rgba(0, 0, 0, .3);
+  }
 
-export const PIP_CLOSE = css`
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  right: 0;
-  top: 0px;
-  font-size: 28px;
-  cursor: pointer;
-  color: #fff;
-  text-shadow: 0px 0px rgba(0, 0, 0, .5);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+  .${PIP_HANDLER} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25px;
+    z-index: 1;
+    cursor: grabbing;
+  }
+ 
+  .${PIP_CLOSE} {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    right: 0;
+    top: 0px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+    text-shadow: 0px 0px rgba(0, 0, 0, .5);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-export const PIP_PLACEHOLDER = css`
-  padding-bottom: 56.25%;
-  background-color: #222222;
+  .${PIP_PLACEHOLDER} {
+    padding-bottom: 56.25%;
+    background-color: #222222;
+  }
 `;

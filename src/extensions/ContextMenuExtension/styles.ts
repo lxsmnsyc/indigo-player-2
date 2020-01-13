@@ -25,9 +25,11 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { css } from 'emotion';
+import { injectGlobal } from 'emotion';
 
-const CONTEXT_MENU_STYLE = css`
+const CONTEXT_MENU_STYLE = 'igui__contextmenu';
+
+injectGlobal`
   min-width: 150px;
   position: absolute;
   background: rgba(0, 0, 0, .5);

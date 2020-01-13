@@ -83,42 +83,43 @@ export interface StateInterface {
 export default class StateExtension extends Module {
   public name = 'StateExtension';
 
-  private state: StateInterface = {
-    ready: false,
-    videoSessionStarted: false,
-    waitingForUser: false,
-
-    playRequested: false,
-    playing: false,
-    paused: false,
-    buffering: false,
-    started: false,
-    ended: false,
-    contentStarted: false,
-    contentEnded: false,
-
-    adBreaks: [],
-
-    bufferedPercentage: 0,
-    volume: 1,
-
-    fullscreenSupported: false,
-    fullscreen: false,
-
-    pip: false,
-
-    tracks: [],
-    trackAutoSwitch: false,
-
-    playbackRate: 1,
-
-    audioLanguages: [],
-  };
+  private state: StateInterface;
 
   constructor(instance: InstanceInterface) {
     super(instance);
 
     // CONTENT STATE
+    this.state = {
+      ready: false,
+      videoSessionStarted: false,
+      waitingForUser: false,
+
+      playRequested: false,
+      playing: false,
+      paused: false,
+      buffering: false,
+      started: false,
+      ended: false,
+      contentStarted: false,
+      contentEnded: false,
+
+      adBreaks: [],
+
+      bufferedPercentage: 0,
+      volume: 1,
+
+      fullscreenSupported: false,
+      fullscreen: false,
+
+      pip: false,
+
+      tracks: [],
+      trackAutoSwitch: false,
+
+      playbackRate: 1,
+
+      audioLanguages: [],
+    };
 
     // ready
     this.on(
@@ -254,7 +255,7 @@ export default class StateExtension extends Module {
     this.on(
       Events.ADBREAKS,
       this.dispatch((draft, data) => {
-        draft.adBreaks = data.adBreaks;
+        draft.adBreaks = data.adBreaks ?? [];
       }),
     );
 
@@ -306,7 +307,7 @@ export default class StateExtension extends Module {
     this.on(
       Events.ADBREAK_ENDED,
       this.dispatch((draft, data) => {
-        if (data.adBreak.type === AdBreakType.POSTROLL) {
+        if (data.adBreak?.type === AdBreakType.POSTROLL) {
           draft.started = false;
           draft.playRequested = false;
           draft.playing = false;
@@ -318,7 +319,7 @@ export default class StateExtension extends Module {
     this.on(
       Events.PLAYER_STATE_BUFFEREDCHANGE,
       this.dispatch((draft, data) => {
-        draft.bufferedPercentage = data.percentage;
+        draft.bufferedPercentage = data.percentage ?? 0;
       }),
     );
 
@@ -330,7 +331,7 @@ export default class StateExtension extends Module {
     );
 
     const setVolume = this.dispatch((draft, data) => {
-      draft.volume = data.volume;
+      draft.volume = data.volume ?? 0;
     });
     this.on(Events.PLAYER_STATE_VOLUMECHANGE, setVolume);
 
@@ -340,18 +341,18 @@ export default class StateExtension extends Module {
     this.on(Events.FULLSCREEN_SUPPORTED, setFullscreenSupported);
 
     const setFullscreenChanged = this.dispatch((draft, data) => {
-      draft.fullscreen = data.fullscreen;
+      draft.fullscreen = !!data.fullscreen;
     });
     this.on(Events.FULLSCREEN_CHANGE, setFullscreenChanged);
 
     const setTracks = this.dispatch((draft, data) => {
-      draft.tracks = data.tracks;
+      draft.tracks = data.tracks ?? [];
     });
     this.on(Events.MEDIA_STATE_TRACKS, setTracks);
 
     const setTrack = this.dispatch((draft, data) => {
       draft.track = data.track;
-      draft.trackAutoSwitch = data.auto;
+      draft.trackAutoSwitch = !!data.auto;
     });
     this.on(Events.MEDIA_STATE_TRACKCHANGE, setTrack);
 
@@ -361,22 +362,22 @@ export default class StateExtension extends Module {
     this.on(Events.PLAYER_STATE_SUBTITLECHANGE, setSubtitle);
 
     const setSubtitleText = this.dispatch((draft, data) => {
-      draft.subtitleText = data.text;
+      draft.subtitleText = data.text ?? '';
     });
     this.on(Events.PLAYER_STATE_SUBTITLETEXTCHANGE, setSubtitleText);
 
     const setPlaybackRate = this.dispatch((draft, data) => {
-      draft.playbackRate = data.playbackRate;
+      draft.playbackRate = data.playbackRate ?? 0;
     });
     this.on(Events.PLAYER_STATE_RATECHANGE, setPlaybackRate);
 
     const setPip = this.dispatch((draft, data) => {
-      draft.pip = data.pip;
+      draft.pip = !!data.pip;
     });
     this.on(Events.PIP_CHANGE, setPip);
 
     const setAudioLanguages = this.dispatch((draft, data) => {
-      draft.audioLanguages = data.audioLanguages;
+      draft.audioLanguages = data.audioLanguages ?? [];
     });
     this.on(Events.MEDIA_STATE_AUDIOLANGUAGES, setAudioLanguages);
 

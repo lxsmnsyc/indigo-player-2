@@ -98,14 +98,7 @@ export default class KeyboardNavigationExtension extends Module {
 
       // Toggles mute.
       case KeyCodes.M:
-        if (this.getState().volume > 0) {
-          this.instance.setVolume(0);
-          this.emitPurpose(KeyboardNavigationPurpose.VOLUME_MUTED);
-        } else {
-          this.instance.setVolume(1);
-          this.emitPurpose(KeyboardNavigationPurpose.VOLUME_UNMUTED);
-        }
-        event.preventDefault();
+        this.onMute(event);
         break;
 
       // Toggles fullscreen.
@@ -131,10 +124,13 @@ export default class KeyboardNavigationExtension extends Module {
     this.hasFocus = this.instance.container.contains(event.target as Node);
   }
 
-  private getState(): StateInterface {
-    return (this.instance.getModule(
-      'StateExtension',
-    ) as StateExtension).getState();
+  private getState(): StateInterface | null {
+    const mod = this.instance.getModule('StateExtension');
+
+    if (mod) {
+      return (mod as StateExtension).getState();
+    }
+    return null;
   }
 
   private emitPurpose(purpose: KeyboardNavigationPurpose): void {
@@ -143,8 +139,22 @@ export default class KeyboardNavigationExtension extends Module {
     });
   }
 
+  private onMute(event: KeyboardEvent): void {
+    const state = this.getState();
+
+    if (state && state.volume > 0) {
+      this.instance.setVolume(0);
+      this.emitPurpose(KeyboardNavigationPurpose.VOLUME_MUTED);
+    } else {
+      this.instance.setVolume(1);
+      this.emitPurpose(KeyboardNavigationPurpose.VOLUME_UNMUTED);
+    }
+    event.preventDefault();
+  }
+
   private onPause(event: KeyboardEvent): void {
-    if (this.getState().playRequested) {
+    const state = this.getState();
+    if (state && state.playRequested) {
       this.instance.pause();
       this.emitPurpose(KeyboardNavigationPurpose.PAUSE);
     } else {
@@ -155,59 +165,75 @@ export default class KeyboardNavigationExtension extends Module {
   }
 
   private onJumpBack(event: KeyboardEvent): void {
-    const { currentTime } = this.getState();
+    const state = this.getState();
 
-    if (currentTime) {
-      let prevTime = currentTime - SKIP_CURRENTTIME_OFFSET;
-      if (prevTime < 0) {
-        prevTime = 0;
+    if (state) {
+      const { currentTime } = state;
+
+      if (currentTime) {
+        let prevTime = currentTime - SKIP_CURRENTTIME_OFFSET;
+        if (prevTime < 0) {
+          prevTime = 0;
+        }
+        this.instance.seekTo(prevTime);
+        this.emitPurpose(KeyboardNavigationPurpose.PREV_SEEK);
       }
-      this.instance.seekTo(prevTime);
-      this.emitPurpose(KeyboardNavigationPurpose.PREV_SEEK);
     }
     event.preventDefault();
   }
 
   private onJumpForward(event: KeyboardEvent): void {
-    const { currentTime, duration } = this.getState();
+    const state = this.getState();
 
-    if (currentTime && duration) {
-      let nextTime = currentTime + SKIP_CURRENTTIME_OFFSET;
-      if (nextTime > duration) {
-        nextTime = duration;
+    if (state) {
+      const { currentTime, duration } = state;
+
+      if (currentTime && duration) {
+        let nextTime = currentTime + SKIP_CURRENTTIME_OFFSET;
+        if (nextTime > duration) {
+          nextTime = duration;
+        }
+        this.instance.seekTo(nextTime);
+        this.emitPurpose(KeyboardNavigationPurpose.NEXT_SEEK);
       }
-      this.instance.seekTo(nextTime);
-      this.emitPurpose(KeyboardNavigationPurpose.NEXT_SEEK);
     }
     event.preventDefault();
   }
 
   private onVolumeUp(event: KeyboardEvent): void {
-    let nextVolume = this.getState().volume + SKIP_VOLUME_OFFSET;
-    if (nextVolume > 1) {
-      nextVolume = 1;
+    const state = this.getState();
+
+    if (state) {
+      let nextVolume = state.volume + SKIP_VOLUME_OFFSET;
+      if (nextVolume > 1) {
+        nextVolume = 1;
+      }
+      this.instance.setVolume(nextVolume);
+      this.emitPurpose(KeyboardNavigationPurpose.VOLUME_UP);
     }
-    this.instance.setVolume(nextVolume);
-    this.emitPurpose(KeyboardNavigationPurpose.VOLUME_UP);
     event.preventDefault();
   }
 
   private onVolumeDown(event: KeyboardEvent): void {
-    let prevVolume = this.getState().volume - SKIP_VOLUME_OFFSET;
-    if (prevVolume < 0) {
-      prevVolume = 0;
+    const state = this.getState();
+
+    if (state) {
+      let prevVolume = state.volume - SKIP_VOLUME_OFFSET;
+      if (prevVolume < 0) {
+        prevVolume = 0;
+      }
+      this.instance.setVolume(prevVolume);
+      this.emitPurpose(KeyboardNavigationPurpose.VOLUME_DOWN);
     }
-    this.instance.setVolume(prevVolume);
-    this.emitPurpose(KeyboardNavigationPurpose.VOLUME_DOWN);
     event.preventDefault();
   }
 
   private onFullscreen(event: KeyboardEvent): void {
     const fullscreenExtension = this.instance.getModule(
       'FullscreenExtension',
-    ) as FullscreenExtension;
+    );
     if (fullscreenExtension) {
-      fullscreenExtension.toggleFullscreen();
+      (fullscreenExtension as FullscreenExtension).toggleFullscreen();
       this.emitPurpose(KeyboardNavigationPurpose.TOGGLE_FULLSCREEN);
       event.preventDefault();
     }
