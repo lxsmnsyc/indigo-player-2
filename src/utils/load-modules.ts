@@ -58,6 +58,7 @@ import GoogleIMAExtensionLoader from '../extensions/GoogleIMAExtension/GoogleIMA
 import KeyboardNavigationExtensionLoader from '../extensions/KeyboardNavigationExtension/KeyboardNavigationExtensionLoader';
 import StateExtensionLoader from '../extensions/StateExtension/StateExtensionLoader';
 import ThumbnailsExtensionLoader from '../extensions/ThumbnailsExtension/ThumbnailsExtensionLoader';
+import UiExtensionLoader from '../ui/UiExtensionLoader';
 
 export default function loadModules(): void {
   addModuleLoader(BaseControllerLoader);
@@ -79,4 +80,6 @@ export default function loadModules(): void {
   addModuleLoader(KeyboardNavigationExtensionLoader);
   addModuleLoader(StateExtensionLoader);
   addModuleLoader(ThumbnailsExtensionLoader);
+
+  addModuleLoader(UiExtensionLoader);
 }

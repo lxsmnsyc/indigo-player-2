@@ -25,23 +25,18 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-export default function secondsToHMS(seconds: number): string {
-  const pad = (num: number): string => (10 ** 2 + Math.floor(num)).toString().substring(1);
+export default function uniqueBy<T, R>(array: T[], map: (value: T) => R): T[] {
+  const newArr: T[] = [];
+  const records: R[] = [];
 
-  const sec = Math.ceil(seconds);
+  array.forEach((item) => {
+    const newValue = map(item);
 
-  let display = '';
+    if (!records.includes(newValue)) {
+      newArr.push(item);
+      records.push(newValue);
+    }
+  });
 
-  const h = Math.trunc(sec / 3600) % 24;
-  if (h) {
-    display += `${pad(h)}:`;
-  }
-
-  const m = Math.trunc(sec / 60) % 60;
-  display += `${pad(m)}:`;
-
-  const s = Math.trunc(sec % 60);
-  display += `${pad(s)}`;
-
-  return display;
+  return newArr;
 }
