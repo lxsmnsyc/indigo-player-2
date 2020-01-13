@@ -1,5 +1,5 @@
 {
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "MIT",
   "main": "index.js",
   "typings": "dist/esm/src/index.d.ts",
@@ -53,7 +53,6 @@
   },
   "dependencies": {
     "@lxsmnsyc/react-scoped-model": "^0.9.1",
-    "can-autoplay": "^3.0.0",
     "deepmerge": "^4.2.2",
     "emotion": "^10.0.27",
     "hls.js": "^0.13.1",
