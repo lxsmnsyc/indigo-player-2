@@ -30,7 +30,7 @@ import Data from '../../hooks/Data';
 import Button from '../Button';
 import { SettingsTabs } from '../../types';
 import SettingsTab from '../../hooks/actions/SettingsTab';
-import { GUI_BUTTON_SETTINGS } from '../../theme';
+import { GUI_BUTTON_SETTINGS, ICON_TAG } from '../../theme';
 
 const SettingsButton = React.memo(() => {
   const [
@@ -52,7 +52,7 @@ const SettingsButton = React.memo(() => {
   return (
     <Button
       className={GUI_BUTTON_SETTINGS}
-      icon="settings"
+      icon={ICON_TAG.SETTINGS}
       onClick={toggleSettings}
       tooltip={settingsTooltipText}
       active={isSettingsTabActive}

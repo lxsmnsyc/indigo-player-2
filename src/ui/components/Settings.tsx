@@ -44,7 +44,7 @@ const SettingsTabRenderer = React.memo(() => {
     case SettingsTabs.PLAYBACKRATES: return <PlaybackRateTab />;
     case SettingsTabs.SUBTITLES: return <SubtitlesTab />;
     case SettingsTabs.TRACKS: return <TracksTab />;
-    case SettingsTabs.NONE:
+    case SettingsTabs.NONE: return null;
     default: return null;
   }
 });
@@ -54,11 +54,13 @@ const Settings = React.memo(() => {
   const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
   return (
     <div className={GUI_SETTINGS}>
-      {isMobile && (
-        <Button className={GUI_BUTTON_MOBILE_CLOSE} onClick={toggleSettings}>
-          &times;
-        </Button>
-      )}
+      <>
+        {isMobile && (
+          <Button className={GUI_BUTTON_MOBILE_CLOSE} onClick={toggleSettings}>
+            &times;
+          </Button>
+        )}
+      </>
       <SettingsTabRenderer />
     </div>
   );

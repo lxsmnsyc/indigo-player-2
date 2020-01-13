@@ -44,17 +44,18 @@ const SettingsTab = createModel<SettingsTabState>(() => {
   const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
 
   const toggleSettings = useConstantCallback(() => {
-    setSettingsTab((prev) => (
-      prev
-        ? SettingsTabs.NONE
-        : SettingsTabs.OPTIONS
-    ));
+    setSettingsTab((prev) => {
+      if (prev || prev !== SettingsTabs.NONE) {
+        return SettingsTabs.NONE;
+      }
+      return SettingsTabs.OPTIONS;
+    });
   });
 
   const closeSettings = React.useCallback((event: MouseEvent): void => {
+    const { target } = event;
     const isOver = (className: string): boolean => {
-      const { target } = event;
-      const container = instance.container.querySelector(className);
+      const container = instance.container.querySelector(`.${className}`);
       return (
         !!container && (container === target || container.contains(target as Node))
       );

@@ -40,7 +40,7 @@ interface ButtonProps {
   active?: boolean;
   tooltip?: string;
   children?: React.ReactNode;
-  onClick: () => void;
+  onClick: (e?: MouseEvent) => void;
 }
 
 export default function Button(
@@ -62,9 +62,9 @@ export default function Button(
     setIsTouch(true);
     setHover(true);
   });
-  const click = useCallback(() => {
+  const click = useCallback((e) => {
     setIsTouch(false);
-    onClick();
+    onClick(e);
   }, [onClick]);
 
   return (

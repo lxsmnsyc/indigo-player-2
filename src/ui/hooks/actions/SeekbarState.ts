@@ -57,9 +57,8 @@ const SeekbarState = createModel<SeekbarStateState>(() => {
 
   const setSeekbarState = React.useCallback((state, prevState) => {
     let at = null;
-    const thumbnailsExtension: any = mod;
-    if ((state.hover || state.seeking) && thumbnailsExtension) {
-      at = thumbnailsExtension.getThumbnail(
+    if ((state.hover || state.seeking) && mod) {
+      at = mod.getThumbnail(
         state.percentage * (player.duration ?? 0),
       );
     }
@@ -69,7 +68,7 @@ const SeekbarState = createModel<SeekbarStateState>(() => {
     setActiveThumbnail(at);
 
     if (!state.seeking && prevState.seeking) {
-      emitter.emit('show', 'false');
+      emitter.emit('show', null);
       instance.seekTo((player.duration ?? 0) * state.percentage);
     }
   }, [

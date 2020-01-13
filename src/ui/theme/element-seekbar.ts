@@ -33,18 +33,18 @@ const SEEKBAR_SCRUBBER_RADIUS = '13px';
 const SEEKBAR_SCRUBBER_HALF_RADIUS = '6.5px';
 
 export const GUI_SEEKBAR = 'igui__seekbar';
-export const GUI_SEEKBAR_BARS = 'igui__iseekbar--bars';
-export const GUI_SEEKBAR_SCRUBBER = 'igui__iseekbar--scrubber';
-export const GUI_SEEKBAR_TOOLTIP = 'igui__iseekbar--tooltip';
-export const GUI_SEEKBAR_THUMBNAIL_SPRITE = 'igui__iseekbar--thumbnail-sprite';
-export const GUI_SEEKBAR_THUMBNAIL = 'igui__iseekbar--thumbnail';
-export const GUI_SEEKBAR_STATE_ACTIVE = 'igui__iseekbar--state-active';
-export const GUI_SEEKBAR_PROGRESS = 'igui__iseekbar--progress';
-export const GUI_SEEKBAR_AHEAD = 'igui__iseekbar--ahead';
-export const GUI_SEEKBAR_BUFFERED = 'igui__iseekbar--buffered';
-export const GUI_SEEKBAR_STATE_PLAYINGAD = 'igui__iseekbar--state-playingad';
-export const GUI_SEEKBAR_CUEPOINTS = 'igui__iseekbar--cuepoints';
-export const GUI_SEEKBAR_CUEPOINT = 'igui__iseekbar--cuepoint';
+export const GUI_SEEKBAR_BARS = 'igui__seekbar--bars';
+export const GUI_SEEKBAR_SCRUBBER = 'igui__seekbar--scrubber';
+export const GUI_SEEKBAR_TOOLTIP = 'igui__seekbar--tooltip';
+export const GUI_SEEKBAR_THUMBNAIL_SPRITE = 'igui__seekbar--thumbnail-sprite';
+export const GUI_SEEKBAR_THUMBNAIL = 'igui__seekbar--thumbnail';
+export const GUI_SEEKBAR_STATE_ACTIVE = 'igui__seekbar--state-active';
+export const GUI_SEEKBAR_PROGRESS = 'igui__seekbar--progress';
+export const GUI_SEEKBAR_AHEAD = 'igui__seekbar--ahead';
+export const GUI_SEEKBAR_BUFFERED = 'igui__seekbar--buffered';
+export const GUI_SEEKBAR_STATE_PLAYINGAD = 'igui__seekbar--state-playingad';
+export const GUI_SEEKBAR_CUEPOINTS = 'igui__seekbar--cuepoints';
+export const GUI_SEEKBAR_CUEPOINT = 'igui__seekbar--cuepoint';
 
 injectGlobal`
   .${GUI_SEEKBAR} {

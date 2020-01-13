@@ -40,16 +40,16 @@ export enum FormatTypes {
 
 export enum KeyboardNavigationPurpose {
   PAUSE = 'pause',
-  PLAY = 'play',
-  PREV_SEEK = 'prev-seek',
-  NEXT_SEEK = 'next-seek',
-  VOLUME_UP = 'volume-up',
-  VOLUME_DOWN = 'volume-down',
-  VOLUME_MUTED = 'volume-muted',
-  VOLUME_UNMUTED = 'volume-unmuted',
-  TOGGLE_FULLSCREEN = 'toggle-fullscreen',
-  REQUEST_TOGGLE_SUBTITLES = 'toggle-subtitles',
-  REQUEST_TOGGLE_MINIPLAYER = 'toggle-miniplayer',
+  PLAY = 'play_arrow',
+  PREV_SEEK = 'fast_rewind',
+  NEXT_SEEK = 'fast_forward',
+  VOLUME_UP = 'volume_up',
+  VOLUME_DOWN = 'volume_down',
+  VOLUME_MUTED = 'volume_off',
+  VOLUME_UNMUTED = 'volume_up',
+  TOGGLE_FULLSCREEN = 'fullscreen',
+  REQUEST_TOGGLE_SUBTITLES = 'closed_caption',
+  REQUEST_TOGGLE_MINIPLAYER = 'featured_video',
 }
 
 export enum ModuleLoaderTypes {

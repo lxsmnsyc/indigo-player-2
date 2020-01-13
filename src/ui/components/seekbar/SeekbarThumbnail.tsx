@@ -29,7 +29,7 @@ import React from 'react';
 import Data from '../../hooks/Data';
 import { seekbarThumbnailRef } from '../../refs';
 import Sprite from '../Sprite';
-import { GUI_SEEKBAR_THUMBNAIL } from '../../theme';
+import { GUI_SEEKBAR_THUMBNAIL, GUI_SEEKBAR_THUMBNAIL_SPRITE } from '../../theme';
 
 const SeekbarThumbnail = React.memo(() => {
   const [
@@ -52,7 +52,7 @@ const SeekbarThumbnail = React.memo(() => {
     >
       {!!activeThumbnail && (
         <Sprite
-          className={GUI_SEEKBAR_THUMBNAIL}
+          className={GUI_SEEKBAR_THUMBNAIL_SPRITE}
           {...activeThumbnail}
         />
       )}

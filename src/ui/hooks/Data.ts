@@ -192,7 +192,7 @@ const Data = createModel<DataState>(() => {
       .map((adBreak) => (
         (player.duration == null)
           ? 0
-          : adBreak.startsAt / player.duration
+          : (adBreak.startsAt / player.duration)
       ));
   }
 
@@ -249,11 +249,9 @@ const Data = createModel<DataState>(() => {
     // The tooltip is placed in the center, we don't want it to go out of bounds.
     // Calculate and adjust the correct placement so
     // it'll stick on the sides (eg, moving mouse to 00:00).
-    const seekbarWidth = (seekbarRef.current as HTMLElement).getBoundingClientRect()
-      .width;
-    const thumbnailWidth = (seekbarThumbnailRef.current as HTMLElement).getBoundingClientRect()
-      .width;
-    const offset = thumbnailWidth / 2 / seekbarWidth;
+    const seekbarWidth = seekbarRef.current.getBoundingClientRect().width;
+    const thumbnailWidth = seekbarThumbnailRef.current.getBoundingClientRect().width;
+    const offset = (thumbnailWidth / 2) / seekbarWidth;
     if (seekbarThumbnailPercentage < offset) {
       seekbarThumbnailPercentage = offset;
     } else if (seekbarThumbnailPercentage > 1 - offset) {
@@ -292,11 +290,6 @@ const Data = createModel<DataState>(() => {
     visibleSettingsTabs.push(SettingsTabs.TRACKS);
   }
 
-  let pipSupported = false;
-  if (instance.config.ui.pip) {
-    pipSupported = true;
-  }
-
   const getTranslation = GetTranslation.useSelector((state) => state.getTranslation);
 
   return {
@@ -323,7 +316,7 @@ const Data = createModel<DataState>(() => {
     timeStatDuration,
     playbackRate: player.playbackRate,
     pip: player.pip,
-    pipSupported,
+    pipSupported: instance.config.ui.pip,
 
     // Progress bar
     progressPercentage,

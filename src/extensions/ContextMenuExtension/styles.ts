@@ -30,33 +30,35 @@ import { injectGlobal } from 'emotion';
 const CONTEXT_MENU_STYLE = 'igui__contextmenu';
 
 injectGlobal`
-  min-width: 150px;
-  position: absolute;
-  background: rgba(0, 0, 0, .5);
-  color: #ffffff;
-  border-radius: 2px;
-  padding: 4px 0;
-  z-index: 12;
+  .${CONTEXT_MENU_STYLE} {
+    min-width: 150px;
+    position: absolute;
+    background: rgba(0, 0, 0, .5);
+    color: #ffffff;
+    border-radius: 2px;
+    padding: 4px 0;
+    z-index: 12;
 
-  button {
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 6px 12px;
-    font: 12px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
-    cursor: pointer;
-    outline: inherit;
-    display: flex;
-    align-items: center;
-    white-space: pre-wrap;
+    button {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 6px 12px;
+      font: 12px -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+      cursor: pointer;
+      outline: inherit;
+      display: flex;
+      align-items: center;
+      white-space: pre-wrap;
 
-    &:hover {
-      background-color: rgba(255, 255, 255, .07);
-    }
+      &:hover {
+        background-color: rgba(255, 255, 255, .07);
+      }
 
-    img {
-      width: 12px;
-      margin-right: 3px;
+      img {
+        width: 12px;
+        margin-right: 3px;
+      }
     }
   }
 `;

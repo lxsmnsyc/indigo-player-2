@@ -1,3 +1,5 @@
+import { AccessibleObject } from '../../types';
+
 /**
  * @license
  * MIT License
@@ -40,23 +42,23 @@ export const GUI_ICON_VOLUME = 'igui__icon--volume';
 export const GUI_ICON_VOLUME_OFF = 'igui__icon--volume_off';
 export const GUI_ICON_PLAY_ROUNDED = 'igui__icon--play_rounded';
 
-export const ICON_TAG = {
-  PLAY: 'play_arrow',
-  PLAY_ROUNDED: 'play_circle_filled',
-  VOLUME: 'volume_up',
-  VOLUME_1: 'volume_down',
-  VOLUME_OFF: 'volume_off',
-  FULLSCREEN: 'fullscreen',
-  FULLSCREEN_EXIT: 'fullscreen_exit',
-  CC: 'closed_caption',
-  HD: 'hd',
-  PAUSE: 'pause',
-  PIP: 'featured_video',
-  SETTINGS: 'setting_applications',
-  BACK: 'keyboard_arrow_left',
-};
+export enum ICON_TAG {
+  PLAY = 'play_arrow',
+  PLAY_ROUNDED = 'play_circle_filled',
+  VOLUME = 'volume_up',
+  VOLUME_1 = 'volume_down',
+  VOLUME_OFF = 'volume_off',
+  FULLSCREEN = 'fullscreen',
+  FULLSCREEN_EXIT = 'fullscreen_exit',
+  CC = 'closed_caption',
+  HD = 'hd',
+  PAUSE = 'pause',
+  PIP = 'featured_video',
+  SETTINGS = 'settings',
+  BACK = 'keyboard_arrow_left',
+}
 
-export const ICON_TO_CLASS = {
+export const ICON_TO_CLASS: AccessibleObject = {
   [ICON_TAG.PLAY]: GUI_ICON_PLAY,
   [ICON_TAG.PLAY_ROUNDED]: GUI_ICON_PLAY_ROUNDED,
   [ICON_TAG.VOLUME]: GUI_ICON_VOLUME,

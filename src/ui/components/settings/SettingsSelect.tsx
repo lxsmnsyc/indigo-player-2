@@ -42,8 +42,9 @@ export const SettingsSelectItem = React.memo((
     item, onClick, selected, label, info,
   }: SettingsSelectItemProps,
 ) => {
-  const click = React.useCallback(() => {
+  const click = React.useCallback((e) => {
     onClick(item);
+    e.stopPropagation();
   }, [onClick, item]);
 
   return (
@@ -55,6 +56,8 @@ export const SettingsSelectItem = React.memo((
     >
       <>
         {label}
+      </>
+      <>
         {info && (
           <span className={GUI_SETTINGS_SELECT_OPTION_INFO}>
             {info}
