@@ -259,12 +259,11 @@ const Data = createModel<DataState>(() => {
     }
   }
 
-  const tracks = uniqueBy<TrackInterface, number>(
-    player.tracks.sort(
-      (a, b) => Number(b.height) - Number(a.height),
-    ),
-    (item) => item.height,
+  const sortedTracks = [...player.tracks].sort(
+    (a, b) => Number(b.height) - Number(a.height),
   );
+
+  const tracks = uniqueBy(sortedTracks, (item) => item.height);
 
   let activeTrack: Optional<TrackInterface>;
   if (player.track) {
