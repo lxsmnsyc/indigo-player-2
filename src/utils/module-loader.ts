@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /**
  * @license
  * MIT License
@@ -39,14 +41,13 @@ export async function createFirstSupported<T>(
 ): Promise<T | undefined> {
   const items = modules.filter((item) => item.type === type);
 
-  const loaded = await Promise.all(items.map(async (loader) => {
+  for (const loader of items) {
     if (await loader.isSupported(instance, isSupportedArgs)) {
-      return (((await loader.create(instance)) as unknown) as T);
+      return ((await loader.create(instance)) as unknown) as T;
     }
-    return undefined;
-  }));
+  }
 
-  return loaded.find((value) => value);
+  return undefined;
 }
 
 export async function createAllSupported<T>(
@@ -58,11 +59,11 @@ export async function createAllSupported<T>(
 
   const instances: T[] = [];
 
-  await Promise.all(items.map(async (loader) => {
+  for (const loader of items) {
     if (await loader.isSupported(instance, isSupportedArgs)) {
       instances.push(((await loader.create(instance)) as unknown) as T);
     }
-  }));
+  }
 
   return instances;
 }
