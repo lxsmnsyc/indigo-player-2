@@ -67,13 +67,13 @@ const PlaybackRateTab = React.memo(() => {
         <SettingsSelectItem
           item={0.25}
           selected={playbackRate}
-          label="x0.25x"
+          label="x0.25"
           onClick={select}
         />
         <SettingsSelectItem
           item={0.5}
           selected={playbackRate}
-          label="0.5x"
+          label="x0.5"
           onClick={select}
         />
         <SettingsSelectItem
@@ -85,13 +85,13 @@ const PlaybackRateTab = React.memo(() => {
         <SettingsSelectItem
           item={1.5}
           selected={playbackRate}
-          label="1.5x"
+          label="x1.5"
           onClick={select}
         />
         <SettingsSelectItem
           item={2}
           selected={playbackRate}
-          label="2x"
+          label="x2"
           onClick={select}
         />
       </SettingsSelect>
