@@ -17,9 +17,9 @@ const config = {
   //   src: './thumbnails.vtt',
   // },
   // BIF Files
-  thumbnails: {
-    src: './thumbnails.bif',
-  },
+  // thumbnails: {
+  //   src: './thumbnails.bif',
+  // },
   // freewheel: {
   //   clientSide: true,
   //   network: 96749,
@@ -60,9 +60,9 @@ const config = {
     //     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
     // },
     {
-      type: 'mp4',
+      type: 'hls',
       src:
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+        'https://dcunilive132-lh.akamaihd.net/i/dclive_1@352041/master.m3u8',
     },
     // {
     //   type: 'mp4',
@@ -107,27 +107,27 @@ const config = {
     // },
   ],
   subtitles: [
-    {
-      label: 'Demo',
-      srclang: 'demo',
-      src:
-        'https://raw.githubusercontent.com/andreyvit/subtitle-tools/master/sample.srt',
-    },
-    {
-      label: 'English',
-      srclang: 'en',
-      src: './bbb-en-subs.vtt',
-    },
-    {
-      label: 'French',
-      srclang: 'fr',
-      src: './bbb-fr-subs.vtt',
-    },
-    {
-      label: 'German',
-      srclang: 'de',
-      src: './bbb-de-subs.vtt',
-    },
+    // {
+    //   label: 'Demo',
+    //   srclang: 'demo',
+    //   src:
+    //     'https://raw.githubusercontent.com/andreyvit/subtitle-tools/master/sample.srt',
+    // },
+    // {
+    //   label: 'English',
+    //   srclang: 'en',
+    //   src: './bbb-en-subs.vtt',
+    // },
+    // {
+    //   label: 'French',
+    //   srclang: 'fr',
+    //   src: './bbb-fr-subs.vtt',
+    // },
+    // {
+    //   label: 'German',
+    //   srclang: 'de',
+    //   src: './bbb-de-subs.vtt',
+    // },
   ],
 };
 
