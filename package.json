@@ -1,5 +1,5 @@
 {
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "MIT",
   "main": "index.js",
   "typings": "dist/esm/src/index.d.ts",
@@ -51,13 +51,13 @@
   },
   "dependencies": {
     "@lxsmnsyc/react-scoped-model": "latest",
-    "react": "latest",
-    "react-dom": "latest",
     "deepmerge": "latest",
     "emotion": "latest",
     "hls.js": "latest",
     "immer": "latest",
     "jdataview": "latest",
+    "react": "latest",
+    "react-dom": "latest",
     "resize-observer": "latest",
     "screenfull": "latest",
     "shaka-player": "latest",
