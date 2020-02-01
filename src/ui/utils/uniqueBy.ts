@@ -27,16 +27,18 @@
  */
 export default function uniqueBy<T, R>(array: T[], map: (value: T) => R): T[] {
   const newArr: T[] = [];
-  const records: R[] = [];
+  if (array.length > 0) {
+    const records: R[] = [];
 
-  array.forEach((item) => {
-    const newValue = map(item);
+    array.forEach((item) => {
+      const newValue = map(item);
 
-    if (!records.includes(newValue)) {
-      newArr.push(item);
-      records.push(newValue);
-    }
-  });
+      if (!records.includes(newValue)) {
+        newArr.push(item);
+        records.push(newValue);
+      }
+    });
+  }
 
   return newArr;
 }
