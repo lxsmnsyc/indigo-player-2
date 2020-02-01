@@ -79,6 +79,7 @@ const TracksTab = React.memo(() => {
               selected={selectedTrack}
               label={`${track.width}`}
               onClick={select}
+              key={track.width}
             />
           ))
         }
