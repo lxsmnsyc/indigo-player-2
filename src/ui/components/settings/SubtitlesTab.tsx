@@ -79,6 +79,7 @@ const SubtitlesTab = React.memo(() => {
               selected={activeSubtitle}
               label={sub.label}
               onClick={select}
+              key={sub.label}
             />
           ))
         }
