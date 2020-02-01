@@ -62,9 +62,8 @@ export default class HlsMedia extends Media {
 
 
     player.on(HlsJs.Events.MANIFEST_PARSED, (_, data) => {
-      const { levels } = player;
-      const tracks = data.levels
-        .map((level, id) => formatTrack(levels[level], id))
+      const tracks = (data.levels as unknown as HlsJs.Level[])
+        .map(formatTrack)
         .sort((a, b) => b.bandwidth - a.bandwidth);
 
       this.emit(Events.MEDIA_STATE_TRACKS, {
