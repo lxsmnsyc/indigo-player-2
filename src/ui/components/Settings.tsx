@@ -50,8 +50,14 @@ const SettingsTabRenderer = React.memo(() => {
 });
 
 const Settings = React.memo(() => {
-  const isMobile = Data.useSelector((state) => state.isMobile);
+  const [settingsTab, isMobile] = Data.useSelectors((state) => [
+    state.settingsTab,
+    state.isMobile,
+  ]);
   const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
+  if (!settingsTab) {
+    return null;
+  }
   return (
     <div className={GUI_SETTINGS}>
       <>
