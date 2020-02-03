@@ -48,18 +48,21 @@ const VisibleControls = createModel<VisibleControlsState>(() => {
   const showControls = useConstantCallback((): void => {
     if (activeTimer.current) {
       clearTimeout(activeTimer.current);
+      activeTimer.current = null;
     }
 
     setVisibleControls(true);
 
     activeTimer.current = window.setTimeout(() => {
       setVisibleControls(false);
+      activeTimer.current = null;
     }, 2000);
   });
 
   const hideControls = useConstantCallback((): void => {
     if (activeTimer.current) {
       clearTimeout(activeTimer.current);
+      activeTimer.current = null;
     }
 
     setVisibleControls(false);
@@ -74,6 +77,7 @@ const VisibleControls = createModel<VisibleControlsState>(() => {
   useOnUnmount(() => {
     if (activeTimer.current) {
       clearTimeout(activeTimer.current);
+      activeTimer.current = null;
     }
   });
 
