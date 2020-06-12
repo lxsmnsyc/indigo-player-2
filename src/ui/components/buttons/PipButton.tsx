@@ -48,20 +48,18 @@ const PipButton = React.memo(() => {
 
   const togglePip = TogglePip.useSelector((state) => state.togglePip);
 
-  return (
-    <>
-      {
-        showPip && (
-          <Button
-            className={GUI_BUTTON_PIP}
-            icon={ICON_TAG.PIP}
-            onClick={togglePip}
-            tooltip={pipTooltipText}
-          />
-        )
-      }
-    </>
-  );
+  if (showPip) {
+    return (
+      <Button
+        className={GUI_BUTTON_PIP}
+        icon={ICON_TAG.PIP}
+        onClick={togglePip}
+        tooltip={pipTooltipText}
+      />
+    );
+  }
+
+  return null;
 });
 
 export default PipButton;

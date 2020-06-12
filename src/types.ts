@@ -247,6 +247,7 @@ export interface Config {
     pip: boolean;
     image?: string;
     ignoreStylesheet?: boolean;
+    liveOnly?: boolean;
   };
 
   sources: Format[];

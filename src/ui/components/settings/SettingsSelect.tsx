@@ -54,16 +54,12 @@ export const SettingsSelectItem = React.memo((
       onClick={click}
       active={item === selected}
     >
-      <>
-        {label}
-      </>
-      <>
-        {info && (
-          <span className={GUI_SETTINGS_SELECT_OPTION_INFO}>
-            {info}
-          </span>
-        )}
-      </>
+      {label}
+      {info && (
+        <span className={GUI_SETTINGS_SELECT_OPTION_INFO}>
+          {info}
+        </span>
+      )}
     </Button>
   );
 });

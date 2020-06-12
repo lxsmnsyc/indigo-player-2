@@ -51,10 +51,16 @@ const Seekbar = React.memo(() => {
   const [
     isActive,
     adBreakData,
+    liveOnly,
   ] = Data.useSelectors((state) => [
     state.isSeekbarHover || state.isSeekbarSeeking,
     state.adBreakData,
+    state.liveOnly,
   ]);
+
+  if (liveOnly) {
+    return null;
+  }
 
   return (
     <div

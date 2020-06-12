@@ -42,18 +42,16 @@ const SeekbarSeekAhead = React.memo(() => {
     transform: `scaleX(${seekbarPercentage})`,
   }), [seekbarPercentage]);
 
-  return (
-    <>
-      {
-        showSeekAhead && (
-          <div
-            className={GUI_SEEKBAR_AHEAD}
-            style={style}
-          />
-        )
-      }
-    </>
-  );
+  if (showSeekAhead) {
+    return (
+      <div
+        className={GUI_SEEKBAR_AHEAD}
+        style={style}
+      />
+    );
+  }
+
+  return null;
 });
 
 export default SeekbarSeekAhead;

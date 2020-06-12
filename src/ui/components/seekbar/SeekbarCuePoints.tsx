@@ -55,21 +55,19 @@ const SeekbarCuePoints = React.memo(() => {
     state.cuePoints,
   ]);
 
-  return (
-    <>
-      {
-        showCuePoints && (
-          <div className={GUI_SEEKBAR_CUEPOINTS}>
-            {
-              cuePoints.map((cue) => (
-                <SeekbarCuePoint value={cue} />
-              ))
-            }
-          </div>
-        )
-      }
-    </>
-  );
+  if (showCuePoints) {
+    return (
+      <div className={GUI_SEEKBAR_CUEPOINTS}>
+        {
+          cuePoints.map((cue) => (
+            <SeekbarCuePoint value={cue} />
+          ))
+        }
+      </div>
+    );
+  }
+
+  return null;
 });
 
 export default SeekbarCuePoints;

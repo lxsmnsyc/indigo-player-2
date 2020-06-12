@@ -55,21 +55,19 @@ const SubtitlesButton = React.memo(() => {
     (state) => state.toggleActiveSubtitle,
   );
 
-  return (
-    <>
-      {
-        showSubtitlesToggle && (
-          <Button
-            className={GUI_BUTTON_SUBTITLE}
-            icon={ICON_TAG.CC}
-            onClick={toggleActiveSubtitle}
-            active={isSubtitleActive}
-            tooltip={subtitleToggleTooltipText}
-          />
-        )
-      }
-    </>
-  );
+  if (showSubtitlesToggle) {
+    return (
+      <Button
+        className={GUI_BUTTON_SUBTITLE}
+        icon={ICON_TAG.CC}
+        onClick={toggleActiveSubtitle}
+        active={isSubtitleActive}
+        tooltip={subtitleToggleTooltipText}
+      />
+    );
+  }
+
+  return null;
 });
 
 export default SubtitlesButton;

@@ -30,10 +30,19 @@ import { GUI_TIMESTAT, GUI_TIMESTAT_POSITION, GUI_TIMESTAT_DURATION } from '../t
 import Data from '../hooks/Data';
 
 const TimeStat = React.memo(() => {
-  const [timeStatPosition, timeStatDuration] = Data.useSelectors((state) => [
+  const [timeStatPosition, timeStatDuration, liveOnly] = Data.useSelectors((state) => [
     state.timeStatPosition,
     state.timeStatDuration,
+    state.liveOnly,
   ]);
+
+  if (liveOnly) {
+    return (
+      <div className={GUI_TIMESTAT}>
+        Live
+      </div>
+    );
+  }
 
   return (
     <div className={GUI_TIMESTAT}>

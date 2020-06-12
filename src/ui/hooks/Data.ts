@@ -83,6 +83,7 @@ export interface DataState {
   image: Optional<string>;
   nodIcon: string;
   getTranslation: (text: string) => string;
+  liveOnly?: boolean;
 }
 
 const Data = createModel<DataState>(() => {
@@ -344,6 +345,7 @@ const Data = createModel<DataState>(() => {
     activeThumbnail,
 
     getTranslation,
+    liveOnly: instance.config.ui.liveOnly,
   };
 });
 

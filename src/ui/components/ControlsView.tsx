@@ -54,12 +54,8 @@ const ControlsView = React.memo(() => {
     <>
       <Nod />
       <Settings />
-      <>
-        {isCenterClickAllowed && <Center />}
-      </>
-      <>
-        {rebuffering && <Rebuffer />}
-      </>
+      {isCenterClickAllowed && <Center />}
+      {rebuffering && <Rebuffer />}
       <div className={GUI_CONTAINER_CONTROLS}>
         <PlayButton />
         <VolumeButton />

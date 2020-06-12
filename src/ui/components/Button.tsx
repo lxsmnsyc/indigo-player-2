@@ -83,17 +83,11 @@ export default function Button(
         [GUI_BUTTON_STATE_ACTIVE]: active,
       })}
     >
-      <>
-        { children }
-      </>
-      <>
-        {icon && <Icon value={icon} />}
-      </>
-      <>
-        {hover && tooltip && (
-          <span className={GUI_BUTTON_TOOLTIP}>{ tooltip }</span>
-        )}
-      </>
+      { children }
+      {icon && <Icon value={icon} />}
+      {hover && tooltip && (
+        <span className={GUI_BUTTON_TOOLTIP}>{ tooltip }</span>
+      )}
     </button>
   );
 }

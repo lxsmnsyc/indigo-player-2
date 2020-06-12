@@ -56,7 +56,6 @@ injectGlobal`
     & .${GUI_ICON_PLAY} {
       animation: 250ms ease-out 0s 1 ${PLAY_APPEAR};
       font-size: 48px;
-      z-index: 1;
     }
   }
 `;

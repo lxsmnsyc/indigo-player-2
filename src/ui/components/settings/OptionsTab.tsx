@@ -50,45 +50,45 @@ const OptionsTab = React.memo(() => {
 
   const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
 
+  if (visibleSettingsTabs.length > 0) {
+    return (
+      <SettingsSelect>
+        {
+          visibleSettingsTabs.includes(SettingsTabs.TRACKS) && (
+          <SettingsSelectItem
+            item={SettingsTabs.TRACKS}
+            label={getTranslation('Quality')}
+            info={`${activeTrack ? activeTrack.width : ''}`}
+            onClick={setSettingsTab}
+          />
+          )
+        }
+        {
+          visibleSettingsTabs.includes(SettingsTabs.SUBTITLES) && (
+          <SettingsSelectItem
+            item={SettingsTabs.SUBTITLES}
+            label={getTranslation('Subtitles')}
+            info={activeSubtitle ? activeSubtitle.label : ''}
+            onClick={setSettingsTab}
+          />
+          )
+        }
+        {
+          visibleSettingsTabs.includes(SettingsTabs.PLAYBACKRATES) && (
+          <SettingsSelectItem
+            item={SettingsTabs.PLAYBACKRATES}
+            label={getTranslation('Speed')}
+            info={`${playbackRate}`}
+            onClick={setSettingsTab}
+          />
+          )
+        }
+      </SettingsSelect>
+    );
+  }
+
   return (
-    <>
-      {visibleSettingsTabs.length > 0 ? (
-        <SettingsSelect>
-          {
-            visibleSettingsTabs.includes(SettingsTabs.TRACKS) && (
-            <SettingsSelectItem
-              item={SettingsTabs.TRACKS}
-              label={getTranslation('Quality')}
-              info={`${activeTrack ? activeTrack.width : ''}`}
-              onClick={setSettingsTab}
-            />
-            )
-          }
-          {
-            visibleSettingsTabs.includes(SettingsTabs.SUBTITLES) && (
-            <SettingsSelectItem
-              item={SettingsTabs.SUBTITLES}
-              label={getTranslation('Subtitles')}
-              info={activeSubtitle ? activeSubtitle.label : ''}
-              onClick={setSettingsTab}
-            />
-            )
-          }
-          {
-            visibleSettingsTabs.includes(SettingsTabs.PLAYBACKRATES) && (
-            <SettingsSelectItem
-              item={SettingsTabs.PLAYBACKRATES}
-              label={getTranslation('Speed')}
-              info={`${playbackRate}`}
-              onClick={setSettingsTab}
-            />
-            )
-          }
-        </SettingsSelect>
-      ) : (
-        <div className={GUI_SETTINGS_NOOP}>No settings available</div>
-      )}
-    </>
+    <div className={GUI_SETTINGS_NOOP}>No settings available</div>
   );
 });
 
