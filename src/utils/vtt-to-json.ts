@@ -1,4 +1,3 @@
-
 // removes everything but characters and apostrophe and dash
 function cleanWord(word: string): string {
   return word.replace(/[^0-9a-z'-]/gi, '').toLowerCase();
@@ -25,7 +24,6 @@ function timeString2ms(a: string): number {
 
   return parsedRight + timeSpan[0] * 1e3;
 }
-
 
 export interface Dialog {
   word: string;
@@ -75,7 +73,6 @@ export default async function vttToJson(vttString: string): Promise<Section[]> {
         }
       }
     });
-
 
     const regex = /(<([0-9:.>]+)>)/gi;
     sections.forEach((section) => {

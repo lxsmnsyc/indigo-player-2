@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
-import StateProps, { StateStoreProps } from './hooks/StateProps';
+import StateProps, { StateStoreState } from './hooks/StateProps';
 import Lifecycle from './hooks/Lifecycle';
 import States from './hooks/States';
 import TriggerNod from './hooks/actions/TriggerNod';
@@ -57,6 +57,10 @@ export function Compose({ elements, children }: ComposeProps): JSX.Element {
       { elements.reduceRight((acc, el) => React.cloneElement(el, {}, acc), children) }
     </>
   );
+}
+
+interface StateStoreProps extends StateStoreState {
+  children: React.ReactNode;
 }
 
 export default function StateStore({

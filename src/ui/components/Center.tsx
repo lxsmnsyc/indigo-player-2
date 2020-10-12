@@ -28,21 +28,27 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelector } from 'react-scoped-model';
 import { GUI_CENTER, GUI_CENTER_PREVIEW } from '../theme';
 import Sprite from './Sprite';
 import Data from '../hooks/Data';
 import ToggleFullscreen from '../hooks/actions/ToggleFullscreen';
 import PlayOrPause from '../hooks/actions/PlayOrPause';
 
-const Center = React.memo(() => {
-  const seekingThumbnail = Data.useSelector((state) => (
-    state.isSeekbarSeeking
-      ? state.activeThumbnail
-      : null
-  ));
+const useData = createSelector(Data, (state) => (
+  state.isSeekbarSeeking
+    ? state.activeThumbnail
+    : null
+));
 
-  const toggleFullscreen = ToggleFullscreen.useSelector((state) => state.toggleFullscreen);
-  const pop = PlayOrPause.useSelector((state) => state.playOrPause);
+const useToggleFullscreen = createSelector(ToggleFullscreen, (state) => state.toggleFullscreen);
+const usePlayOrPause = createSelector(PlayOrPause, (state) => state.playOrPause);
+
+const Center = React.memo(() => {
+  const seekingThumbnail = useData();
+
+  const toggleFullscreen = useToggleFullscreen();
+  const pop = usePlayOrPause();
 
   const playOrPause = React.useCallback(() => {
     pop('center');

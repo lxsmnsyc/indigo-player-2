@@ -83,7 +83,7 @@ export default class ContextMenuExtension extends Module {
     this.addItem('Powered by <b>Lyon</b>', () => null);
   }
 
-  public addItem(html: string, onClick: any): void {
+  public addItem(html: string, onClick: (ev: MouseEvent) => void): void {
     const item = document.createElement('button');
     item.innerHTML = html;
     item.addEventListener('click', onClick);

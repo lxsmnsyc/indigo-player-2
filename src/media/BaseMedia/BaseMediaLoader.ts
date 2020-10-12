@@ -30,7 +30,6 @@ import {
 } from '../../types';
 import BaseMedia from './BaseMedia';
 
-
 const BaseMediaLoader: ModuleLoaderInterface<BaseMedia> = {
   type: ModuleLoaderTypes.MEDIA,
 

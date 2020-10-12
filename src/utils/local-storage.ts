@@ -33,7 +33,7 @@ export interface StorageInterface {
 }
 
 export const STORAGE: StorageInterface = {
-  get(key: string, defaultValue?: any): void {
+  get(key: string, defaultValue?: any): string {
     return localStorage.getItem(`${prefix}${key}`) ?? defaultValue;
   },
 

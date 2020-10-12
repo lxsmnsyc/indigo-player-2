@@ -26,15 +26,19 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import { GUI_TIMESTAT, GUI_TIMESTAT_POSITION, GUI_TIMESTAT_DURATION } from '../theme';
 import Data from '../hooks/Data';
+import tuple from '../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.timeStatPosition,
+  state.timeStatDuration,
+  state.liveOnly,
+));
 
 const TimeStat = React.memo(() => {
-  const [timeStatPosition, timeStatDuration, liveOnly] = Data.useSelectors((state) => [
-    state.timeStatPosition,
-    state.timeStatDuration,
-    state.liveOnly,
-  ]);
+  const [timeStatPosition, timeStatDuration, liveOnly] = useData();
 
   if (liveOnly) {
     return (

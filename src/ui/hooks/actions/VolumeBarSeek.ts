@@ -25,23 +25,27 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector, createSelectors } from 'react-scoped-model';
 import React from 'react';
 import { SliderCallback } from '../../utils/useSlider';
 import StateProps from '../StateProps';
 import States from '../States';
+import tuple from '../../utils/tuple';
 
 export interface VolumeBarState {
   setVolumeBarState: SliderCallback;
 }
 
-const VolumeBarSeek = createModel(() => {
-  const [instance, emitter] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.emitter,
-  ]);
+const useStateProps = createSelectors(StateProps, (state) => tuple(
+  state.instance,
+  state.emitter,
+));
 
-  const setIsVolumeBarSeeking = States.useSelector((state) => state.setIsVolumebarSeeking);
+const useStates = createSelector(States, (state) => state.setIsVolumebarSeeking);
+
+const VolumeBarSeek = createModel(() => {
+  const [instance, emitter] = useStateProps();
+  const setIsVolumeBarSeeking = useStates();
 
   const setVolumeBarState = React.useCallback((state, prevState) => {
     setIsVolumeBarSeeking(state.seeking);

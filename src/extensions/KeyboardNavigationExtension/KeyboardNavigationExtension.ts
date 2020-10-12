@@ -30,7 +30,6 @@ import { InstanceInterface, KeyboardNavigationPurpose, Events } from '../../type
 import FullscreenExtension from '../FullscreenExtension/FullscreenExtension';
 import StateExtension, { StateInterface } from '../StateExtension/StateExtension';
 
-
 enum KeyCodes {
   SPACEBAR = 32,
   K = 75,

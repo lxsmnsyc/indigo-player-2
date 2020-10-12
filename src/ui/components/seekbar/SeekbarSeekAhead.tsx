@@ -26,17 +26,21 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { GUI_SEEKBAR_AHEAD } from '../../theme';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.isSeekbarHover && !state.isSeekbarSeeking,
+  state.seekbarPercentage,
+));
 
 const SeekbarSeekAhead = React.memo(() => {
   const [
     showSeekAhead,
     seekbarPercentage,
-  ] = Data.useSelectors((state) => [
-    state.isSeekbarHover && !state.isSeekbarSeeking,
-    state.seekbarPercentage,
-  ]);
+  ] = useData();
 
   const style = React.useMemo(() => ({
     transform: `scaleX(${seekbarPercentage})`,

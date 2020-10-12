@@ -60,7 +60,6 @@ export default class HlsMedia extends Media {
       }
     }
 
-
     player.on(HlsJs.Events.MANIFEST_PARSED, (_, data) => {
       const tracks = (data.levels as unknown as HlsJs.Level[])
         .map(formatTrack)

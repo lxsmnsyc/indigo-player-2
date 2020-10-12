@@ -26,8 +26,10 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { GUI_SEEKBAR_CUEPOINT, GUI_SEEKBAR_CUEPOINTS } from '../../theme';
+import tuple from '../../utils/tuple';
 
 interface SeekbarCuePointProps {
   value: number;
@@ -46,14 +48,16 @@ const SeekbarCuePoint = React.memo(({ value }: SeekbarCuePointProps) => {
   );
 });
 
+const useData = createSelectors(Data, (state) => tuple(
+  state.adBreakData && !!state.cuePoints.length,
+  state.cuePoints,
+));
+
 const SeekbarCuePoints = React.memo(() => {
   const [
     showCuePoints,
     cuePoints,
-  ] = Data.useSelectors((state) => [
-    state.adBreakData && !!state.cuePoints.length,
-    state.cuePoints,
-  ]);
+  ] = useData();
 
   if (showCuePoints) {
     return (

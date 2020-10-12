@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../hooks/Data';
 import { SettingsTabs } from '../types';
 import OptionsTab from './settings/OptionsTab';
@@ -35,9 +36,12 @@ import Button from './Button';
 import PlaybackRateTab from './settings/PlaybackRates';
 import SubtitlesTab from './settings/SubtitlesTab';
 import TracksTab from './settings/TracksTab';
+import tuple from '../utils/tuple';
+
+const useData = createSelector(Data, (state) => state.settingsTab);
 
 const SettingsTabRenderer = React.memo(() => {
-  const settingsTab = Data.useSelector((state) => state.settingsTab);
+  const settingsTab = useData();
 
   switch (settingsTab) {
     case SettingsTabs.OPTIONS: return <OptionsTab />;
@@ -49,12 +53,16 @@ const SettingsTabRenderer = React.memo(() => {
   }
 });
 
+const useData1 = createSelectors(Data, (state) => tuple(
+  state.settingsTab,
+  state.isMobile,
+));
+
+const useSettingsTab = createSelector(SettingsTab, (state) => state.toggleSettings);
+
 const Settings = React.memo(() => {
-  const [settingsTab, isMobile] = Data.useSelectors((state) => [
-    state.settingsTab,
-    state.isMobile,
-  ]);
-  const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
+  const [settingsTab, isMobile] = useData1();
+  const toggleSettings = useSettingsTab();
   if (!settingsTab) {
     return null;
   }

@@ -26,6 +26,8 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelector } from 'react-scoped-model';
+
 import GImage from './GImage';
 import Icon from './Icon';
 import { ICON_TAG } from '../theme';
@@ -33,9 +35,12 @@ import GUI_VIEW_START from '../theme/view-start';
 import PlayOrPause from '../hooks/actions/PlayOrPause';
 import Data from '../hooks/Data';
 
+const useData = createSelector(Data, (state) => state.image);
+const usePlayOrPause = createSelector(PlayOrPause, (state) => state.playOrPause);
+
 const StartView = React.memo(() => {
-  const image = Data.useSelector((state) => state.image);
-  const playOrPause = PlayOrPause.useSelector((state) => state.playOrPause);
+  const image = useData();
+  const playOrPause = usePlayOrPause();
 
   const toggle = React.useCallback(() => {
     playOrPause();

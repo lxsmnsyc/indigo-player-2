@@ -26,32 +26,38 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import Button from '../Button';
 import { ICON_TAG, GUI_BUTTON_FULLSCREEN } from '../../theme';
 import ToggleFullscreen from '../../hooks/actions/ToggleFullscreen';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => {
+  const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+    shortcut ? `(${shortcut})` : ''
+  }`.trim();
+
+  return tuple(
+    state.isFullscreen ? ICON_TAG.FULLSCREEN_EXIT : ICON_TAG.FULLSCREEN,
+    createTooltipText(
+      state.isFullscreen ? 'Exit Fullscreen Mode' : 'Fullscreen Mode',
+      'f',
+    ),
+    state.fullscreenSupported,
+  );
+});
+
+const useToggleFullscreen = createSelector(ToggleFullscreen, (state) => state.toggleFullscreen);
 
 const FullscreenButton = React.memo(() => {
   const [
     fullscreenIcon,
     fullscreenTooltipText,
     isFullscreenSupported,
-  ] = Data.useSelectors((state) => {
-    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
-      shortcut ? `(${shortcut})` : ''
-    }`.trim();
+  ] = useData();
 
-    return [
-      state.isFullscreen ? ICON_TAG.FULLSCREEN_EXIT : ICON_TAG.FULLSCREEN,
-      createTooltipText(
-        state.isFullscreen ? 'Exit Fullscreen Mode' : 'Fullscreen Mode',
-        'f',
-      ),
-      state.fullscreenSupported,
-    ];
-  });
-
-  const toggleFullscreen = ToggleFullscreen.useSelector((state) => state.toggleFullscreen);
+  const toggleFullscreen = useToggleFullscreen();
 
   return (
     <Button

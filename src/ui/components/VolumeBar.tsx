@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector } from 'react-scoped-model';
 import Data from '../hooks/Data';
 import {
   GUI_VOLUMEBAR_SCRUBBER, GUI_VOLUMEBAR_PROGRESS, GUI_VOLUMEBAR, GUI_VOLUMEBAR_CONTAINER,
@@ -33,13 +34,16 @@ import {
 import useSlider from '../utils/useSlider';
 import VolumeBarSeek from '../hooks/actions/VolumeBarSeek';
 
+const useVolumeBarSeek = createSelector(VolumeBarSeek, (state) => state.setVolumeBarState);
+const useData = createSelector(Data, (state) => state.volumeBarPercentage);
+
 const VolumeBar = React.memo(() => {
   const ref = React.useRef<HTMLDivElement | null>(null);
 
-  const setVolumebarState = VolumeBarSeek.useSelector((state) => state.setVolumeBarState);
+  const setVolumebarState = useVolumeBarSeek();
   useSlider(ref, setVolumebarState);
 
-  const volumeBarPercentage = Data.useSelector((state) => state.volumeBarPercentage);
+  const volumeBarPercentage = useData();
 
   const progress = React.useMemo(() => ({
     transform: `scaleX(${volumeBarPercentage})`,

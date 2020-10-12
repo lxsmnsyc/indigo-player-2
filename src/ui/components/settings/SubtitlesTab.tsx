@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { SettingsTabs } from '../../types';
 import SettingsHeader from './SettingsHeader';
@@ -33,22 +34,29 @@ import { SettingsSelect, SettingsSelectItem } from './SettingsSelect';
 import States from '../../hooks/States';
 import SettingsTab from '../../hooks/actions/SettingsTab';
 import SelectSubtitle from '../../hooks/actions/SelectSubtitle';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.getTranslation,
+  state.subtitles,
+  state.activeSubtitle,
+));
+
+const useStates = createSelector(States, (state) => state.setSettingsTab);
+const useSelectSubtitle = createSelector(SelectSubtitle, (state) => state.selectSubtitle);
+const useSettingsTab = createSelector(SettingsTab, (state) => state.toggleSettings);
 
 const SubtitlesTab = React.memo(() => {
   const [
     getTranslation,
     subtitles,
     activeSubtitle,
-  ] = Data.useSelectors((state) => [
-    state.getTranslation,
-    state.subtitles,
-    state.activeSubtitle,
-  ]);
+  ] = useData();
 
-  const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
+  const setSettingsTab = useStates();
 
-  const selectSubtitle = SelectSubtitle.useSelector((state) => state.selectSubtitle);
-  const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
+  const selectSubtitle = useSelectSubtitle();
+  const toggleSettings = useSettingsTab();
 
   const select = React.useCallback((sub) => {
     selectSubtitle(sub);

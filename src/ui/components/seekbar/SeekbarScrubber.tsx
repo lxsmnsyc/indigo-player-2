@@ -26,15 +26,14 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { GUI_SEEKBAR_SCRUBBER } from '../../theme';
 
+const useData = createSelector(Data, (state) => state.progressPercentage);
+
 const SeekbarScrubber = React.memo(() => {
-  const [
-    progressPercentage,
-  ] = Data.useSelectors((state) => [
-    state.progressPercentage,
-  ]);
+  const progressPercentage = useData();
 
   const style = React.useMemo(() => ({
     left: `${progressPercentage * 100}%`,

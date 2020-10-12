@@ -26,28 +26,34 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import Button from '../Button';
 import { SettingsTabs } from '../../types';
 import SettingsTab from '../../hooks/actions/SettingsTab';
 import { GUI_BUTTON_SETTINGS, ICON_TAG } from '../../theme';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => {
+  const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+    shortcut ? `(${shortcut})` : ''
+  }`.trim();
+
+  return tuple(
+    createTooltipText('Settings'),
+    state.settingsTab !== SettingsTabs.NONE,
+  );
+});
+
+const useSettingsTab = createSelector(SettingsTab, (state) => state.toggleSettings);
 
 const SettingsButton = React.memo(() => {
   const [
     settingsTooltipText,
     isSettingsTabActive,
-  ] = Data.useSelectors((state) => {
-    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
-      shortcut ? `(${shortcut})` : ''
-    }`.trim();
+  ] = useData();
 
-    return [
-      createTooltipText('Settings'),
-      state.settingsTab !== SettingsTabs.NONE,
-    ];
-  });
-
-  const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
+  const toggleSettings = useSettingsTab();
 
   return (
     <Button

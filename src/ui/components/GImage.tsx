@@ -35,7 +35,7 @@ interface GImageProps {
 
 const GImage = React.memo(({ source }: GImageProps) => {
   const style = React.useMemo(() => ({
-    backgroundImage: `url(${source})`,
+    backgroundImage: source ? `url(${source})` : undefined,
   }), [source]);
 
   if (source) {

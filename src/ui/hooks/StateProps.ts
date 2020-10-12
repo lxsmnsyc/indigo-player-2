@@ -25,21 +25,16 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import { createPropsSelectorModel } from 'react-scoped-model';
 import { InstanceInterface } from '../../types';
 import { StateInterface } from '../../extensions/StateExtension/StateExtension';
 import EventEmitter from '../../utils/event-emitter';
-
 
 export interface StateStoreState {
   instance: InstanceInterface;
   player: StateInterface;
   emitter: EventEmitter;
 }
-export interface StateStoreProps extends StateStoreState {
-  children?: React.ReactNode;
-}
-
-const StateProps = createModel<StateStoreState, StateStoreProps>((p) => p);
+const StateProps = createPropsSelectorModel<StateStoreState>();
 
 export default StateProps;

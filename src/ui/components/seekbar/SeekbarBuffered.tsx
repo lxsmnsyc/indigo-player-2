@@ -26,15 +26,14 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { GUI_SEEKBAR_BUFFERED } from '../../theme';
 
+const useData = createSelector(Data, (state) => state.bufferedPercentage);
+
 const SeekbarBuffered = React.memo(() => {
-  const [
-    bufferedPercentage,
-  ] = Data.useSelectors((state) => [
-    state.bufferedPercentage,
-  ]);
+  const bufferedPercentage = useData();
 
   const style = React.useMemo(() => ({
     transform: `scaleX(${bufferedPercentage})`,

@@ -25,37 +25,12 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel from 'react-scoped-model';
 import React from 'react';
 import { Optional, SettingsTabs } from '../types';
 import { Subtitle, Thumbnail, KeyboardNavigationPurpose } from '../../types';
 
-type Dispatcher<T> = React.Dispatch<React.SetStateAction<T>>;
-
-interface States {
-  visibleControls: boolean;
-  isSeekbarHover: boolean;
-  isSeekbarSeeking: boolean;
-  seekbarPercentage: number;
-  isVolumeControlsOpen: boolean;
-  isVolumebarSeeking: boolean;
-  settingsTab: Optional<SettingsTabs>;
-  lastActiveSubtitle: Optional<Subtitle>;
-  activeThumbnail: Optional<Thumbnail>;
-  nodPurpose: Optional<KeyboardNavigationPurpose>;
-  setVisibleControls: Dispatcher<boolean>;
-  setIsSeekbarHover: Dispatcher<boolean>;
-  setIsSeekbarSeeking: Dispatcher<boolean>;
-  setSeekbarPercentage: Dispatcher<number>;
-  setIsVolumeControlsOpen: Dispatcher<boolean>;
-  setIsVolumebarSeeking: Dispatcher<boolean>;
-  setSettingsTab: Dispatcher<Optional<SettingsTabs>>;
-  setLastActiveSubtitle: Dispatcher<Optional<Subtitle>>;
-  setActiveThumbnail: Dispatcher<Optional<Thumbnail>>;
-  setNodPurpose: Dispatcher<Optional<KeyboardNavigationPurpose>>;
-}
-
-const States = createModel<States>(() => {
+const States = createModel(() => {
   const [visibleControls, setVisibleControls] = React.useState(false);
 
   const [isSeekbarHover, setIsSeekbarHover] = React.useState(false);

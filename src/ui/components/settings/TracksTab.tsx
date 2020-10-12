@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { SettingsTabs } from '../../types';
 import SettingsHeader from './SettingsHeader';
@@ -33,22 +34,29 @@ import { SettingsSelect, SettingsSelectItem } from './SettingsSelect';
 import States from '../../hooks/States';
 import SelectTrack from '../../hooks/actions/SelectTrack';
 import SettingsTab from '../../hooks/actions/SettingsTab';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.getTranslation,
+  state.tracks,
+  state.selectedTrack,
+));
+
+const useStates = createSelector(States, (state) => state.setSettingsTab);
+const useSelectTrack = createSelector(SelectTrack, (state) => state.selectTrack);
+const useSettingsTab = createSelector(SettingsTab, (state) => state.toggleSettings);
 
 const TracksTab = React.memo(() => {
   const [
     getTranslation,
     tracks,
     selectedTrack,
-  ] = Data.useSelectors((state) => [
-    state.getTranslation,
-    state.tracks,
-    state.selectedTrack,
-  ]);
+  ] = useData();
 
-  const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
+  const setSettingsTab = useStates();
 
-  const selectTrack = SelectTrack.useSelector((state) => state.selectTrack);
-  const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
+  const selectTrack = useSelectTrack();
+  const toggleSettings = useSettingsTab();
 
   const select = React.useCallback((track) => {
     selectTrack(track);

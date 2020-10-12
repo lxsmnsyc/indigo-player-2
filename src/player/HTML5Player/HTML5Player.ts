@@ -126,7 +126,9 @@ export default class HTML5Player extends Player {
   public play(): void {
     this.emit(Events.PLAYER_STATE_PLAY, null);
     if (this.mediaElement) {
-      this.mediaElement.play();
+      this.mediaElement.play().catch(() => {
+        //
+      });
     }
   }
 
@@ -141,7 +143,6 @@ export default class HTML5Player extends Player {
     this.emit(Events.PLAYER_STATE_TIMEUPDATE, {
       currentTime: time,
     });
-
 
     if (this.mediaElement) {
       this.mediaElement.currentTime = time;

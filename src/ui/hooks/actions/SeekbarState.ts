@@ -25,34 +25,40 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelectors } from 'react-scoped-model';
 import React from 'react';
 import { SliderCallback } from '../../utils/useSlider';
 import StateProps from '../StateProps';
 import States from '../States';
+import tuple from '../../utils/tuple';
 
 export interface SeekbarStateState {
   setSeekbarState: SliderCallback;
 }
 
+const useStateProps = createSelectors(StateProps, (state) => tuple(
+  state.instance,
+  state.player,
+  state.emitter,
+));
+
+const useStates = createSelectors(States, (state) => tuple(
+  state.setIsSeekbarHover,
+  state.setIsSeekbarSeeking,
+  state.setSeekbarPercentage,
+  state.setActiveThumbnail,
+));
+
 const SeekbarState = createModel<SeekbarStateState>(() => {
-  const [instance, player, emitter] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-    state.emitter,
-  ]);
+  const [instance, player, emitter] = useStateProps();
 
   const [
     setIsSeekbarHover,
     setIsSeekbarSeeking,
     setSeekbarPercentage,
     setActiveThumbnail,
-  ] = States.useSelectors((state) => [
-    state.setIsSeekbarHover,
-    state.setIsSeekbarSeeking,
-    state.setSeekbarPercentage,
-    state.setActiveThumbnail,
-  ]);
+  ] = useStates();
+
   const mod = React.useMemo(() => instance.getModule('ThumbnailsExtension'), [instance]);
 
   const setSeekbarState = React.useCallback((state, prevState) => {

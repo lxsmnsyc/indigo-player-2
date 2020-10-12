@@ -44,5 +44,4 @@ injectGlobal`
   }
 `;
 
-
 export default GUI_IMAGE;

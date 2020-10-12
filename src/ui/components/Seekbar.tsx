@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import { cx } from 'emotion';
+import { createSelector } from 'react-scoped-model';
 import React from 'react';
 import useSlider from '../utils/useSlider';
 import SeekbarState from '../hooks/actions/SeekbarState';
@@ -41,10 +42,18 @@ import SeekbarProgress from './seekbar/SeekbarProgress';
 import SeekbarSeekAhead from './seekbar/SeekbarSeekAhead';
 import SeekbarCuePoints from './seekbar/SeekbarCuePoints';
 import SeekbarScrubber from './seekbar/SeekbarScrubber';
+import tuple from '../utils/tuple';
 
+const useSeekbarState = createSelector(SeekbarState, (state) => state.setSeekbarState);
+
+const useData = createSelector(Data, (state) => tuple(
+  state.isSeekbarHover || state.isSeekbarSeeking,
+  state.adBreakData,
+  state.liveOnly,
+));
 
 const Seekbar = React.memo(() => {
-  const setSeekbarState = SeekbarState.useSelector((state) => state.setSeekbarState);
+  const setSeekbarState = useSeekbarState();
 
   useSlider(seekbarRef, setSeekbarState);
 
@@ -52,11 +61,7 @@ const Seekbar = React.memo(() => {
     isActive,
     adBreakData,
     liveOnly,
-  ] = Data.useSelectors((state) => [
-    state.isSeekbarHover || state.isSeekbarSeeking,
-    state.adBreakData,
-    state.liveOnly,
-  ]);
+  ] = useData();
 
   if (liveOnly) {
     return null;

@@ -182,7 +182,7 @@ export default class GoogleIMAExtension extends Module {
       autoAlign: false,
     });
 
-    this.adBreaks = this.adsManager.getCuePoints().map((cuepoint: any, index: any) => {
+    this.adBreaks = this.adsManager.getCuePoints().map((cuepoint: number, index: any) => {
       let type = AdBreakType.MIDROLL;
       if (cuepoint === 0) {
         type = AdBreakType.PREROLL;

@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector } from 'react-scoped-model';
 import { useCallback, useMemo } from 'react';
 import FullscreenExtension from '../../../extensions/FullscreenExtension/FullscreenExtension';
 import StateProps from '../StateProps';
@@ -34,14 +34,18 @@ export interface ToggleFullscreenState {
   toggleFullscreen: () => void;
 }
 
-const ToggleFullscreen = createModel<ToggleFullscreenState>(() => {
-  const instance = StateProps.useSelector((state) => state.instance);
+const useStateProps = createSelector(StateProps, (state) => state.instance);
 
-  const mod = useMemo(() => instance.getModule('FullscreenExtension'), [instance]);
+const ToggleFullscreen = createModel<ToggleFullscreenState>(() => {
+  const instance = useStateProps();
+
+  const mod = useMemo(() => (
+    instance.getModule('FullscreenExtension') as FullscreenExtension
+  ), [instance]);
 
   const toggleFullscreen = useCallback(() => {
     if (mod) {
-      (mod as FullscreenExtension).toggleFullscreen();
+      mod.toggleFullscreen();
     }
   }, [mod]);
 

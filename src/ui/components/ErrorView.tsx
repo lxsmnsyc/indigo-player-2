@@ -26,18 +26,21 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelector } from 'react-scoped-model';
 import { GUI_VIEW_ERROR, GUI_VIEW_ERROR_TITLE } from '../theme';
 import Data from '../hooks/Data';
 
+const useData = createSelector(Data, (state) => state.error);
+
 const ErrorView = React.memo(() => {
-  const error = Data.useSelector((state) => state.error);
+  const error = useData();
 
   if (!error) {
     return null;
   }
 
   const title = 'Uh oh!';
-  const message = `Something went wrong (${error.code})`;
+  const message = `Something went wrong ${error.code ? `(${error.code})` : ''}`;
   return (
     <div className={GUI_VIEW_ERROR}>
       <div>

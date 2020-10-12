@@ -113,7 +113,9 @@ export default class FreeWheelExtension extends Module {
     if (this.currentAdBreak) {
       this.emit(Events.ADBREAK_STATE_PLAY, null);
       if (this.mediaElement) {
-        this.mediaElement.play();
+        this.mediaElement.play().catch(() => {
+          // fall through
+        });
       }
       return;
     }
@@ -237,7 +239,7 @@ export default class FreeWheelExtension extends Module {
             freewheel.duration,
           );
         } else {
-          const time = cuepoint as number;
+          const time = cuepoint;
           this.adContext.addTemporalSlot(
             `midroll-${time}`,
             this.sdk.ADUNIT_MIDROLL,

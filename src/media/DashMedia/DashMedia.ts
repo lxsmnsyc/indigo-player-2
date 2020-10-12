@@ -82,7 +82,7 @@ export default class DashMedia extends Media {
 
     const onAdaptationEvent = (): void => {
       const track = formatTrack(
-        player.getVariantTracks().find((tr: any) => tr.active),
+        player.getVariantTracks().find((tr: { active: boolean }) => tr.active),
       );
 
       this.track = track;

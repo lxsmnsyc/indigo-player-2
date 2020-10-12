@@ -26,18 +26,22 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { seekbarTooltipRef } from '../../refs';
 import { GUI_SEEKBAR_TOOLTIP } from '../../theme';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.seekbarTooltipPercentage,
+  state.seekbarTooltipText,
+));
 
 const SeekbarTooltip = React.memo(() => {
   const [
     seekbarTooltipPercentage,
     seekbarTooltipText,
-  ] = Data.useSelectors((state) => [
-    state.seekbarTooltipPercentage,
-    state.seekbarTooltipText,
-  ]);
+  ] = useData();
 
   const style = React.useMemo(() => ({
     left: `${seekbarTooltipPercentage * 100}%`,

@@ -30,7 +30,6 @@ import {
 } from '../../types';
 import KeyboardNavigationExtension from './KeyboardNavigationExtension';
 
-
 const KeyboardNavigationExtensionLoader: ModuleLoaderInterface<KeyboardNavigationExtension> = {
   type: ModuleLoaderTypes.EXTENSION,
 

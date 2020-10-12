@@ -32,7 +32,7 @@ import { insertAfter, applyStyle } from '../../utils/dom';
 import SUBTITLES from './styles';
 
 interface TrackTimingCache {
-  [key: string]: subtitle.subTitleType[];
+  [key: string]: subtitle.Node[];
 }
 
 export default class SubtitlesExtension extends Module {
@@ -40,9 +40,9 @@ export default class SubtitlesExtension extends Module {
 
   private timingsCache: TrackTimingCache = {};
 
-  private timings?: subtitle.subTitleType[];
+  private timings?: subtitle.Node[];
 
-  private activeTiming?: subtitle.subTitleType;
+  private activeTiming?: subtitle.Node;
 
   private currentTimeMs = 0;
 
@@ -117,11 +117,18 @@ export default class SubtitlesExtension extends Module {
   }
 
   private selectActiveTiming(): void {
-    let activeTiming: subtitle.subTitleType | undefined;
+    let activeTiming: subtitle.Node | undefined;
 
     if (this.timings) {
       const timing = this.timings.find(
-        (track) => this.currentTimeMs >= track.start && this.currentTimeMs < track.end,
+        (track) => {
+          if (track.type === 'cue') {
+            return (
+              this.currentTimeMs >= track.data.start && this.currentTimeMs < track.data.end
+            );
+          }
+          return false;
+        },
       );
 
       if (timing) {
@@ -132,7 +139,15 @@ export default class SubtitlesExtension extends Module {
     if (activeTiming !== this.activeTiming) {
       this.activeTiming = activeTiming;
 
-      const text = this.activeTiming ? this.activeTiming.text : null;
+      let text = null;
+
+      if (activeTiming) {
+        if (activeTiming.type === 'cue') {
+          text = activeTiming.data.text;
+        } else {
+          text = activeTiming.data;
+        }
+      }
 
       this.text.innerHTML = text ?? '';
       this.text.style.display = text ? 'inline-block' : 'none';
@@ -143,16 +158,16 @@ export default class SubtitlesExtension extends Module {
     }
   }
 
-  private setActiveTimings(timings?: subtitle.subTitleType[]): void {
+  private setActiveTimings(timings?: subtitle.Node[]): void {
     this.timings = timings;
     this.selectActiveTiming();
   }
 
-  private async parseSubtitleFile(url: string): Promise<subtitle.subTitleType[]> {
+  private async parseSubtitleFile(url: string): Promise<subtitle.Node[]> {
     if (!this.timingsCache[url]) {
       try {
         const content = await fetch(url).then((response) => response.text());
-        this.timingsCache[url] = subtitle.parse(content);
+        this.timingsCache[url] = subtitle.parseSync(content);
       } catch (error) {
         this.timingsCache[url] = [];
       }

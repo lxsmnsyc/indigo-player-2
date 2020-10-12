@@ -26,19 +26,23 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { seekbarThumbnailRef } from '../../refs';
 import Sprite from '../Sprite';
 import { GUI_SEEKBAR_THUMBNAIL, GUI_SEEKBAR_THUMBNAIL_SPRITE } from '../../theme';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.seekbarThumbnailPercentage,
+  state.activeThumbnail,
+));
 
 const SeekbarThumbnail = React.memo(() => {
   const [
     seekbarThumbnailPercentage,
     activeThumbnail,
-  ] = Data.useSelectors((state) => [
-    state.seekbarThumbnailPercentage,
-    state.activeThumbnail,
-  ]);
+  ] = useData();
 
   const style = React.useMemo(() => ({
     left: `${seekbarThumbnailPercentage * 100}%`,

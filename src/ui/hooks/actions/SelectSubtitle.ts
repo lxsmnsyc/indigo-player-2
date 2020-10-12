@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector } from 'react-scoped-model';
 import { useCallback, useMemo } from 'react';
 import { Optional } from '../../types';
 import { Subtitle } from '../../../types';
@@ -33,15 +33,16 @@ import StateProps from '../StateProps';
 import States from '../States';
 import SubtitlesExtension from '../../../extensions/SubtitlesExtension/SubtitlesExtension';
 
-
 interface SelectSubtitle {
   selectSubtitle: (subtitle: Optional<Subtitle>) => void;
 }
 
-const SelectSubtitle = createModel<SelectSubtitle>(() => {
-  const instance = StateProps.useSelector((state) => state.instance);
+const useStateProps = createSelector(StateProps, (state) => state.instance);
+const useStates = createSelector(States, (state) => state.setLastActiveSubtitle);
 
-  const setLastActiveSubtitle = States.useSelector((state) => state.setLastActiveSubtitle);
+const SelectSubtitle = createModel<SelectSubtitle>(() => {
+  const instance = useStateProps();
+  const setLastActiveSubtitle = useStates();
 
   const mod = useMemo(() => instance.getModule('SubtitlesExtension'), [instance]);
 
@@ -52,7 +53,9 @@ const SelectSubtitle = createModel<SelectSubtitle>(() => {
     if (mod) {
       (mod as SubtitlesExtension).setSubtitle(
         subtitle ? subtitle.srclang : null,
-      );
+      ).catch(() => {
+        //
+      });
     }
   }, [mod, setLastActiveSubtitle]);
 

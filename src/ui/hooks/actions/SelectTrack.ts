@@ -25,18 +25,19 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector } from 'react-scoped-model';
 import React from 'react';
 import { TrackInterface } from '../../../types';
 import StateProps from '../StateProps';
-
 
 interface SelectTrackState {
   selectTrack: (track: TrackInterface) => void;
 }
 
+const useStateProps = createSelector(StateProps, (state) => state.instance);
+
 const SelectTrack = createModel<SelectTrackState>(() => {
-  const instance = StateProps.useSelector((state) => state.instance);
+  const instance = useStateProps();
 
   const selectTrack = React.useCallback((track) => {
     instance.selectTrack(track);

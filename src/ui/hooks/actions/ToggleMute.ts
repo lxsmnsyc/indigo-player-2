@@ -25,19 +25,22 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelectors } from 'react-scoped-model';
 import React from 'react';
 import StateProps from '../StateProps';
+import tuple from '../../utils/tuple';
 
 export interface ToggleMuteState {
   toggleMute: () => void;
 }
 
+const useStateProps = createSelectors(StateProps, (state) => tuple(
+  state.instance,
+  state.player,
+));
+
 const ToggleMute = createModel<ToggleMuteState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+  const [instance, player] = useStateProps();
 
   const toggleMute = React.useCallback(() => {
     if (player.volume) {

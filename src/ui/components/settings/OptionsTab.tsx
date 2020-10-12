@@ -26,12 +26,23 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { SettingsSelect, SettingsSelectItem } from './SettingsSelect';
 import States from '../../hooks/States';
 import { SettingsTabs } from '../../types';
 import { GUI_SETTINGS_NOOP } from '../../theme';
+import tuple from '../../utils/tuple';
 
+const useData = createSelectors(Data, (state) => tuple(
+  state.visibleSettingsTabs,
+  state.getTranslation,
+  state.activeTrack,
+  state.activeSubtitle,
+  state.playbackRate,
+));
+
+const useStates = createSelector(States, (state) => state.setSettingsTab);
 
 const OptionsTab = React.memo(() => {
   const [
@@ -40,15 +51,9 @@ const OptionsTab = React.memo(() => {
     activeTrack,
     activeSubtitle,
     playbackRate,
-  ] = Data.useSelectors((state) => [
-    state.visibleSettingsTabs,
-    state.getTranslation,
-    state.activeTrack,
-    state.activeSubtitle,
-    state.playbackRate,
-  ]);
+  ] = useData();
 
-  const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
+  const setSettingsTab = useStates();
 
   if (visibleSettingsTabs.length > 0) {
     return (

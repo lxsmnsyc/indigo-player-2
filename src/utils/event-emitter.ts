@@ -75,6 +75,8 @@ export default class EventEmitter implements EmitterInterface {
       Promise.resolve().then(() => {
         this.queued = false;
         new Set(eventList).forEach((callback) => callback<T>(data));
+      }, () => {
+        //
       });
     }
   }

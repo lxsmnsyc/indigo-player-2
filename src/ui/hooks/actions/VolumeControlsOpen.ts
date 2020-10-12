@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector } from 'react-scoped-model';
 import React from 'react';
 import StateProps from '../StateProps';
 import States from '../States';
@@ -34,10 +34,12 @@ export interface VolumeControlsOpenState {
   setVolumeControlsOpen: (open: boolean) => void;
 }
 
-const VolumeControlsOpen = createModel<VolumeControlsOpenState>(() => {
-  const instance = StateProps.useSelector((state) => state.instance);
+const useStateProps = createSelector(StateProps, (state) => state.instance);
+const useStates = createSelector(States, (state) => state.setIsVolumeControlsOpen);
 
-  const setIsVolumeControlsOpen = States.useSelector((state) => state.setIsVolumeControlsOpen);
+const VolumeControlsOpen = createModel<VolumeControlsOpenState>(() => {
+  const instance = useStateProps();
+  const setIsVolumeControlsOpen = useStates();
 
   const setVolumeControlsOpen = React.useCallback((open) => {
     if (!instance.env?.isMobile) {

@@ -26,30 +26,36 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { ICON_TAG, GUI_BUTTON_PLAY } from '../../theme';
 import PlayOrPause from '../../hooks/actions/PlayOrPause';
 import Button from '../Button';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => {
+  const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+    shortcut ? `(${shortcut})` : ''
+  }`.trim();
+
+  return tuple(
+    state.playRequested ? ICON_TAG.PAUSE : ICON_TAG.PLAY,
+    createTooltipText(
+      state.playRequested ? 'Pause' : 'Play',
+      'k',
+    ),
+  );
+});
+
+const usePlayOrPause = createSelector(PlayOrPause, (state) => state.playOrPause);
 
 const PlayButton = React.memo(() => {
   const [
     playIcon,
     playTooltipText,
-  ] = Data.useSelectors((state) => {
-    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
-      shortcut ? `(${shortcut})` : ''
-    }`.trim();
+  ] = useData();
 
-    return [
-      state.playRequested ? ICON_TAG.PAUSE : ICON_TAG.PLAY,
-      createTooltipText(
-        state.playRequested ? 'Pause' : 'Play',
-        'k',
-      ),
-    ];
-  });
-
-  const playOrPause = PlayOrPause.useSelector((state) => state.playOrPause);
+  const playOrPause = usePlayOrPause();
 
   const click = React.useCallback(() => {
     playOrPause();

@@ -43,7 +43,9 @@ export default class ThumbnailsExtension extends Module {
   constructor(instance: InstanceInterface) {
     super(instance);
 
-    this.load();
+    this.load().catch(() => {
+      //
+    });
   }
 
   private async loadVttThumbs(file: string): Promise<void> {

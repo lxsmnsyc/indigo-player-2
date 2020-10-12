@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector, createSelectors } from 'react-scoped-model';
 import StateProps from './StateProps';
 import { ViewTypes, SettingsTabs, Optional } from '../types';
 import PlayerError from '../../utils/player-error';
@@ -41,6 +41,7 @@ import {
 import States from './States';
 import uniqueBy from '../utils/uniqueBy';
 import GetTranslation from './actions/GetTranslation';
+import tuple from '../utils/tuple';
 
 export interface DataState {
   paused: boolean;
@@ -86,11 +87,30 @@ export interface DataState {
   liveOnly?: boolean;
 }
 
+const useStateProps = createSelectors(StateProps, (state) => tuple(
+  state.instance,
+  state.player,
+));
+
+const useStates = createSelectors(States, (state) => tuple(
+  state.visibleControls,
+  state.isVolumeControlsOpen,
+));
+
+const useStates1 = createSelectors(States, (state) => tuple(
+  state.isSeekbarSeeking,
+  state.isVolumebarSeeking,
+  state.settingsTab,
+  state.seekbarPercentage,
+  state.nodPurpose,
+  state.activeThumbnail,
+  state.isSeekbarHover,
+));
+
+const useGetTranslation = createSelector(GetTranslation, (state) => state.getTranslation);
+
 const Data = createModel<DataState>(() => {
-  const [instance, player] = StateProps.useSelectors((state) => [
-    state.instance,
-    state.player,
-  ]);
+  const [instance, player] = useStateProps();
 
   // Figure out which view to show.
   let view = ViewTypes.LOADING;
@@ -113,10 +133,7 @@ const Data = createModel<DataState>(() => {
   let [
     visibleControls,
     isVolumeControlsOpen,
-  ] = States.useSelectors((state) => [
-    state.visibleControls,
-    state.isVolumeControlsOpen,
-  ]);
+  ] = useStates();
 
   /**
    * Constant variables
@@ -129,16 +146,7 @@ const Data = createModel<DataState>(() => {
     nodPurpose,
     activeThumbnail,
     isSeekbarHover,
-  ] = States.useSelectors((state) => [
-    state.isSeekbarSeeking,
-    state.isVolumebarSeeking,
-    state.settingsTab,
-    state.seekbarPercentage,
-    state.nodPurpose,
-    state.activeThumbnail,
-    state.isSeekbarHover,
-  ]);
-
+  ] = useStates1();
 
   // Do we need to show the controls?
   if (
@@ -290,7 +298,7 @@ const Data = createModel<DataState>(() => {
     visibleSettingsTabs.push(SettingsTabs.TRACKS);
   }
 
-  const getTranslation = GetTranslation.useSelector((state) => state.getTranslation);
+  const getTranslation = useGetTranslation();
 
   return {
     // UI specific state

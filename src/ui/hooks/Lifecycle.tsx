@@ -1,4 +1,5 @@
-import React from 'react';
+import { createSelector, createSelectors, createValue } from 'react-scoped-model';
+import React, { ReactNode } from 'react';
 import StateProps from './StateProps';
 import useIsomorphicEffect from './useIsomorphicEffect';
 import VisibleControls from './actions/VisibleControls';
@@ -10,25 +11,34 @@ import { KeyboardNavigationPurpose, Events } from '../../types';
 import useOnUpdate from './useOnUpdate';
 import triggerEvent from '../utils/triggerEvent';
 import Data, { DataState } from './Data';
+import tuple from '../utils/tuple';
 
 interface LifecycleProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
+const useStateProps = createSelector(StateProps, (state) => state.instance);
+const useVisibleControls = createSelectors(VisibleControls, (state) => tuple(
+  state.showControls,
+  state.hideControls,
+));
+const useSettingsTab = createSelector(SettingsTab, (state) => state.closeSettings);
+const useTriggerNod = createSelector(TriggerNod, (state) => state.triggerNod);
+const useToggleActiveSubtitle = createSelector(
+  ToggleActiveSubtitle,
+  (state) => state.toggleActiveSubtitle,
+);
+const useTogglePip = createSelector(TogglePip, (state) => state.togglePip);
+const useData = createValue(Data);
+
 export default function Lifecycle({ children }: LifecycleProps): JSX.Element {
-  const instance = StateProps.useSelector((state) => state.instance);
+  const instance = useStateProps();
+  const [showControls, hideControls] = useVisibleControls();
 
-  const [showControls, hideControls] = VisibleControls.useSelectors((state) => [
-    state.showControls,
-    state.hideControls,
-  ]);
-
-  const closeSettings = SettingsTab.useSelector((state) => state.closeSettings);
-  const triggerNod = TriggerNod.useSelector((state) => state.triggerNod);
-  const toggleActiveSubtitle = ToggleActiveSubtitle.useSelector(
-    (state) => state.toggleActiveSubtitle,
-  );
-  const togglePip = TogglePip.useSelector((state) => state.togglePip);
+  const closeSettings = useSettingsTab();
+  const triggerNod = useTriggerNod();
+  const toggleActiveSubtitle = useToggleActiveSubtitle();
+  const togglePip = useTogglePip();
 
   useIsomorphicEffect(() => {
     instance.container.addEventListener('mouseenter', showControls);
@@ -63,7 +73,7 @@ export default function Lifecycle({ children }: LifecycleProps): JSX.Element {
     };
   }, [instance]);
 
-  const data = Data.useSelector((state) => state);
+  const data = useData();
   const prevData = React.useRef<DataState | undefined>();
 
   useOnUpdate(() => {

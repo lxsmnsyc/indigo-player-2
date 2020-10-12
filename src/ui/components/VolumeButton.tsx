@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import { cx } from 'emotion';
 import Data from '../hooks/Data';
 import {
@@ -35,39 +36,50 @@ import VolumeControlsOpen from '../hooks/actions/VolumeControlsOpen';
 import ToggleMute from '../hooks/actions/ToggleMute';
 import Button from './Button';
 import VolumeBar from './VolumeBar';
+import tuple from '../utils/tuple';
+
+const useData = createSelectors(Data, (state) => {
+  let vicon = ICON_TAG.VOLUME_OFF;
+  if (state.volumeBarPercentage > 0.5) {
+    vicon = ICON_TAG.VOLUME;
+  } else if (state.volumeBarPercentage > 0) {
+    vicon = ICON_TAG.VOLUME_1;
+  }
+
+  const tpt = `${state.getTranslation(
+    state.volumeBarPercentage === 0 ? 'Unmute' : 'Mute',
+  )} (m)`;
+
+  return tuple(
+    state.isVolumeControlsOpen,
+    vicon,
+    tpt,
+  );
+});
+
+const useVolumeControlsOpen = createSelector(
+  VolumeControlsOpen,
+  (state) => state.setVolumeControlsOpen,
+);
+
+const useToggleMute = createSelector(
+  ToggleMute,
+  (state) => state.toggleMute,
+);
 
 const VolumeButton = React.memo(() => {
   const [
     isVolumeControlsOpen,
     volumeIcon,
     tooltipText,
-  ] = Data.useSelectors((state) => {
-    let vicon = ICON_TAG.VOLUME_OFF;
-    if (state.volumeBarPercentage > 0.5) {
-      vicon = ICON_TAG.VOLUME;
-    } else if (state.volumeBarPercentage > 0) {
-      vicon = ICON_TAG.VOLUME_1;
-    }
+  ] = useData();
 
-    const tpt = `${state.getTranslation(
-      state.volumeBarPercentage === 0 ? 'Unmute' : 'Mute',
-    )} (m)`;
-
-    return [
-      state.isVolumeControlsOpen,
-      vicon,
-      tpt,
-    ];
-  });
-
-  const setVolumeControlsOpen = VolumeControlsOpen.useSelector(
-    (state) => state.setVolumeControlsOpen,
-  );
+  const setVolumeControlsOpen = useVolumeControlsOpen();
 
   const VCOOn = React.useCallback(() => setVolumeControlsOpen(true), [setVolumeControlsOpen]);
   const VCOOff = React.useCallback(() => setVolumeControlsOpen(false), [setVolumeControlsOpen]);
 
-  const toggleMute = ToggleMute.useSelector((state) => state.toggleMute);
+  const toggleMute = useToggleMute();
 
   return (
     <div

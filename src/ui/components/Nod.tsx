@@ -26,13 +26,16 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector } from 'react-scoped-model';
 import { cx } from 'emotion';
 import Icon from './Icon';
 import { GUI_NOD, GUI_NOD_ACTIVE } from '../theme/element-nod';
 import Data from '../hooks/Data';
 
+const useData = createSelector(Data, (state) => state.nodIcon);
+
 const Nod = React.memo(() => {
-  const nodIcon = Data.useSelector((state) => state.nodIcon);
+  const nodIcon = useData();
 
   return (
     <div

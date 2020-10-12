@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector } from 'react-scoped-model';
 import React from 'react';
 import StateProps from '../StateProps';
 import useOnUnmount from '../useOnUnmount';
@@ -38,12 +38,15 @@ interface VisibleControlsState {
   hideControls: () => void;
 }
 
+const useStateProps = createSelector(StateProps, (state) => state.emitter);
+
+const useStates = createSelector(States, (state) => state.setVisibleControls);
+
 const VisibleControls = createModel<VisibleControlsState>(() => {
   const activeTimer = React.useRef<number | null>(null);
 
-  const emitter = StateProps.useSelector((state) => state.emitter);
-
-  const setVisibleControls = States.useSelector((state) => state.setVisibleControls);
+  const emitter = useStateProps();
+  const setVisibleControls = useStates();
 
   const showControls = useConstantCallback((): void => {
     if (activeTimer.current) {

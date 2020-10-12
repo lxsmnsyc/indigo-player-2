@@ -27,6 +27,7 @@
  */
 
 import * as React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import { cx } from 'emotion';
 import { ViewTypes } from '../types';
 import StartView from './StartView';
@@ -37,6 +38,15 @@ import {
 } from '../theme';
 import ControlsView from './ControlsView';
 import Data from '../hooks/Data';
+import tuple from '../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.visibleControls,
+  state.isMobile,
+  state.pip,
+  state.isFullscreen,
+  state.view,
+));
 
 const Main = React.memo(() => {
   const [
@@ -45,13 +55,7 @@ const Main = React.memo(() => {
     pip,
     isFullscreen,
     view,
-  ] = Data.useSelector((state) => [
-    state.visibleControls,
-    state.isMobile,
-    state.pip,
-    state.isFullscreen,
-    state.view,
-  ]);
+  ] = useData();
 
   const className = cx(GUI_MAIN, {
     [GUI_STATE_ACTIVE]: visibleControls,

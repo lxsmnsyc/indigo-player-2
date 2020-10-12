@@ -26,34 +26,40 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Button from '../Button';
 import ToggleActiveSubtitle from '../../hooks/actions/ToggleActiveSubtitle';
 import Data from '../../hooks/Data';
 import { GUI_BUTTON_SUBTITLE, ICON_TAG } from '../../theme';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => {
+  const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+    shortcut ? `(${shortcut})` : ''
+  }`.trim();
+
+  return tuple(
+    !!state.subtitles.length,
+    !!state.activeSubtitle,
+    createTooltipText(
+      state.activeSubtitle ? 'Disable subtitles' : 'Enable subtitles',
+      'c',
+    ),
+  );
+});
+
+const useToggleActiveSubtitle = createSelector(ToggleActiveSubtitle, (
+  (state) => state.toggleActiveSubtitle
+));
 
 const SubtitlesButton = React.memo(() => {
   const [
     showSubtitlesToggle,
     isSubtitleActive,
     subtitleToggleTooltipText,
-  ] = Data.useSelectors((state) => {
-    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
-      shortcut ? `(${shortcut})` : ''
-    }`.trim();
+  ] = useData();
 
-    return [
-      !!state.subtitles.length,
-      !!state.activeSubtitle,
-      createTooltipText(
-        state.activeSubtitle ? 'Disable subtitles' : 'Enable subtitles',
-        'c',
-      ),
-    ];
-  });
-
-  const toggleActiveSubtitle = ToggleActiveSubtitle.useSelector(
-    (state) => state.toggleActiveSubtitle,
-  );
+  const toggleActiveSubtitle = useToggleActiveSubtitle();
 
   if (showSubtitlesToggle) {
     return (

@@ -346,7 +346,6 @@ export interface InstanceInterface extends EmitterInterface, Playable, Trackable
   getStats: () => any;
 }
 
-
 export interface ModuleLoaderInterface<T> {
   type: ModuleLoaderTypes;
   create: (instance: InstanceInterface) => T | Promise<T>;

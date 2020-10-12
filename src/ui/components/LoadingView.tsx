@@ -26,13 +26,16 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelector } from 'react-scoped-model';
 import Spinner from './Spinner';
 import GImage from './GImage';
 import GUI_VIEW_LOADING from '../theme/view-loading';
 import Data from '../hooks/Data';
 
+const useData = createSelector(Data, (state) => state.image);
+
 const LoadingView = React.memo(() => {
-  const image = Data.useSelector((state) => state.image);
+  const image = useData();
 
   return (
     <div className={GUI_VIEW_LOADING}>

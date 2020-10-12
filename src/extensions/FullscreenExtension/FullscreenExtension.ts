@@ -61,7 +61,9 @@ export default class FullscreenExtension extends Module {
 
   public toggleFullscreen(): void {
     if (sc.isEnabled) {
-      sc.toggle(this.instance.container);
+      sc.toggle(this.instance.container).catch(() => {
+        //
+      });
     }
   }
 

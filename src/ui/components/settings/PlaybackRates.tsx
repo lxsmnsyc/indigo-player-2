@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Data from '../../hooks/Data';
 import { SettingsTabs } from '../../types';
 import SettingsHeader from './SettingsHeader';
@@ -33,20 +34,27 @@ import { SettingsSelect, SettingsSelectItem } from './SettingsSelect';
 import States from '../../hooks/States';
 import SettingsTab from '../../hooks/actions/SettingsTab';
 import PlaybackRate from '../../hooks/actions/PlaybackRate';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.getTranslation,
+  state.playbackRate,
+));
+
+const useStates = createSelector(States, (state) => state.setSettingsTab);
+const usePlaybackRate = createSelector(PlaybackRate, (state) => state.setPlaybackRate);
+const useSettingsTab = createSelector(SettingsTab, (state) => state.toggleSettings);
 
 const PlaybackRateTab = React.memo(() => {
   const [
     getTranslation,
     playbackRate,
-  ] = Data.useSelectors((state) => [
-    state.getTranslation,
-    state.playbackRate,
-  ]);
+  ] = useData();
 
-  const setSettingsTab = States.useSelector((state) => state.setSettingsTab);
+  const setSettingsTab = useStates();
 
-  const setPlaybackRate = PlaybackRate.useSelector((state) => state.setPlaybackRate);
-  const toggleSettings = SettingsTab.useSelector((state) => state.toggleSettings);
+  const setPlaybackRate = usePlaybackRate();
+  const toggleSettings = useSettingsTab();
 
   const select = React.useCallback((track) => {
     setPlaybackRate(track);

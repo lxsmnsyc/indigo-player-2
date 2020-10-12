@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import createModel from '@lxsmnsyc/react-scoped-model';
+import createModel, { createSelector } from 'react-scoped-model';
 import * as React from 'react';
 import { KeyboardNavigationPurpose } from '../../../types';
 import useOnUnmount from '../useOnUnmount';
@@ -36,10 +36,12 @@ export interface TriggerNodState {
   triggerNod: (purpose: KeyboardNavigationPurpose) => void;
 }
 
+const useStates = createSelector(States, (state) => state.setNodPurpose);
+
 const TriggerNod = createModel<TriggerNodState>(() => {
   const nodTimer = React.useRef<number | null>(null);
 
-  const setNodPurpose = States.useSelector((state) => state.setNodPurpose);
+  const setNodPurpose = useStates();
 
   const triggerNod = useConstantCallback((purpose) => {
     if (nodTimer.current) {

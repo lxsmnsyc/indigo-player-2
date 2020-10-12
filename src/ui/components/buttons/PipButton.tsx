@@ -26,27 +26,33 @@
  * @copyright Alexis Munsayac 2020
  */
 import React from 'react';
+import { createSelector, createSelectors } from 'react-scoped-model';
 import Button from '../Button';
 import Data from '../../hooks/Data';
 import TogglePip from '../../hooks/actions/TogglePip';
 import { ICON_TAG, GUI_BUTTON_PIP } from '../../theme';
+import tuple from '../../utils/tuple';
+
+const useData = createSelectors(Data, (state) => {
+  const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
+    shortcut ? `(${shortcut})` : ''
+  }`.trim();
+
+  return tuple(
+    state.pipSupported && !state.pip,
+    createTooltipText('Miniplayer', 'i'),
+  );
+});
+
+const useTogglePip = createSelector(TogglePip, (state) => state.togglePip);
 
 const PipButton = React.memo(() => {
   const [
     showPip,
     pipTooltipText,
-  ] = Data.useSelectors((state) => {
-    const createTooltipText = (text: string, shortcut?: string): string => `${state.getTranslation(text)} ${
-      shortcut ? `(${shortcut})` : ''
-    }`.trim();
+  ] = useData();
 
-    return [
-      state.pipSupported && !state.pip,
-      createTooltipText('Miniplayer', 'i'),
-    ];
-  });
-
-  const togglePip = TogglePip.useSelector((state) => state.togglePip);
+  const togglePip = useTogglePip();
 
   if (showPip) {
     return (

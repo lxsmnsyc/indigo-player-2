@@ -26,6 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
+import { createSelectors } from 'react-scoped-model';
 import Nod from './Nod';
 import Data from '../hooks/Data';
 import { GUI_CONTAINER_CONTROLS, GUI_CONTAINER_CONTROLS_SEEKBAR } from '../theme';
@@ -40,15 +41,18 @@ import FullscreenButton from './buttons/FullscreenButton';
 import PipButton from './buttons/PipButton';
 import SettingsButton from './buttons/SettingsButton';
 import Seekbar from './Seekbar';
+import tuple from '../utils/tuple';
+
+const useData = createSelectors(Data, (state) => tuple(
+  state.isCenterClickAllowed,
+  state.rebuffering,
+));
 
 const ControlsView = React.memo(() => {
   const [
     isCenterClickAllowed,
     rebuffering,
-  ] = Data.useSelectors((state) => [
-    state.isCenterClickAllowed,
-    state.rebuffering,
-  ]);
+  ] = useData();
 
   return (
     <>
