@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { injectGlobal } from 'emotion';
+import { injectGlobal } from '@emotion/css';
 import {
   GUI_BUTTON_STATE_ACTIVE,
   GUI_BUTTON_SELECT_OPTION,

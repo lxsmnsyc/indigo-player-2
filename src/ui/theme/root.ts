@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { injectGlobal } from 'emotion';
+import { injectGlobal } from '@emotion/css';
 import { GUI_CONTAINER_CONTROLS, GUI_CONTAINER_CONTROLS_SEEKBAR } from './view-controls';
 import { GUI_BUTTON, GUI_BUTTON_TOOLTIP } from './button';
 import { GUI_ICON } from './icon';

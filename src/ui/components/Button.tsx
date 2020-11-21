@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import React, { useState, useCallback } from 'react';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import useConstantCallback from '../hooks/useConstantCallback';
 import {
   GUI_BUTTON, GUI_BUTTON_STATE_DISABLED, GUI_BUTTON_STATE_ACTIVE, GUI_BUTTON_TOOLTIP,

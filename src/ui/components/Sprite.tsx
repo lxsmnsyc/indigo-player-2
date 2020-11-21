@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 
 const EXPAND = css`
   width: 100%;

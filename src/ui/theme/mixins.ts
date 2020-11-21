@@ -1,4 +1,4 @@
-import { keyframes } from 'emotion';
+import { keyframes } from '@emotion/css';
 
 export const RESET_BUTTON = `
   border: none;

@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { injectGlobal } from 'emotion';
+import { injectGlobal } from '@emotion/css';
 import { STRETCH } from './mixins';
 
 export const GUI_CENTER_PREVIEW = 'igui__center--preview';

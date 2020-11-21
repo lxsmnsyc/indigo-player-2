@@ -28,7 +28,7 @@
 
 import * as React from 'react';
 import { createSelectors } from 'react-scoped-model';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import { ViewTypes } from '../types';
 import StartView from './StartView';
 import ErrorView from './ErrorView';

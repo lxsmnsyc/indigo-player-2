@@ -27,7 +27,7 @@
  */
 import React from 'react';
 import { createSelector } from 'react-scoped-model';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Icon from './Icon';
 import { GUI_NOD, GUI_NOD_ACTIVE } from '../theme/element-nod';
 import Data from '../hooks/Data';

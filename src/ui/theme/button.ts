@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { injectGlobal } from 'emotion';
+import { injectGlobal } from '@emotion/css';
 import { RESET_BUTTON } from './mixins';
 
 export const GUI_BUTTON_STATE_DISABLED = 'igui__button--state-disabled';

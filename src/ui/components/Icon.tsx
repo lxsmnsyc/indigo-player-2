@@ -26,7 +26,7 @@
  * @copyright Alexis Munsayac 2020
  */
 import * as React from 'react';
-import { css, cx, injectGlobal } from 'emotion';
+import { css, cx, injectGlobal } from '@emotion/css';
 import { ICON_TO_CLASS, GUI_ICON } from '../theme/icon';
 
 injectGlobal`

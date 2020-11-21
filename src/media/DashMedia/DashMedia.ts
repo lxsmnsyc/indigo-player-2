@@ -126,7 +126,9 @@ export default class DashMedia extends Media {
     player.configure(configuration);
 
     try {
-      await (player.load(this.instance.format?.src) as Promise<any>);
+      if (this.instance.format != null) {
+        await (player.load(this.instance.format.src) as Promise<any>);
+      }
 
       const tracks = player
         .getVariantTracks()

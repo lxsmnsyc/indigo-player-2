@@ -27,7 +27,7 @@
  */
 import React from 'react';
 import { createSelector, createSelectors } from 'react-scoped-model';
-import { cx } from 'emotion';
+import { cx } from '@emotion/css';
 import Data from '../hooks/Data';
 import {
   GUI_VOLUME, GUI_VOLUME_STATE_OPEN, GUI_VOLUME_COLLAPSE, GUI_VOLUME_CONTAINER, ICON_TAG,

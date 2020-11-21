@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { keyframes, injectGlobal } from 'emotion';
+import { keyframes, injectGlobal } from '@emotion/css';
 
 const NOD_ZOOMIN = keyframes`
   0% {

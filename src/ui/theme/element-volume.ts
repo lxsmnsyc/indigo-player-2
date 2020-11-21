@@ -25,7 +25,7 @@
  * @author Alexis Munsayac <alexis.munsayac@gmail.com>
  * @copyright Alexis Munsayac 2020
  */
-import { injectGlobal } from 'emotion';
+import { injectGlobal } from '@emotion/css';
 import { GUI_BUTTON } from './button';
 import { GUI_ICON_VOLUME_1 } from './icon';
 
