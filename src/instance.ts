@@ -247,11 +247,12 @@ export default class Instance implements InstanceInterface {
       this.seekTo(config.startPosition);
     }
 
-    // Now that we know we can autoplay, actually do it.
-    if (this.canAutoplay()) {
-      this.play();
-    }
-
-    setTimeout(() => this.emit(Events.READY, null));
+    setTimeout(() => {
+      // Now that we know we can autoplay, actually do it.
+      if (this.canAutoplay()) {
+        this.play();
+      }
+      this.emit(Events.READY, null)
+    });
   }
 }
